@@ -4,11 +4,10 @@ services:
     env: docker
     plan: free
     region: ohio
-    # port to listen to
-    port: 5001
-    # health check
+    # Render will automatically detect the port from the Dockerfile's EXPOSE instruction.
+    # We provide the PORT environment variable below for absolute certainty.
     healthCheckPath: /
-    instanceCount: 1
+    # numInstances: 1 (Default is 1, so we'll omit to keep it clean)
     envVars:
       - key: PORT
         value: 5001
