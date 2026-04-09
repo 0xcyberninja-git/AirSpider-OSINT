@@ -1,0 +1,13 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKER"
+  },
+  "deploy": {
+    "startCommand": "python sf.py -l 0.0.0.0:$PORT",
+    "restartPolicyType": "ON_FAILURE",
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 100,
+    "serviceName": "airspider-osint"
+  }
+}
