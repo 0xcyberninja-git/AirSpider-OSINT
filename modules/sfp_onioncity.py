@@ -4,19 +4,19 @@
 # Purpose:      Searches the Tor search engine 'Onion City' using Google Custom
 #               Search for content related to the domain in question.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     15/07/2015
-# Copyright:   (c) Steve Micallef 2015
+# Copyright:   (c) Prateek Bheevgade 2015
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import re
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_onioncity(SpiderFootPlugin):
+class sfp_onioncity(AirSpiderPlugin):
 
     meta = {
         'name': "Onion.link",
@@ -137,7 +137,7 @@ class sfp_onioncity(SpiderFootPlugin):
             useragent=self.opts["_useragent"],
         )
         if response['code'] in ["200", "201", "202"]:
-            evt = SpiderFootEvent(
+            evt = AirSpiderEvent(
                 "RAW_RIR_DATA", response["content"], self.__name__, event
             )
             self.notifyListeners(evt)
@@ -170,7 +170,7 @@ class sfp_onioncity(SpiderFootPlugin):
                     self.debug("Ignoring " + link + " as no mention of " + eventData)
                     continue
 
-                evt = SpiderFootEvent("DARKNET_MENTION_URL", torlink, self.__name__, event)
+                evt = AirSpiderEvent("DARKNET_MENTION_URL", torlink, self.__name__, event)
                 self.notifyListeners(evt)
 
                 try:
@@ -181,11 +181,11 @@ class sfp_onioncity(SpiderFootPlugin):
                     continue
 
                 data = res['content'][startIndex:endIndex]
-                evt = SpiderFootEvent("DARKNET_MENTION_CONTENT", "..." + data + "...",
+                evt = AirSpiderEvent("DARKNET_MENTION_CONTENT", "..." + data + "...",
                                       self.__name__, evt)
                 self.notifyListeners(evt)
             else:
-                evt = SpiderFootEvent("DARKNET_MENTION_URL", torlink, self.__name__, event)
+                evt = AirSpiderEvent("DARKNET_MENTION_URL", torlink, self.__name__, event)
                 self.notifyListeners(evt)
 
 # End of sfp_onioncity class

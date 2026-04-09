@@ -12,14 +12,14 @@
 #
 # import os
 # import sys
-# sys.path.insert(0, '/root/Desktop/spiderfoot/spiderfoot')
+# sys.path.insert(0, '/root/Desktop/airspider/airspider')
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'SpiderFoot'
-copyright = '2012, Steve Micallef'
-author = 'Steve Micallef'
+project = 'AirSpider'
+copyright = '2012, Prateek Bheevgade'
+author = 'Prateek Bheevgade'
 
 
 # -- General configuration ---------------------------------------------------

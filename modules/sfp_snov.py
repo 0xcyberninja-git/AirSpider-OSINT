@@ -7,7 +7,7 @@
 # Author:      Krishnasis Mandal <krishnasis@hotmail.com>
 #
 # Created:     16/05/2020
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -16,10 +16,10 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from spiderfoot import SpiderFootEvent, SpiderFootHelpers, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderHelpers, AirSpiderPlugin
 
 
-class sfp_snov(SpiderFootPlugin):
+class sfp_snov(AirSpiderPlugin):
 
     meta = {
         'name': "Snov",
@@ -193,7 +193,7 @@ class sfp_snov(SpiderFootPlugin):
                 self.debug("No email address found for target domain")
                 break
 
-            evt = SpiderFootEvent("RAW_RIR_DATA", str(data), self.__name__, event)
+            evt = AirSpiderEvent("RAW_RIR_DATA", str(data), self.__name__, event)
             self.notifyListeners(evt)
 
             records = data.get('emails')
@@ -206,7 +206,7 @@ class sfp_snov(SpiderFootPlugin):
                         if email:
                             if email in self.results:
                                 continue
-                            if not SpiderFootHelpers.validEmail(email):
+                            if not AirSpiderHelpers.validEmail(email):
                                 continue
                             self.results[email] = True
 
@@ -215,7 +215,7 @@ class sfp_snov(SpiderFootPlugin):
                             else:
                                 evttype = "EMAILADDR"
 
-                            evt = SpiderFootEvent(evttype, email, self.__name__, event)
+                            evt = AirSpiderEvent(evttype, email, self.__name__, event)
                             self.notifyListeners(evt)
 
             # Determine whether another page of data exists

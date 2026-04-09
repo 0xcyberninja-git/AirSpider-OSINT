@@ -1,14 +1,14 @@
-# test_spiderfootplugin.py
+# test_airspiderplugin.py
 import pytest
 import unittest
 
-from spiderfoot import SpiderFootThreadPool
+from airspider import AirSpiderThreadPool
 
 
 @pytest.mark.usefixtures
-class TestSpiderFootThreadPool(unittest.TestCase):
+class TestAirSpiderThreadPool(unittest.TestCase):
     """
-    Test SpiderFoot
+    Test AirSpider
     """
 
     def test_threadPool(self):
@@ -29,7 +29,7 @@ class TestSpiderFootThreadPool(unittest.TestCase):
             ("c", ("arg1",), ("kwarg1", "kwarg1"))
         ]
         # Example 1: using map()
-        with SpiderFootThreadPool(threads) as pool:
+        with AirSpiderThreadPool(threads) as pool:
             map_results = sorted(
                 list(pool.map(
                     callback,
@@ -43,7 +43,7 @@ class TestSpiderFootThreadPool(unittest.TestCase):
         self.assertEqual(map_results, expectedOutput)
 
         # Example 2: using submit()
-        with SpiderFootThreadPool(threads) as pool:
+        with AirSpiderThreadPool(threads) as pool:
             pool.start()
             for i in iterable:
                 pool.submit(callback, *((i,) + args), saveResult=True, **kwargs)
@@ -61,7 +61,7 @@ class TestSpiderFootThreadPool(unittest.TestCase):
             ("e", ("arg1",), ("kwarg1", "kwarg1")),
             ("f", ("arg1",), ("kwarg1", "kwarg1"))
         ]
-        pool = SpiderFootThreadPool(threads)
+        pool = AirSpiderThreadPool(threads)
         pool.start()
         for i in iterable2:
             pool.submit(callback, *((i,) + args), taskName="submitTest", saveResult=True, **kwargs)

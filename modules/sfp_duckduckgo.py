@@ -3,19 +3,19 @@
 # Name:         sfp_duckduckgo
 # Purpose:      Queries DuckDuckGo's API for information abotut the target.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     21/07/2015
-# Copyright:   (c) Steve Micallef 2015
+# Copyright:   (c) Prateek Bheevgade 2015
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_duckduckgo(SpiderFootPlugin):
+class sfp_duckduckgo(AirSpiderPlugin):
 
     meta = {
         'name': "DuckDuckGo",
@@ -87,7 +87,7 @@ class sfp_duckduckgo(SpiderFootPlugin):
 
         url = "https://api.duckduckgo.com/?q=" + eventData + "&format=json&pretty=1"
         res = self.sf.fetchUrl(url, timeout=self.opts['_fetchtimeout'],
-                               useragent="SpiderFoot")
+                               useragent="AirSpider")
 
         if res['content'] is None:
             self.error(f"Unable to fetch {url}")
@@ -110,7 +110,7 @@ class sfp_duckduckgo(SpiderFootPlugin):
             if "AFFILIATE" in eventName:
                 event_type = "AFFILIATE_" + event_type
 
-            evt = SpiderFootEvent(event_type, str(abstract_text), self.__name__, event)
+            evt = AirSpiderEvent(event_type, str(abstract_text), self.__name__, event)
             self.notifyListeners(evt)
 
         related_topics = ret.get('RelatedTopics')
@@ -131,7 +131,7 @@ class sfp_duckduckgo(SpiderFootPlugin):
                     self.debug("No category text found from DuckDuckGo.")
                     continue
 
-                evt = SpiderFootEvent(event_type, category, self.__name__, event)
+                evt = AirSpiderEvent(event_type, category, self.__name__, event)
                 self.notifyListeners(evt)
 
 # End of sfp_duckduckgo class

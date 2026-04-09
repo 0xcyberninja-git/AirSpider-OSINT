@@ -3,10 +3,10 @@
 # Name:         sfp_threatcrowd
 # Purpose:      Query threatcrowd.org for identified IP addresses.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     21/11/2016
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -14,10 +14,10 @@ import json
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_threatcrowd(SpiderFootPlugin):
+class sfp_threatcrowd(AirSpiderPlugin):
 
     meta = {
         'name': "ThreatCrowd",
@@ -101,7 +101,7 @@ class sfp_threatcrowd(SpiderFootPlugin):
         if not url:
             url = "https://www.threatcrowd.org/searchApi/v2/domain/report/?domain=" + qry
 
-        res = self.sf.fetchUrl(url, timeout=self.opts['_fetchtimeout'], useragent="SpiderFoot")
+        res = self.sf.fetchUrl(url, timeout=self.opts['_fetchtimeout'], useragent="AirSpider")
 
         if res['content'] is None:
             self.info(f"No ThreatCrowd info found for {qry}")
@@ -192,7 +192,7 @@ class sfp_threatcrowd(SpiderFootPlugin):
                 infourl = "<SFURL>" + info.get('permalink') + "</SFURL>"
 
                 # Notify other modules of what you've found
-                e = SpiderFootEvent(evt, "ThreatCrowd [" + addr + "]\n" + infourl, self.__name__, event)
+                e = AirSpiderEvent(evt, "ThreatCrowd [" + addr + "]\n" + infourl, self.__name__, event)
                 self.notifyListeners(e)
 
 # End of sfp_threatcrowd class

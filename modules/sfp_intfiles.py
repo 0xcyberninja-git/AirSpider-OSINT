@@ -3,17 +3,17 @@
 # Name:         sfp_intfiles
 # Purpose:      From Spidered pages found, identifies files of potential interest.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     06/04/2014
-# Copyright:   (c) Steve Micallef 2014
+# Copyright:   (c) Prateek Bheevgade 2014
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_intfiles(SpiderFootPlugin):
+class sfp_intfiles(AirSpiderPlugin):
 
     meta = {
         'name': "Interesting File Finder",
@@ -68,7 +68,7 @@ class sfp_intfiles(SpiderFootPlugin):
 
         for fileExt in self.opts['fileexts']:
             if "." + fileExt.lower() in eventData.lower():
-                evt = SpiderFootEvent("INTERESTING_FILE", eventData,
+                evt = AirSpiderEvent("INTERESTING_FILE", eventData,
                                       self.__name__, event)
                 self.notifyListeners(evt)
 

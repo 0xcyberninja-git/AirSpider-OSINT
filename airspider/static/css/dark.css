@@ -1,0 +1,95 @@
+
+body.dark-theme {
+    --bg-main: #020617;
+    --bg-card: #0f172a;
+    --sidebar-bg: #000000;
+    --sidebar-hover: #0f172a;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: #1e293b;
+    
+    background-color: var(--bg-main) !important;
+    color: var(--text-main) !important;
+}
+
+body.dark-theme .top-bar {
+    background: rgba(2, 6, 23, 0.8) !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-theme .page-title {
+    color: #fff !important;
+}
+
+body.dark-theme .card, 
+body.dark-theme .panel, 
+body.dark-theme .well {
+    background: var(--bg-card) !important;
+    border-color: var(--border) !important;
+}
+
+body.dark-theme .sidebar-footer {
+    border-color: var(--border) !important;
+}
+
+body.dark-theme .table {
+    border-color: var(--border) !important;
+    background: var(--bg-card) !important;
+}
+
+body.dark-theme .table th {
+    background: #020617 !important;
+    color: var(--text-muted) !important;
+}
+
+body.dark-theme .table td {
+    border-color: var(--border) !important;
+    color: #cbd5e1 !important;
+}
+
+
+/* Dark Mode Overrides for Dashboard */
+body.dark-theme .repo-card {
+    background: #0f172a !important;
+    border-color: #1e293b !important;
+}
+
+body.dark-theme .repo-title { color: #fff !important; }
+body.dark-theme .meta-value { color: #cbd5e1 !important; }
+
+body.dark-theme .action-btn {
+    background: #1e293b !important;
+    color: #94a3b8 !important;
+}
+
+body.dark-theme .action-btn:hover { background: #334155 !important; color: #fff !important; }
+
+body.dark-theme .pip.high { background: rgba(239, 68, 68, 0.1) !important; color: #f87171 !important; }
+body.dark-theme .pip.medium { background: rgba(245, 158, 11, 0.1) !important; color: #fbbf24 !important; }
+body.dark-theme .pip.low { background: rgba(59, 130, 246, 0.1) !important; color: #60a5fa !important; }
+body.dark-theme .pip.info { background: rgba(16, 185, 129, 0.1) !important; color: #34d399 !important; }
+
+
+/* Dark Mode Setup Overrides */
+body.dark-theme .step-num { background: #1e293b; color: #818cf8; }
+body.dark-theme .protocol-option input:checked + .option-content {
+    background: rgba(99, 102, 241, 0.05) !important;
+    border-color: #6366f1 !important;
+}
+
+body.dark-theme .option-text h4 { color: #fff !important; }
+
+body.dark-theme .option-icon.everything { background: rgba(59, 130, 246, 0.1); }
+body.dark-theme .option-icon.footprint { background: rgba(16, 185, 129, 0.1); }
+body.dark-theme .option-icon.investigate { background: rgba(245, 158, 11, 0.1); }
+body.dark-theme .option-icon.passive { background: rgba(239, 68, 68, 0.1); }
+
+body.dark-theme .form-control {
+    background: #020617 !important;
+    border-color: var(--border) !important;
+    color: #fff !important;
+}
+
+body.dark-theme .brand-subtitle {
+    color: #818cf8 !important;
+}

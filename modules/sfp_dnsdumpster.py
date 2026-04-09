@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:        sfp_dnsdumpster
-# Purpose:     SpiderFoot plug-in for subdomain enumeration using
+# Purpose:     AirSpider plug-in for subdomain enumeration using
 #              dnsdumpster.com
 #
 # Author:      TheTechromancer
 #
 # Created:     05/21/2021
-# Copyright:   (c) Steve Micallef 2021
+# Copyright:   (c) Prateek Bheevgade 2021
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,10 +15,10 @@ import re
 
 from bs4 import BeautifulSoup
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_dnsdumpster(SpiderFootPlugin):
+class sfp_dnsdumpster(AirSpiderPlugin):
 
     meta = {
         "name": "DNSDumpster",
@@ -115,9 +115,9 @@ class sfp_dnsdumpster(SpiderFootPlugin):
 
     def sendEvent(self, source, host):
         if self.sf.resolveHost(host) or self.sf.resolveHost6(host):
-            e = SpiderFootEvent("INTERNET_NAME", host, self.__name__, source)
+            e = AirSpiderEvent("INTERNET_NAME", host, self.__name__, source)
         else:
-            e = SpiderFootEvent("INTERNET_NAME_UNRESOLVED", host, self.__name__, source)
+            e = AirSpiderEvent("INTERNET_NAME_UNRESOLVED", host, self.__name__, source)
         self.notifyListeners(e)
 
     def handleEvent(self, event):

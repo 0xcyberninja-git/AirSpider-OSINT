@@ -7,16 +7,16 @@
 # Author:      Krishnasis Mandal <krishnasis@hotmail.com>
 #
 # Created:     2020-10-02
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_trumail(SpiderFootPlugin):
+class sfp_trumail(AirSpiderPlugin):
 
     meta = {
         'name': "Trumail",
@@ -72,7 +72,7 @@ class sfp_trumail(SpiderFootPlugin):
         res = self.sf.fetchUrl(
             f"https://api.trumail.io/v2/lookups/json?email={qry}",
             timeout=self.opts['_fetchtimeout'],
-            useragent="SpiderFoot"
+            useragent="AirSpider"
         )
 
         if res['content'] is None:
@@ -107,10 +107,10 @@ class sfp_trumail(SpiderFootPlugin):
         isDisposable = data.get('disposable')
 
         if isDisposable:
-            evt = SpiderFootEvent("RAW_RIR_DATA", str(data), self.__name__, event)
+            evt = AirSpiderEvent("RAW_RIR_DATA", str(data), self.__name__, event)
             self.notifyListeners(evt)
 
-            evt = SpiderFootEvent("EMAILADDR_DISPOSABLE", eventData, self.__name__, event)
+            evt = AirSpiderEvent("EMAILADDR_DISPOSABLE", eventData, self.__name__, event)
             self.notifyListeners(evt)
 
 # End of sfp_trumail class

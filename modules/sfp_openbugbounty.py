@@ -2,19 +2,19 @@
 # Name:         sfp_openbugbounty
 # Purpose:      Query the Open Bug Bounty database to see if our target appears.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     04/10/2015
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import re
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_openbugbounty(SpiderFootPlugin):
+class sfp_openbugbounty(AirSpiderPlugin):
 
     meta = {
         'name': "Open Bug Bounty",
@@ -114,7 +114,7 @@ class sfp_openbugbounty(SpiderFootPlugin):
 
         for n in data:
             # Notify other modules of what you've found
-            e = SpiderFootEvent("VULNERABILITY_DISCLOSURE", n, self.__name__, event)
+            e = AirSpiderEvent("VULNERABILITY_DISCLOSURE", n, self.__name__, event)
             self.notifyListeners(e)
 
 # End of sfp_openbugbounty class

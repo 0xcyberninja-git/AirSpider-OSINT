@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -----------------------------------------------------------------------------
 # Name:         sfp_dnscommonsrv
-# Purpose:      SpiderFoot plug-in for attempting to resolve through
+# Purpose:      AirSpider plug-in for attempting to resolve through
 #               brute-forcing common DNS SRV records.
 #
 # Author:      Michael Scherer <misc@zarb.org>
@@ -13,10 +13,10 @@
 
 import dns.resolver
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_dnscommonsrv(SpiderFootPlugin):
+class sfp_dnscommonsrv(AirSpiderPlugin):
 
     meta = {
         'name': "DNS Common SRV",
@@ -131,7 +131,7 @@ class sfp_dnscommonsrv(SpiderFootPlugin):
             if not answers:
                 continue
 
-            evt = SpiderFootEvent(
+            evt = AirSpiderEvent(
                 "DNS_SRV",
                 name,
                 self.__name__,
@@ -148,7 +148,7 @@ class sfp_dnscommonsrv(SpiderFootPlugin):
                 else:
                     evt_type = "AFFILIATE_INTERNET_NAME"
 
-                evt = SpiderFootEvent(
+                evt = AirSpiderEvent(
                     evt_type,
                     tgt_clean,
                     self.__name__,

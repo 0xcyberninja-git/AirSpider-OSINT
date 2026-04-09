@@ -4,10 +4,10 @@
 # Purpose:      From Spidering and from searching search engines, extracts file
 #               meta data from files matching certain file extensions.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     25/04/2014
-# Copyright:   (c) Steve Micallef 2014
+# Copyright:   (c) Prateek Bheevgade 2014
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -22,10 +22,10 @@ import exifread
 
 import pptx
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_filemeta(SpiderFootPlugin):
+class sfp_filemeta(AirSpiderPlugin):
 
     meta = {
         'name': "File Metadata Extractor",
@@ -154,7 +154,7 @@ class sfp_filemeta(SpiderFootPlugin):
                         return
 
                 if meta is not None and data is not None:
-                    rawevt = SpiderFootEvent("RAW_FILE_META_DATA", meta,
+                    rawevt = AirSpiderEvent("RAW_FILE_META_DATA", meta,
                                              self.__name__, event)
                     self.notifyListeners(rawevt)
 
@@ -180,5 +180,5 @@ class sfp_filemeta(SpiderFootPlugin):
                             self.debug("VAL: " + str(val))
                             # Strip non-ASCII
                             v = ''.join([i if ord(i) < 128 else ' ' for i in v])
-                            evt = SpiderFootEvent("SOFTWARE_USED", v, self.__name__, rawevt)
+                            evt = AirSpiderEvent("SOFTWARE_USED", v, self.__name__, rawevt)
                             self.notifyListeners(evt)

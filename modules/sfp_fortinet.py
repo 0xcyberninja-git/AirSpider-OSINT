@@ -3,17 +3,17 @@
 # Name:         sfp_fortinet
 # Purpose:      Check if an IP address is malicious according to FortiGuard Antispam.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     14/12/2013
-# Copyright:   (c) Steve Micallef, 2013
+# Copyright:   (c) Prateek Bheevgade, 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_fortinet(SpiderFootPlugin):
+class sfp_fortinet(AirSpiderPlugin):
 
     meta = {
         'name': "FortiGuard Antispam",
@@ -128,10 +128,10 @@ class sfp_fortinet(SpiderFootPlugin):
         url = f"https://www.fortiguard.com/search?q={eventData}&engine=8"
         text = f"FortiGuard Antispam [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_fortinet class

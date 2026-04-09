@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_dnsraw
-# Purpose:      SpiderFoot plug-in for collecting raw DNS records.
+# Purpose:      AirSpider plug-in for collecting raw DNS records.
 #               Also extracts hostnames from SPF records.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     07/07/2017
-# Copyright:   (c) Steve Micallef 2017
+# Copyright:   (c) Prateek Bheevgade 2017
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -17,10 +17,10 @@ import dns.query
 import dns.rdatatype
 import dns.resolver
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_dnsraw(SpiderFootPlugin):
+class sfp_dnsraw(AirSpiderPlugin):
 
     meta = {
         'name': "DNS Raw Records",
@@ -120,7 +120,7 @@ class sfp_dnsraw(SpiderFootPlugin):
 
                 self.checked[str(x)] = True
 
-                evt = SpiderFootEvent("RAW_DNS_RECORDS", str(x), self.__name__, parentEvent)
+                evt = AirSpiderEvent("RAW_DNS_RECORDS", str(x), self.__name__, parentEvent)
                 self.notifyListeners(evt)
 
                 for rx in list(recs.keys()):
@@ -139,21 +139,21 @@ class sfp_dnsraw(SpiderFootPlugin):
                             domains.append(strdata.lower())
 
                         if rx == "MX":
-                            evt = SpiderFootEvent("PROVIDER_MAIL", strdata.lower(), self.__name__, parentEvent)
+                            evt = AirSpiderEvent("PROVIDER_MAIL", strdata.lower(), self.__name__, parentEvent)
                             self.notifyListeners(evt)
                             domains.append(strdata.lower())
 
                         if rx == "NS":
-                            evt = SpiderFootEvent("PROVIDER_DNS", strdata.lower(), self.__name__, parentEvent)
+                            evt = AirSpiderEvent("PROVIDER_DNS", strdata.lower(), self.__name__, parentEvent)
                             self.notifyListeners(evt)
                             domains.append(strdata.lower())
 
                         if rx == "TXT":
-                            evt = SpiderFootEvent("DNS_TEXT", strdata, self.__name__, parentEvent)
+                            evt = AirSpiderEvent("DNS_TEXT", strdata, self.__name__, parentEvent)
                             self.notifyListeners(evt)
 
                             if "v=spf" in strdata or "spf2.0/" in strdata:
-                                evt = SpiderFootEvent("DNS_SPF", strdata, self.__name__, parentEvent)
+                                evt = AirSpiderEvent("DNS_SPF", strdata, self.__name__, parentEvent)
                                 self.notifyListeners(evt)
 
                                 matches = re.findall(r'include:(.+?) ', strdata, re.IGNORECASE | re.DOTALL)
@@ -173,7 +173,7 @@ class sfp_dnsraw(SpiderFootPlugin):
                 self.debug(f"Host {domain} could not be resolved")
                 evt_type += '_UNRESOLVED'
 
-            evt = SpiderFootEvent(evt_type, domain, self.__name__, parentEvent)
+            evt = AirSpiderEvent(evt_type, domain, self.__name__, parentEvent)
             self.notifyListeners(evt)
 
 # End of sfp_dnsraw class

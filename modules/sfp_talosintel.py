@@ -4,19 +4,19 @@
 # Purpose:      Check if a netblock or IP address is malicious according to
 #               TalosIntelligence.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     26/03/2019
-# Copyright:   (c) Steve Micallef, 2019
+# Copyright:   (c) Prateek Bheevgade, 2019
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPAddress, IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_talosintel(SpiderFootPlugin):
+class sfp_talosintel(AirSpiderPlugin):
 
     meta = {
         'name': "Talos Intelligence",
@@ -212,10 +212,10 @@ class sfp_talosintel(SpiderFootPlugin):
         url = "https://snort.org/downloads/ip-block-list"
         text = f"Talos Intelligence [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_talosintel class

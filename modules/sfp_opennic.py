@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:        sfp_opnenic
-# Purpose:     SpiderFoot plug-in for resolving host names on the OpenNIC
+# Purpose:     AirSpider plug-in for resolving host names on the OpenNIC
 #              alternative DNS system.
 #
 # Author:      <bcoles@gmail.com>
@@ -13,10 +13,10 @@
 
 import dns.resolver
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_opennic(SpiderFootPlugin):
+class sfp_opennic(AirSpiderPlugin):
 
     meta = {
         'name': "OpenNIC DNS",
@@ -157,16 +157,16 @@ class sfp_opennic(SpiderFootPlugin):
         for addr in set(addrs):
             if self.sf.validIP(addr):
                 if affiliate and not self.getTarget().matches(addr, includeParents=True):
-                    evt = SpiderFootEvent("AFFILIATE_IPADDR", addr, self.__name__, event)
+                    evt = AirSpiderEvent("AFFILIATE_IPADDR", addr, self.__name__, event)
                 else:
-                    evt = SpiderFootEvent("IP_ADDRESS", addr, self.__name__, event)
+                    evt = AirSpiderEvent("IP_ADDRESS", addr, self.__name__, event)
 
                 self.notifyListeners(evt)
             elif self.sf.validIP6(addr):
                 if affiliate and not self.getTarget().matches(addr, includeParents=True):
-                    evt = SpiderFootEvent("AFFILIATE_IPV6_ADDRESS", addr, self.__name__, event)
+                    evt = AirSpiderEvent("AFFILIATE_IPV6_ADDRESS", addr, self.__name__, event)
                 else:
-                    evt = SpiderFootEvent("IPV6_ADDRESS", addr, self.__name__, event)
+                    evt = AirSpiderEvent("IPV6_ADDRESS", addr, self.__name__, event)
 
                 self.notifyListeners(evt)
             else:

@@ -3,19 +3,19 @@
 # Name:         sfp_blocklistde
 # Purpose:      Check if a netblock or IP is malicious according to blocklist.de.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     14/12/2013
-# Copyright:   (c) Steve Micallef, 2013
+# Copyright:   (c) Prateek Bheevgade, 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPAddress, IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_blocklistde(SpiderFootPlugin):
+class sfp_blocklistde(AirSpiderPlugin):
 
     meta = {
         'name': "blocklist.de",
@@ -208,10 +208,10 @@ class sfp_blocklistde(SpiderFootPlugin):
             url = "https://lists.blocklist.de/lists/all.txt"
             text = f"blocklist.de [{eventData}]\n<SFURL>{url}</SFURL>"
 
-            evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+            evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
             self.notifyListeners(evt)
 
-            evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+            evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
             self.notifyListeners(evt)
 
 # End of sfp_blocklistde class

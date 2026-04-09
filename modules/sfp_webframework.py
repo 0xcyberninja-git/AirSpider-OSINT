@@ -3,16 +3,16 @@
 # Name:         sfp_webframework
 # Purpose:      Identify the usage of popular web frameworks.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     25/05/2013
-# Copyright:   (c) Steve Micallef 2013
+# Copyright:   (c) Prateek Bheevgade 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import re
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 regexps = dict({
     "jQuery": list(['jquery']),  # unlikely false positive
@@ -27,7 +27,7 @@ regexps = dict({
 })
 
 
-class sfp_webframework(SpiderFootPlugin):
+class sfp_webframework(AirSpiderPlugin):
 
     meta = {
         'name': "Web Framework Identifier",
@@ -100,7 +100,7 @@ class sfp_webframework(SpiderFootPlugin):
                 if len(matches) > 0 and regexpGrp not in self.results[eventSource]:
                     self.info("Matched " + regexpGrp + " in content from " + eventSource)
                     self.results[eventSource] = self.results[eventSource] + [regexpGrp]
-                    evt = SpiderFootEvent("URL_WEB_FRAMEWORK", regexpGrp,
+                    evt = AirSpiderEvent("URL_WEB_FRAMEWORK", regexpGrp,
                                           self.__name__, event)
                     self.notifyListeners(evt)
 

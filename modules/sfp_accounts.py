@@ -4,10 +4,10 @@
 # Purpose:      Identify the existence of a given acount on various sites thanks
 #               to Micah Hoffman's (https://github.com/WebBreacher) list.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     18/02/2015
-# Copyright:   (c) Steve Micallef 2015
+# Copyright:   (c) Prateek Bheevgade 2015
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -18,10 +18,10 @@ import time
 from queue import Empty as QueueEmpty
 from queue import Queue
 
-from spiderfoot import SpiderFootEvent, SpiderFootHelpers, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderHelpers, AirSpiderPlugin
 
 
-class sfp_accounts(SpiderFootPlugin):
+class sfp_accounts(AirSpiderPlugin):
 
     meta = {
         'name': "Account Finder",
@@ -73,13 +73,13 @@ class sfp_accounts(SpiderFootPlugin):
         for opt in list(userOpts.keys()):
             self.opts[opt] = userOpts[opt]
 
-        self.commonNames = SpiderFootHelpers.humanNamesFromWordlists()
-        self.words = SpiderFootHelpers.dictionaryWordsFromWordlists()
+        self.commonNames = AirSpiderHelpers.humanNamesFromWordlists()
+        self.words = AirSpiderHelpers.dictionaryWordsFromWordlists()
 
         content = self.sf.cacheGet("sfaccountsv2", 48)
         if content is None:
             url = "https://raw.githubusercontent.com/WebBreacher/WhatsMyName/main/wmn-data.json"
-            data = self.sf.fetchUrl(url, useragent="SpiderFoot")
+            data = self.sf.fetchUrl(url, useragent="AirSpider")
 
             if data['content'] is None:
                 self.error(f"Unable to fetch {url}")
@@ -375,7 +375,7 @@ class sfp_accounts(SpiderFootPlugin):
                     self.debug(f"{user} is too short, skipping.")
                     continue
 
-                evt = SpiderFootEvent("USERNAME", user, self.__name__, event)
+                evt = AirSpiderEvent("USERNAME", user, self.__name__, event)
                 self.notifyListeners(evt)
                 self.reportedUsers.append(user)
 
@@ -386,7 +386,7 @@ class sfp_accounts(SpiderFootPlugin):
         if eventName == "USERNAME":
             res = self.checkSites(user)
             for site in res:
-                evt = SpiderFootEvent(
+                evt = AirSpiderEvent(
                     "ACCOUNT_EXTERNAL_OWNED",
                     site,
                     self.__name__,
@@ -399,7 +399,7 @@ class sfp_accounts(SpiderFootPlugin):
                 for puser in permutations:
                     res = self.checkSites(puser)
                     for site in res:
-                        evt = SpiderFootEvent(
+                        evt = AirSpiderEvent(
                             "SIMILAR_ACCOUNT_EXTERNAL",
                             site,
                             self.__name__,

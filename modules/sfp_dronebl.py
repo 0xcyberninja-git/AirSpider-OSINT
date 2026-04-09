@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_dronebl
-# Purpose:      SpiderFoot plug-in for looking up whether IPs/Netblocks/Domains
+# Purpose:      AirSpider plug-in for looking up whether IPs/Netblocks/Domains
 #               appear in the DroneBL blocklist, indicating potential open-relays,
 #               open proxies, malicious servers, vulnerable servers, etc.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     07/01/2014
-# Copyright:   (c) Steve Micallef 2014
+# Copyright:   (c) Prateek Bheevgade 2014
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_dronebl(SpiderFootPlugin):
+class sfp_dronebl(AirSpiderPlugin):
 
     meta = {
         'name': "DroneBL",
@@ -211,7 +211,7 @@ class sfp_dronebl(SpiderFootPlugin):
                         self.error(f"DroneBL resolved address {addr} to unknown IP address {result} not found in DroneBL list.")
                     continue
 
-                evt = SpiderFootEvent(blacklist_type, f"{self.checks[k]} [{addr}]", self.__name__, event)
+                evt = AirSpiderEvent(blacklist_type, f"{self.checks[k]} [{addr}]", self.__name__, event)
                 self.notifyListeners(evt)
 
                 if k in [
@@ -226,15 +226,15 @@ class sfp_dronebl(SpiderFootPlugin):
                     "127.0.0.18",
                     "127.0.0.19",
                 ]:
-                    evt = SpiderFootEvent(malicious_type, f"{self.checks[k]} [{addr}]", self.__name__, event)
+                    evt = AirSpiderEvent(malicious_type, f"{self.checks[k]} [{addr}]", self.__name__, event)
                     self.notifyListeners(evt)
 
                 if k in ["127.0.0.8", "127.0.0.9", "127.0.0.10", "127.0.0.11", "127.0.0.14"]:
-                    evt = SpiderFootEvent("PROXY_HOST", addr, self.__name__, event)
+                    evt = AirSpiderEvent("PROXY_HOST", addr, self.__name__, event)
                     self.notifyListeners(evt)
 
                 if k == "127.0.0.19":
-                    evt = SpiderFootEvent("VPN_HOST", addr, self.__name__, event)
+                    evt = AirSpiderEvent("VPN_HOST", addr, self.__name__, event)
                     self.notifyListeners(evt)
 
 # End of sfp_dronebl class

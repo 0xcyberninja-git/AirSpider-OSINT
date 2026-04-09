@@ -3,10 +3,10 @@
 # Name:         sfp_robtex
 # Purpose:      Searches Robtex.com for hosts sharing the same IP.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     12/04/2014
-# Copyright:   (c) Steve Micallef 2014
+# Copyright:   (c) Prateek Bheevgade 2014
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,10 +15,10 @@ import time
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_robtex(SpiderFootPlugin):
+class sfp_robtex(AirSpiderPlugin):
 
     meta = {
         'name': "Robtex",
@@ -196,7 +196,7 @@ class sfp_robtex(SpiderFootPlugin):
                 self.errorState = True
                 return
 
-            evt = SpiderFootEvent("RAW_RIR_DATA", json.dumps(data), self.__name__, event)
+            evt = AirSpiderEvent("RAW_RIR_DATA", json.dumps(data), self.__name__, event)
             self.notifyListeners(evt)
 
             pas = data.get('pas')
@@ -224,17 +224,17 @@ class sfp_robtex(SpiderFootPlugin):
                     continue
 
                 if eventName == "NETBLOCK_OWNER":
-                    ipe = SpiderFootEvent("IP_ADDRESS", ip, self.__name__, event)
+                    ipe = AirSpiderEvent("IP_ADDRESS", ip, self.__name__, event)
                     self.notifyListeners(ipe)
-                    evt = SpiderFootEvent("CO_HOSTED_SITE", host, self.__name__, ipe)
+                    evt = AirSpiderEvent("CO_HOSTED_SITE", host, self.__name__, ipe)
                     self.notifyListeners(evt)
                 elif eventName == "NETBLOCKV6_OWNER":
-                    ipe = SpiderFootEvent("IPV6_ADDRESS", ip, self.__name__, event)
+                    ipe = AirSpiderEvent("IPV6_ADDRESS", ip, self.__name__, event)
                     self.notifyListeners(ipe)
-                    evt = SpiderFootEvent("CO_HOSTED_SITE", host, self.__name__, ipe)
+                    evt = AirSpiderEvent("CO_HOSTED_SITE", host, self.__name__, ipe)
                     self.notifyListeners(evt)
                 else:
-                    evt = SpiderFootEvent("CO_HOSTED_SITE", host, self.__name__, event)
+                    evt = AirSpiderEvent("CO_HOSTED_SITE", host, self.__name__, event)
                     self.notifyListeners(evt)
 
                 self.cohostcount += 1

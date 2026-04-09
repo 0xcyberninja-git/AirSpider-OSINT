@@ -6,17 +6,17 @@
 # Author:      Leo Trubach <leotrubach@gmail.com>
 #
 # Created:     2020-04-21
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 from urllib.parse import urlencode
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_zetalytics(SpiderFootPlugin):
+class sfp_zetalytics(AirSpiderPlugin):
     BASE_URL = "https://zonecruncher.com/api/v1"
     meta = {
         "name": "Zetalytics",
@@ -63,7 +63,7 @@ class sfp_zetalytics(SpiderFootPlugin):
     def emit(self, etype, data, pevent):
         if self.checkForStop():
             return None
-        evt = SpiderFootEvent(etype, data, self.__name__, pevent)
+        evt = AirSpiderEvent(etype, data, self.__name__, pevent)
         self.notifyListeners(evt)
         return evt
 
@@ -91,7 +91,7 @@ class sfp_zetalytics(SpiderFootPlugin):
         res = self.sf.fetchUrl(
             f"{self.BASE_URL}{path}/?{qs}",
             timeout=self.opts["_fetchtimeout"],
-            useragent="SpiderFoot",
+            useragent="AirSpider",
         )
 
         if res["content"] is None:

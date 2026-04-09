@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_hosting
-# Purpose:      SpiderFoot plug-in for looking up whether IPs/Netblocks/Domains
+# Purpose:      AirSpider plug-in for looking up whether IPs/Netblocks/Domains
 #               appear in an IP categorization table of hosting providers.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     16/08/2015
-# Copyright:   (c) Steve Micallef 2015
+# Copyright:   (c) Prateek Bheevgade 2015
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPAddress
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_hosting(SpiderFootPlugin):
+class sfp_hosting(AirSpiderPlugin):
 
     meta = {
         'name': "Hosting Provider Identifier",
@@ -101,7 +101,7 @@ class sfp_hosting(SpiderFootPlugin):
 
         ret = self.queryAddr(eventData)
         if ret:
-            evt = SpiderFootEvent("PROVIDER_HOSTING", ret[0] + ": " + ret[1],
+            evt = AirSpiderEvent("PROVIDER_HOSTING", ret[0] + ": " + ret[1],
                                   self.__name__, event)
             self.notifyListeners(evt)
 

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_whois
-# Purpose:      SpiderFoot plug-in for searching Whois servers for domain names
+# Purpose:      AirSpider plug-in for searching Whois servers for domain names
 #               and netblocks identified.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     06/04/2015
-# Copyright:   (c) Steve Micallef 2012
+# Copyright:   (c) Prateek Bheevgade 2012
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,10 +15,10 @@ import ipwhois
 import netaddr
 import whois
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_whois(SpiderFootPlugin):
+class sfp_whois(AirSpiderPlugin):
 
     meta = {
         'name': "Whois",
@@ -120,14 +120,14 @@ class sfp_whois(SpiderFootPlugin):
             self.error(f"WHOIS data ({len(data)} bytes) is smaller than 250 bytes. Throttling from WHOIS server is probably happening. Ignoring response.")
             return
 
-        rawevt = SpiderFootEvent(typ, data, self.__name__, event)
+        rawevt = AirSpiderEvent(typ, data, self.__name__, event)
         self.notifyListeners(rawevt)
 
         if eventName.startswith("DOMAIN_NAME"):
             if whoisdata:
                 registrar = whoisdata.get('registrar')
                 if registrar:
-                    evt = SpiderFootEvent("DOMAIN_REGISTRAR", registrar, self.__name__, event)
+                    evt = AirSpiderEvent("DOMAIN_REGISTRAR", registrar, self.__name__, event)
                     self.notifyListeners(evt)
 
 # End of sfp_whois class

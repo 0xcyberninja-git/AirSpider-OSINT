@@ -6,7 +6,7 @@
 # Author:      TheTechromancer
 #
 # Created:     05/20/2021
-# Copyright:   (c) Steve Micallef 2021
+# Copyright:   (c) Prateek Bheevgade 2021
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -14,10 +14,10 @@ import re
 
 from bs4 import BeautifulSoup
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_reversewhois(SpiderFootPlugin):
+class sfp_reversewhois(AirSpiderPlugin):
 
     meta = {
         "name": "ReverseWhois",
@@ -121,14 +121,14 @@ class sfp_reversewhois(SpiderFootPlugin):
         for domain in set(domains):
             # if this domain isn't the main target
             if not self.getTarget().matches(domain, includeChildren=False):
-                e = SpiderFootEvent("AFFILIATE_INTERNET_NAME", domain, self.__name__, event)
+                e = AirSpiderEvent("AFFILIATE_INTERNET_NAME", domain, self.__name__, event)
                 self.notifyListeners(e)
                 if self.sf.isDomain(domain, self.opts["_internettlds"]):
-                    evt = SpiderFootEvent("AFFILIATE_DOMAIN_NAME", domain, self.__name__, event)
+                    evt = AirSpiderEvent("AFFILIATE_DOMAIN_NAME", domain, self.__name__, event)
                     self.notifyListeners(evt)
 
         for registrar in set(registrars):
-            e = SpiderFootEvent("DOMAIN_REGISTRAR", registrar, self.__name__, event)
+            e = AirSpiderEvent("DOMAIN_REGISTRAR", registrar, self.__name__, event)
             self.notifyListeners(e)
 
 # End of sfp_reversewhois class

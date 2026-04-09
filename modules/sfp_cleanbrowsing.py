@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:        sfp_cleanbrowsing
-# Purpose:     SpiderFoot plug-in for looking up whether hosts are blocked by
+# Purpose:     AirSpider plug-in for looking up whether hosts are blocked by
 #              CleanBrowsing.org DNS content family filters
 #              (185.228.168.168 and 185.228.168.169).
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     30/05/2018
-# Copyright:   (c) Steve Micallef 2018
+# Copyright:   (c) Prateek Bheevgade 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import dns.resolver
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_cleanbrowsing(SpiderFootPlugin):
+class sfp_cleanbrowsing(AirSpiderPlugin):
 
     meta = {
         'name': "CleanBrowsing.org",
@@ -165,7 +165,7 @@ class sfp_cleanbrowsing(SpiderFootPlugin):
         self.debug(f"{eventData} was blocked by CleanBrowsing DNS")
 
         if not security:
-            evt = SpiderFootEvent(
+            evt = AirSpiderEvent(
                 blacklist_type,
                 f"CleanBrowsing DNS - Security [{eventData}]",
                 self.__name__,
@@ -173,7 +173,7 @@ class sfp_cleanbrowsing(SpiderFootPlugin):
             )
             self.notifyListeners(evt)
 
-            evt = SpiderFootEvent(
+            evt = AirSpiderEvent(
                 malicious_type,
                 f"CleanBrowsing DNS - Security [{eventData}]",
                 self.__name__,
@@ -181,7 +181,7 @@ class sfp_cleanbrowsing(SpiderFootPlugin):
             )
             self.notifyListeners(evt)
         elif not adult:
-            evt = SpiderFootEvent(
+            evt = AirSpiderEvent(
                 blacklist_type,
                 f"CleanBrowsing DNS - Adult [{eventData}]",
                 self.__name__,
@@ -189,7 +189,7 @@ class sfp_cleanbrowsing(SpiderFootPlugin):
             )
             self.notifyListeners(evt)
         elif not family:
-            evt = SpiderFootEvent(
+            evt = AirSpiderEvent(
                 blacklist_type,
                 f"CleanBrowsing DNS - Family [{eventData}]",
                 self.__name__,

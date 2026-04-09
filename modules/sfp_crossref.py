@@ -1,24 +1,24 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_crossref
-# Purpose:      SpiderFoot plug-in for scanning links identified from the
+# Purpose:      AirSpider plug-in for scanning links identified from the
 #               spidering process, and for external links, fetching them to
 #               see if those sites link back to the original site, indicating a
 #               potential relationship between the external sites.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     06/04/2012
-# Copyright:   (c) Steve Micallef 2012
+# Copyright:   (c) Prateek Bheevgade 2012
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import re
 
-from spiderfoot import SpiderFootEvent, SpiderFootHelpers, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderHelpers, AirSpiderPlugin
 
 
-class sfp_crossref(SpiderFootPlugin):
+class sfp_crossref(AirSpiderPlugin):
 
     meta = {
         'name': "Cross-Referencer",
@@ -124,7 +124,7 @@ class sfp_crossref(SpiderFootPlugin):
             # fetch the base URL of the affiliate to check for a crossref.
             if eventName == "LINKED_URL_EXTERNAL" and self.opts['checkbase']:
                 # Check the base url to see if there is an affiliation
-                url = SpiderFootHelpers.urlBaseUrl(eventData)
+                url = AirSpiderHelpers.urlBaseUrl(eventData)
                 if url in self.fetched:
                     return
 
@@ -158,7 +158,7 @@ class sfp_crossref(SpiderFootPlugin):
 
         self.info(f"Found link to target from affiliate: {url}")
 
-        evt1 = SpiderFootEvent(
+        evt1 = AirSpiderEvent(
             "AFFILIATE_INTERNET_NAME",
             self.sf.urlFQDN(url),
             self.__name__,
@@ -167,7 +167,7 @@ class sfp_crossref(SpiderFootPlugin):
         evt1.moduleDataSource = event.moduleDataSource
         self.notifyListeners(evt1)
 
-        evt2 = SpiderFootEvent(
+        evt2 = AirSpiderEvent(
             "AFFILIATE_WEB_CONTENT",
             res['content'],
             self.__name__,

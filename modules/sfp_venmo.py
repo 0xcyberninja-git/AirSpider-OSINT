@@ -12,10 +12,10 @@
 import json
 import time
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_venmo(SpiderFootPlugin):
+class sfp_venmo(AirSpiderPlugin):
 
     meta = {
         'name': "Venmo",
@@ -109,10 +109,10 @@ class sfp_venmo(SpiderFootPlugin):
             display_name = data['first_name'] + " " + data['last_name']
 
         if display_name:
-            evt = SpiderFootEvent('HUMAN_NAME', display_name, self.__name__, event)
+            evt = AirSpiderEvent('HUMAN_NAME', display_name, self.__name__, event)
             self.notifyListeners(evt)
 
-            evt = SpiderFootEvent('RAW_RIR_DATA', str(data),
+            evt = AirSpiderEvent('RAW_RIR_DATA', str(data),
                                   self.__name__, event)
             self.notifyListeners(evt)
 

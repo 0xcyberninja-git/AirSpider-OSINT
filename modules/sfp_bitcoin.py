@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_bitcoin
-# Purpose:      SpiderFoot plug-in for scanning retrieved content by other
+# Purpose:      AirSpider plug-in for scanning retrieved content by other
 #               modules (such as sfp_spider) and identifying bitcoin numbers.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     27/05/2017
-# Copyright:   (c) Steve Micallef 2017
+# Copyright:   (c) Prateek Bheevgade 2017
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,10 +15,10 @@ import codecs
 import re
 from hashlib import sha256
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_bitcoin(SpiderFootPlugin):
+class sfp_bitcoin(AirSpiderPlugin):
 
     meta = {
         'name': "Bitcoin Finder",
@@ -90,7 +90,7 @@ class sfp_bitcoin(SpiderFootPlugin):
                 addrs.append(address)
 
         for address in set(addrs):
-            evt = SpiderFootEvent("BITCOIN_ADDRESS", address, self.__name__, event)
+            evt = AirSpiderEvent("BITCOIN_ADDRESS", address, self.__name__, event)
             self.notifyListeners(evt)
 
 # End of sfp_bitcoin class

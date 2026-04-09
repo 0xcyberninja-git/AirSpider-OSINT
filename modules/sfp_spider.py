@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_spider
-# Purpose:      SpiderFoot plug-in for spidering sites and returning meta data
+# Purpose:      AirSpider plug-in for spidering sites and returning meta data
 #               for other plug-ins to consume.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     25/03/2012
-# Copyright:   (c) Steve Micallef 2012
+# Copyright:   (c) Prateek Bheevgade 2012
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 import time
 
-from spiderfoot import SpiderFootEvent, SpiderFootHelpers, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderHelpers, AirSpiderPlugin
 
 
-class sfp_spider(SpiderFootPlugin):
+class sfp_spider(AirSpiderPlugin):
 
     meta = {
         'name': "Web Spider",
@@ -165,7 +165,7 @@ class sfp_spider(SpiderFootPlugin):
             data = data.decode('utf-8', errors='replace')
 
         # Extract links from the content
-        links = SpiderFootHelpers.extractLinksFromHtml(
+        links = AirSpiderHelpers.extractLinksFromHtml(
             url,
             data,
             self.getTarget().getNames()
@@ -182,7 +182,7 @@ class sfp_spider(SpiderFootPlugin):
             if not self.opts['reportduplicates']:
                 if link in self.urlEvents:
                     continue
-            # Supply the SpiderFootEvent of the parent URL as the parent
+            # Supply the AirSpiderEvent of the parent URL as the parent
             self.urlEvents[link] = self.linkNotify(link, self.urlEvents[url])
 
         self.debug(f"Links found from parsing: {links.keys()}")
@@ -200,7 +200,7 @@ class sfp_spider(SpiderFootPlugin):
         returnLinks = dict()
 
         for link in links:
-            linkBase = SpiderFootHelpers.urlBaseUrl(link)
+            linkBase = AirSpiderHelpers.urlBaseUrl(link)
             linkFQDN = self.sf.urlFQDN(link)
 
             # Skip external sites (typical behaviour..)
@@ -245,7 +245,7 @@ class sfp_spider(SpiderFootPlugin):
 
         if type(url) != str:
             url = str(url, "utf-8", errors='replace')
-        event = SpiderFootEvent(utype, url, self.__name__, parentEvent)
+        event = AirSpiderEvent(utype, url, self.__name__, parentEvent)
         self.notifyListeners(event)
         return event
 
@@ -254,7 +254,7 @@ class sfp_spider(SpiderFootPlugin):
         if not isinstance(httpresult, dict):
             return
 
-        event = SpiderFootEvent(
+        event = AirSpiderEvent(
             "HTTP_CODE",
             str(httpresult['code']),
             self.__name__,
@@ -267,7 +267,7 @@ class sfp_spider(SpiderFootPlugin):
         headers = httpresult.get('headers')
 
         if headers:
-            event = SpiderFootEvent(
+            event = AirSpiderEvent(
                 "WEBSERVER_HTTPHEADERS",
                 json.dumps(headers, ensure_ascii=False),
                 self.__name__,
@@ -282,7 +282,7 @@ class sfp_spider(SpiderFootPlugin):
                     if ctype.startswith(mt):
                         store_content = False
 
-                event = SpiderFootEvent(
+                event = AirSpiderEvent(
                     "TARGET_WEB_CONTENT_TYPE",
                     ctype.replace(" ", "").lower(),
                     self.__name__,
@@ -294,7 +294,7 @@ class sfp_spider(SpiderFootPlugin):
         if store_content:
             content = httpresult.get('content')
             if content:
-                event = SpiderFootEvent(
+                event = AirSpiderEvent(
                     "TARGET_WEB_CONTENT",
                     str(content),
                     self.__name__,
@@ -337,7 +337,7 @@ class sfp_spider(SpiderFootPlugin):
 
                 if res['content'] is not None:
                     spiderTarget = prefix + eventData
-                    evt = SpiderFootEvent(
+                    evt = AirSpiderEvent(
                         "LINKED_URL_INTERNAL",
                         spiderTarget,
                         self.__name__,
@@ -364,7 +364,7 @@ class sfp_spider(SpiderFootPlugin):
 
         # Are we respecting robots.txt?
         if self.opts['robotsonly']:
-            targetBase = SpiderFootHelpers.urlBaseUrl(startingPoint)
+            targetBase = AirSpiderHelpers.urlBaseUrl(startingPoint)
             if targetBase not in self.robotsRules:
                 res = self.sf.fetchUrl(
                     targetBase + '/robots.txt',
@@ -376,7 +376,7 @@ class sfp_spider(SpiderFootPlugin):
                     robots_txt = res['content']
                     if robots_txt:
                         self.debug(f"robots.txt contents: {robots_txt}")
-                        self.robotsRules[targetBase] = SpiderFootHelpers.extractUrlsFromRobotsTxt(robots_txt)
+                        self.robotsRules[targetBase] = AirSpiderHelpers.extractUrlsFromRobotsTxt(robots_txt)
 
         # First iteration we are starting with the target link.
         nextLinks = [startingPoint]

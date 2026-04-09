@@ -4,19 +4,19 @@
 # Purpose:     Check if an IP or netblock is malicious according to the AlienVault
 #              IP Reputation database.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     14/12/2013
-# Copyright:   (c) Steve Micallef, 2013
+# Copyright:   (c) Prateek Bheevgade, 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPAddress, IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_alienvaultiprep(SpiderFootPlugin):
+class sfp_alienvaultiprep(AirSpiderPlugin):
 
     meta = {
         'name': "AlienVault IP Reputation",
@@ -206,10 +206,10 @@ class sfp_alienvaultiprep(SpiderFootPlugin):
         url = "https://reputation.alienvault.com/reputation.generic"
         text = f"AlienVault IP Reputation Database [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_alienvaultiprep class

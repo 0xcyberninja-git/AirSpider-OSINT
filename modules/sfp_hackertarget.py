@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_hackertarget
-# Purpose:      SpiderFoot plug-in to search HackerTarget.com for hosts sharing
+# Purpose:      AirSpider plug-in to search HackerTarget.com for hosts sharing
 #               the same IP. Optionally, also perform a basic TCP/UDP port scan
 #               for commonly open ports using HackerTarget.com port scan tools.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     12/04/2014
-# Copyright:   (c) Steve Micallef 2014
+# Copyright:   (c) Prateek Bheevgade 2014
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -20,10 +20,10 @@ import urllib.request
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_hackertarget(SpiderFootPlugin):
+class sfp_hackertarget(AirSpiderPlugin):
 
     meta = {
         'name': "HackerTarget",
@@ -254,7 +254,7 @@ class sfp_hackertarget(SpiderFootPlugin):
             if not records:
                 return
 
-            evt = SpiderFootEvent('RAW_DNS_RECORDS', "\n".join(records), self.__name__, event)
+            evt = AirSpiderEvent('RAW_DNS_RECORDS', "\n".join(records), self.__name__, event)
             self.notifyListeners(evt)
 
             # Try and pull out individual records
@@ -284,15 +284,15 @@ class sfp_hackertarget(SpiderFootPlugin):
                         self.debug(f"Host {host} could not be resolved")
                         evt_type += '_UNRESOLVED'
 
-                    evt = SpiderFootEvent(evt_type, host, self.__name__, event)
+                    evt = AirSpiderEvent(evt_type, host, self.__name__, event)
                     self.notifyListeners(evt)
 
                     if self.sf.isDomain(host, self.opts['_internettlds']):
                         if evt_type.startswith('AFFILIATE'):
-                            evt = SpiderFootEvent('AFFILIATE_DOMAIN_NAME', host, self.__name__, event)
+                            evt = AirSpiderEvent('AFFILIATE_DOMAIN_NAME', host, self.__name__, event)
                             self.notifyListeners(evt)
                         else:
-                            evt = SpiderFootEvent('DOMAIN_NAME', host, self.__name__, event)
+                            evt = AirSpiderEvent('DOMAIN_NAME', host, self.__name__, event)
                             self.notifyListeners(evt)
 
             return
@@ -337,12 +337,12 @@ class sfp_hackertarget(SpiderFootPlugin):
                         # Create an IP Address event stemming from the netblock as the
                         # link to the co-host.
                         if eventName == "NETBLOCK_OWNER":
-                            ipe = SpiderFootEvent("IP_ADDRESS", ip, self.__name__, event)
+                            ipe = AirSpiderEvent("IP_ADDRESS", ip, self.__name__, event)
                             self.notifyListeners(ipe)
-                            evt = SpiderFootEvent("CO_HOSTED_SITE", h.lower(), self.__name__, ipe)
+                            evt = AirSpiderEvent("CO_HOSTED_SITE", h.lower(), self.__name__, ipe)
                             self.notifyListeners(evt)
                         else:
-                            evt = SpiderFootEvent("CO_HOSTED_SITE", h.lower(), self.__name__, event)
+                            evt = AirSpiderEvent("CO_HOSTED_SITE", h.lower(), self.__name__, event)
                             self.notifyListeners(evt)
 
                         myres.append(h.lower())
@@ -351,7 +351,7 @@ class sfp_hackertarget(SpiderFootPlugin):
             # For netblocks, we need to create the IP address event so that
             # the threat intel event is more meaningful.
             if eventName == 'NETBLOCK_OWNER':
-                pevent = SpiderFootEvent("IP_ADDRESS", ip, self.__name__, event)
+                pevent = AirSpiderEvent("IP_ADDRESS", ip, self.__name__, event)
                 self.notifyListeners(pevent)
             else:
                 pevent = event
@@ -359,7 +359,7 @@ class sfp_hackertarget(SpiderFootPlugin):
             if self.opts.get('http_headers', True):
                 http_headers = self.httpHeaders(ip)
                 if http_headers is not None:
-                    e = SpiderFootEvent('WEBSERVER_HTTPHEADERS', json.dumps(http_headers), self.__name__, pevent)
+                    e = AirSpiderEvent('WEBSERVER_HTTPHEADERS', json.dumps(http_headers), self.__name__, pevent)
                     e.actualSource = ip
                     self.notifyListeners(e)
 

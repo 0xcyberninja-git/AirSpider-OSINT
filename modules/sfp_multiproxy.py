@@ -4,19 +4,19 @@
 # Purpose:     Check if an IP arress is an open proxy according to multiproxy.org
 #              open proxy list.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     14/12/2013
-# Copyright:   (c) Steve Micallef, 2013
+# Copyright:   (c) Prateek Bheevgade, 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPAddress, IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_multiproxy(SpiderFootPlugin):
+class sfp_multiproxy(AirSpiderPlugin):
 
     meta = {
         'name': "multiproxy.org Open Proxies",
@@ -205,10 +205,10 @@ class sfp_multiproxy(SpiderFootPlugin):
         url = "http://multiproxy.org/txt_all/proxy.txt"
         text = f"multiproxy.org Open Proxies [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_multiproxy class

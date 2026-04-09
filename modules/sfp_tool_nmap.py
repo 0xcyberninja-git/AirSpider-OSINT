@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_tool_nmap
-# Purpose:      SpiderFoot plug-in for using nmap to perform OS fingerprinting.
+# Purpose:      AirSpider plug-in for using nmap to perform OS fingerprinting.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     03/05/2020
-# Copyright:   (c) Steve Micallef 2020
+# Copyright:   (c) Prateek Bheevgade 2020
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,10 +15,10 @@ from subprocess import PIPE, Popen
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_tool_nmap(SpiderFootPlugin):
+class sfp_tool_nmap(AirSpiderPlugin):
 
     meta = {
         'name': "Tool - Nmap",
@@ -167,7 +167,7 @@ class sfp_tool_nmap(SpiderFootPlugin):
                     if "OS details:" in line:
                         junk, opsys = line.split(": ")
                 if opsys:
-                    evt = SpiderFootEvent("OPERATING_SYSTEM", opsys, self.__name__, event)
+                    evt = AirSpiderEvent("OPERATING_SYSTEM", opsys, self.__name__, event)
                     self.notifyListeners(evt)
             except Exception as e:
                 self.error("Couldn't parse the output of Nmap: " + str(e))
@@ -184,10 +184,10 @@ class sfp_tool_nmap(SpiderFootPlugin):
                         junk, opsys = line.split(": ")
 
                     if opsys and currentIp:
-                        ipevent = SpiderFootEvent("IP_ADDRESS", currentIp, self.__name__, event)
+                        ipevent = AirSpiderEvent("IP_ADDRESS", currentIp, self.__name__, event)
                         self.notifyListeners(ipevent)
 
-                        evt = SpiderFootEvent("OPERATING_SYSTEM", opsys, self.__name__, ipevent)
+                        evt = AirSpiderEvent("OPERATING_SYSTEM", opsys, self.__name__, ipevent)
                         self.notifyListeners(evt)
                         currentIp = None
             except Exception as e:

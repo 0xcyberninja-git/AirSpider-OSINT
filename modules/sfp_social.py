@@ -3,16 +3,16 @@
 # Name:         sfp_social`
 # Purpose:      Identify the usage of popular social networks
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     26/05/2013
-# Copyright:   (c) Steve Micallef 2013
+# Copyright:   (c) Prateek Bheevgade 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import re
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 regexps = dict({
     "LinkedIn (Individual)": list(['.*linkedin.com/in/([a-zA-Z0-9_]+$)']),
@@ -33,7 +33,7 @@ regexps = dict({
 })
 
 
-class sfp_social(SpiderFootPlugin):
+class sfp_social(AirSpiderPlugin):
 
     meta = {
         'name': "Social Network Identifier",
@@ -84,7 +84,7 @@ class sfp_social(SpiderFootPlugin):
                     continue
 
                 self.info(f"Matched {regexpGrp} in {eventData}")
-                evt = SpiderFootEvent(
+                evt = AirSpiderEvent(
                     "SOCIAL_MEDIA", f"{regexpGrp}: <SFURL>{eventData}</SFURL>",
                     self.__name__,
                     event
@@ -94,7 +94,7 @@ class sfp_social(SpiderFootPlugin):
                 # Except for Google+, the link includes potential usernames
                 if regexpGrp != "Google+":
                     un = bits.group(1)
-                    evt = SpiderFootEvent("USERNAME", str(un), self.__name__, event)
+                    evt = AirSpiderEvent("USERNAME", str(un), self.__name__, event)
                     self.notifyListeners(evt)
 
 # End of sfp_social class

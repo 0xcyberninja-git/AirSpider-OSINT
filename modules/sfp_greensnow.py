@@ -3,19 +3,19 @@
 # Name:        sfp_greensnow
 # Purpose:     Checks if an IP address or netblock is malicious according to greensnow.co.
 #
-# Author:      steve@binarypool.com
+# Author:      prateek@airspider.io
 #
 # Created:     16/05/2020
-# Copyright:   (c) Steve Micallef, 2020
+# Copyright:   (c) Prateek Bheevgade, 2020
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPAddress, IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_greensnow(SpiderFootPlugin):
+class sfp_greensnow(AirSpiderPlugin):
 
     meta = {
         'name': "Greensnow",
@@ -176,10 +176,10 @@ class sfp_greensnow(SpiderFootPlugin):
 
         text = f"greensnow.co [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_greensnow class

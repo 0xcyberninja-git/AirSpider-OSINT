@@ -3,10 +3,10 @@
 # Name:         sfp_binaryedge
 # Purpose:      Query binaryedge.io using their API
 #
-# Author:      Steve Micallef
+# Author:      Prateek Bheevgade
 #
 # Created:     02/04/2019
-# Copyright:   (c) Steve Micallef 2019
+# Copyright:   (c) Prateek Bheevgade 2019
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,10 +15,10 @@ import time
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_binaryedge(SpiderFootPlugin):
+class sfp_binaryedge(AirSpiderPlugin):
 
     meta = {
         'name': "BinaryEdge",
@@ -151,7 +151,7 @@ class sfp_binaryedge(SpiderFootPlugin):
         res = self.sf.fetchUrl(
             f"https://api.binaryedge.io/v2/query/{queryurl}/{qry}?page={page}",
             timeout=self.opts['_fetchtimeout'],
-            useragent="SpiderFoot",
+            useragent="AirSpider",
             headers=headers
         )
 
@@ -221,7 +221,7 @@ class sfp_binaryedge(SpiderFootPlugin):
                 self.debug("Found compromised account results in BinaryEdge.io")
 
                 for leak in events:
-                    e = SpiderFootEvent('EMAILADDR_COMPROMISED', f"{eventData} [{leak}]", self.__name__, event)
+                    e = AirSpiderEvent('EMAILADDR_COMPROMISED', f"{eventData} [{leak}]", self.__name__, event)
                     self.notifyListeners(e)
 
             # No further API endpoints available for email addresses. we can bail out here
@@ -270,17 +270,17 @@ class sfp_binaryedge(SpiderFootPlugin):
                         if self.opts['verify'] and not self.sf.resolveHost(host) and not self.sf.resolveHost6(host):
                             continue
 
-                        evt = SpiderFootEvent("INTERNET_NAME", host, self.__name__, event)
+                        evt = AirSpiderEvent("INTERNET_NAME", host, self.__name__, event)
                         self.notifyListeners(evt)
                         if self.sf.isDomain(host, self.opts['_internettlds']):
-                            evt = SpiderFootEvent("DOMAIN_NAME", host, self.__name__, event)
+                            evt = AirSpiderEvent("DOMAIN_NAME", host, self.__name__, event)
                             self.notifyListeners(evt)
 
                         self.reportedhosts[host] = True
                         continue
 
                     if self.cohostcount < self.opts['maxcohost']:
-                        e = SpiderFootEvent(evtType, host, self.__name__, event)
+                        e = AirSpiderEvent(evtType, host, self.__name__, event)
                         self.notifyListeners(e)
                         self.cohostcount += 1
 
@@ -306,7 +306,7 @@ class sfp_binaryedge(SpiderFootPlugin):
                         self.debug(f"Couldn't resolve {rec}, so skipping.")
                         continue
 
-                    e = SpiderFootEvent('INTERNET_NAME', rec, self.__name__, event)
+                    e = AirSpiderEvent('INTERNET_NAME', rec, self.__name__, event)
                     self.notifyListeners(e)
 
         # Loop through all IP addresses / host names
@@ -349,7 +349,7 @@ class sfp_binaryedge(SpiderFootPlugin):
                         continue
 
                     dat = "Torrent: " + rec.get("torrent", "???").get("name") + " @ " + rec.get('torrent').get("source", "???")
-                    e = SpiderFootEvent('MALICIOUS_IPADDR', dat, self.__name__, event)
+                    e = AirSpiderEvent('MALICIOUS_IPADDR', dat, self.__name__, event)
                     self.notifyListeners(e)
 
         for addr in qrylist:
@@ -389,7 +389,7 @@ class sfp_binaryedge(SpiderFootPlugin):
                     if cves:
                         for c in cves:
                             etype, cvetext = self.sf.cveInfo(c['cve'])
-                            e = SpiderFootEvent(etype, cvetext, self.__name__, event)
+                            e = AirSpiderEvent(etype, cvetext, self.__name__, event)
                             self.notifyListeners(e)
 
         for addr in qrylist:
@@ -434,7 +434,7 @@ class sfp_binaryedge(SpiderFootPlugin):
                             evtbtype = "UDP_PORT_OPEN_INFO"
 
                         if f"{evttype}:{port}" not in ports:
-                            ev = SpiderFootEvent(evttype, entity, self.__name__, event)
+                            ev = AirSpiderEvent(evttype, entity, self.__name__, event)
                             self.notifyListeners(ev)
                             ports.append(f"{evttype}:{port}")
 
@@ -448,7 +448,7 @@ class sfp_binaryedge(SpiderFootPlugin):
                             self.debug("No banner information found.")
                             continue
 
-                        e = SpiderFootEvent(evtbtype, banner, self.__name__, ev)
+                        e = AirSpiderEvent(evtbtype, banner, self.__name__, ev)
                         self.notifyListeners(e)
 
         for addr in qrylist:

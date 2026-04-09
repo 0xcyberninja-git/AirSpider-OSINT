@@ -3,10 +3,10 @@
 # Name:         sfp_pulsedive
 # Purpose:      Query Pulsedive's API
 #
-# Author:      Steve Micallef
+# Author:      Prateek Bheevgade
 #
 # Created:     04/09/2018
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -19,10 +19,10 @@ from datetime import datetime
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_pulsedive(SpiderFootPlugin):
+class sfp_pulsedive(AirSpiderPlugin):
 
     meta = {
         'name': "Pulsedive",
@@ -117,7 +117,7 @@ class sfp_pulsedive(SpiderFootPlugin):
         }
 
         url = 'https://pulsedive.com/api/info.php?' + urllib.parse.urlencode(params)
-        res = self.sf.fetchUrl(url, timeout=30, useragent="SpiderFoot")
+        res = self.sf.fetchUrl(url, timeout=30, useragent="AirSpider")
 
         time.sleep(self.opts['delay'])
 
@@ -226,7 +226,7 @@ class sfp_pulsedive(SpiderFootPlugin):
                 ports = attributes.get('port')
                 if ports:
                     for p in ports:
-                        e = SpiderFootEvent('TCP_PORT_OPEN', addr + ':' + p, self.__name__, event)
+                        e = AirSpiderEvent('TCP_PORT_OPEN', addr + ':' + p, self.__name__, event)
                         self.notifyListeners(e)
 
             threats = rec.get('threats')
@@ -256,7 +256,7 @@ class sfp_pulsedive(SpiderFootPlugin):
                         continue
                 except Exception:
                     self.debug("Couldn't parse date from Pulsedive so assuming it's OK.")
-                e = SpiderFootEvent(evtType, descr, self.__name__, event)
+                e = AirSpiderEvent(evtType, descr, self.__name__, event)
                 self.notifyListeners(e)
 
 # End of sfp_pulsedive class

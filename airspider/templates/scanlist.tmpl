@@ -1,0 +1,40 @@
+<%include file="HEADER.tmpl" args="pageid='SCANLIST'"/>
+
+<div class="dashboard-stats" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px;">
+    <div class="card stat-card">
+        <span class="stat-label">Total Operations</span>
+        <span class="stat-value" id="total-scans-val">...</span>
+    </div>
+    <div class="card stat-card primary">
+        <span class="stat-label">Active Scans</span>
+        <span class="stat-value" id="active-scans-val">...</span>
+    </div>
+    <div class="card stat-card success">
+        <span class="stat-label">Completed</span>
+        <span class="stat-value" id="completed-scans-val">...</span>
+    </div>
+    <div class="card stat-card warning">
+        <span class="stat-label">Data Elements</span>
+        <span class="stat-value" id="total-elements-val">...</span>
+    </div>
+</div>
+
+<div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2>Intelligence Repositories</h2>
+    <div class="action-group">
+        <button class="btn btn-default" id="btn-refresh"><i class="glyphicon glyphicon-refresh"></i> Sync</button>
+        <a href="${docroot}/newscan" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New Operation</a>
+    </div>
+</div>
+
+<div id="scancontent" class="scan-grid">
+    <!-- Scans will be loaded here as cards by the JS -->
+    <div class="loading-state text-center" style="padding: 100px 0;">
+        <img src="${docroot}/static/img/loader.gif" width="40">
+        <p style="margin-top: 20px; color: var(--text-muted);">Decrypting local database...</p>
+    </div>
+</div>
+
+<script type='text/javascript' src="${docroot}/static/js/airspider.scanlist.js"></script>
+
+<%include file="FOOTER.tmpl"/>

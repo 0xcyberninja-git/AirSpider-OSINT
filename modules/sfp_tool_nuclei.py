@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_tool_nuclei
-# Purpose:      SpiderFoot plug-in for using the 'Nuclei' tool.
+# Purpose:      AirSpider plug-in for using the 'Nuclei' tool.
 #               Tool: https://github.com/EnableSecurity/nuclei
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     2022-04-02
-# Copyright:   (c) Steve Micallef 2022
+# Copyright:   (c) Prateek Bheevgade 2022
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -18,10 +18,10 @@ import json
 from netaddr import IPNetwork
 from subprocess import Popen, PIPE, TimeoutExpired
 
-from spiderfoot import SpiderFootPlugin, SpiderFootEvent, SpiderFootHelpers
+from airspider import AirSpiderPlugin, AirSpiderEvent, AirSpiderHelpers
 
 
-class sfp_tool_nuclei(SpiderFootPlugin):
+class sfp_tool_nuclei(AirSpiderPlugin):
 
     meta = {
         "name": "Tool - Nuclei",
@@ -110,7 +110,7 @@ class sfp_tool_nuclei(SpiderFootPlugin):
             self.errorState = True
             return
 
-        if not SpiderFootHelpers.sanitiseInput(eventData, extra=['/']):
+        if not AirSpiderHelpers.sanitiseInput(eventData, extra=['/']):
             self.debug("Invalid input, skipping.")
             return
 
@@ -202,14 +202,14 @@ class sfp_tool_nuclei(SpiderFootPlugin):
                         srctype = "IP_ADDRESS"
                     else:
                         srctype = "INTERNET_NAME"
-                    srcevent = SpiderFootEvent(srctype, host, self.__name__, event)
+                    srcevent = AirSpiderEvent(srctype, host, self.__name__, event)
                     self.notifyListeners(srcevent)
 
                 matches = re.findall(r"CVE-\d{4}-\d{4,7}", line)
                 if matches:
                     for cve in matches:
                         etype, cvetext = self.sf.cveInfo(cve)
-                        e = SpiderFootEvent(
+                        e = AirSpiderEvent(
                             etype, cvetext, self.__name__, srcevent
                         )
                         self.notifyListeners(e)
@@ -225,7 +225,7 @@ class sfp_tool_nuclei(SpiderFootPlugin):
                         if data['info'].get('reference'):
                             datatext += f"Reference: <SFURL>{data['info']['reference'][0]}</SFURL>"
 
-                        evt = SpiderFootEvent(
+                        evt = AirSpiderEvent(
                             etype,
                             datatext,
                             self.__name__,

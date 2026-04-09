@@ -7,15 +7,15 @@
 # Author:      Krishnasis Mandal <krishnasis@hotmail.com>
 #
 # Created:     2020-10-05
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 import json
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_textmagic(SpiderFootPlugin):
+class sfp_textmagic(AirSpiderPlugin):
 
     meta = {
         "name": "TextMagic",
@@ -98,7 +98,7 @@ class sfp_textmagic(SpiderFootPlugin):
             f"https://rest.textmagic.com/api/v2/lookups/{qry}",
             headers=headers,
             timeout=self.opts["_fetchtimeout"],
-            useragent="SpiderFoot",
+            useragent="AirSpider",
         )
 
         if res["code"] != "200":
@@ -142,10 +142,10 @@ class sfp_textmagic(SpiderFootPlugin):
 
         phoneNumberType = data.get("type")
         if phoneNumberType is not None:
-            evt = SpiderFootEvent("RAW_RIR_DATA", str(data), self.__name__, event)
+            evt = AirSpiderEvent("RAW_RIR_DATA", str(data), self.__name__, event)
             self.notifyListeners(evt)
 
-            evt = SpiderFootEvent("PHONE_NUMBER_TYPE", phoneNumberType, self.__name__, event)
+            evt = AirSpiderEvent("PHONE_NUMBER_TYPE", phoneNumberType, self.__name__, event)
             self.notifyListeners(evt)
 
 # End of sfp_textmagic class

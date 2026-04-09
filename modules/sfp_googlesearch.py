@@ -3,17 +3,17 @@
 # Name:         sfp_googlesearch
 # Purpose:      Searches Google for content related to the domain in question.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     07/05/2012
-# Copyright:   (c) Steve Micallef 2012
+# Copyright:   (c) Prateek Bheevgade 2012
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_googlesearch(SpiderFootPlugin):
+class sfp_googlesearch(AirSpiderPlugin):
 
     meta = {
         'name': "Google",
@@ -127,11 +127,11 @@ class sfp_googlesearch(SpiderFootPlugin):
         for link in internal_links:
             self.debug("Found a link: " + link)
 
-            evt = SpiderFootEvent("LINKED_URL_INTERNAL", link, self.__name__, event)
+            evt = AirSpiderEvent("LINKED_URL_INTERNAL", link, self.__name__, event)
             self.notifyListeners(evt)
 
         if internal_links:
-            evt = SpiderFootEvent(
+            evt = AirSpiderEvent(
                 "RAW_RIR_DATA", str(res), self.__name__, event
             )
             self.notifyListeners(evt)

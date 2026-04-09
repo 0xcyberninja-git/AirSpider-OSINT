@@ -3,19 +3,19 @@
 # Name:         sfp_whoisology
 # Purpose:      Query whoisology.com using their API.
 #
-# Author:      Steve Micallef
+# Author:      Prateek Bheevgade
 #
 # Created:     08/09/2018
-# Copyright:   (c) Steve Micallef 2018
+# Copyright:   (c) Prateek Bheevgade 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_whoisology(SpiderFootPlugin):
+class sfp_whoisology(AirSpiderPlugin):
 
     meta = {
         'name': "Whoisology",
@@ -85,7 +85,7 @@ class sfp_whoisology(SpiderFootPlugin):
         url += "&field=" + querytype + "&value=" + qry + "&level=Registrant|Admin|Tec|Billing|Other"
 
         res = self.sf.fetchUrl(url, timeout=self.opts['_fetchtimeout'],
-                               useragent="SpiderFoot")
+                               useragent="AirSpider")
 
         if res['code'] in ["400", "429", "500", "403"]:
             self.error("Whoisology API key seems to have been rejected or you have exceeded usage limits.")
@@ -144,11 +144,11 @@ class sfp_whoisology(SpiderFootPlugin):
                     else:
                         continue
 
-                    e = SpiderFootEvent("AFFILIATE_INTERNET_NAME", h, self.__name__, event)
+                    e = AirSpiderEvent("AFFILIATE_INTERNET_NAME", h, self.__name__, event)
                     self.notifyListeners(e)
 
                     if self.sf.isDomain(h, self.opts['_internettlds']):
-                        evt = SpiderFootEvent('AFFILIATE_DOMAIN_NAME', h, self.__name__, event)
+                        evt = AirSpiderEvent('AFFILIATE_DOMAIN_NAME', h, self.__name__, event)
                         self.notifyListeners(evt)
 
 # End of sfp_whoisology class

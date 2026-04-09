@@ -3,19 +3,19 @@
 # Name:         sfp_isc
 # Purpose:      Check if an IP address is malicious according to SANS ISC.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     14/12/2013
-# Copyright:   (c) Steve Micallef, 2013
+# Copyright:   (c) Prateek Bheevgade, 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import re
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_isc(SpiderFootPlugin):
+class sfp_isc(AirSpiderPlugin):
 
     meta = {
         'name': "Internet Storm Center",
@@ -145,10 +145,10 @@ class sfp_isc(SpiderFootPlugin):
         url = f"https://isc.sans.edu/api/ip/{eventData}"
         text = f"Internet Storm Center [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_isc class

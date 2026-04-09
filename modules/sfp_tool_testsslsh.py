@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:        sfp_tool_testsslsh
-# Purpose:     SpiderFoot plug-in for using the testssl.sh tool.
+# Purpose:     AirSpider plug-in for using the testssl.sh tool.
 #              Tool: https://github.com/drwetter/testssl.sh
 #
-# Author:      <steve@binarypool.com>
+# Author:      <prateek@airspider.io>
 #
 # Created:     2022-04-02
-# Copyright:   (c) Steve Micallef 2022
+# Copyright:   (c) Prateek Bheevgade 2022
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -18,10 +18,10 @@ import tempfile
 from netaddr import IPNetwork
 from subprocess import PIPE, Popen, TimeoutExpired
 
-from spiderfoot import SpiderFootPlugin, SpiderFootEvent, SpiderFootHelpers
+from airspider import AirSpiderPlugin, AirSpiderEvent, AirSpiderHelpers
 
 
-class sfp_tool_testsslsh(SpiderFootPlugin):
+class sfp_tool_testsslsh(AirSpiderPlugin):
 
     meta = {
         'name': "Tool - testssl.sh",
@@ -112,7 +112,7 @@ class sfp_tool_testsslsh(SpiderFootPlugin):
             self.errorState = True
             return
 
-        if not SpiderFootHelpers.sanitiseInput(eventData, extra=['/']):
+        if not AirSpiderHelpers.sanitiseInput(eventData, extra=['/']):
             self.debug("Invalid input, skipping.")
             return
 
@@ -223,7 +223,7 @@ class sfp_tool_testsslsh(SpiderFootPlugin):
                     generate = True
 
                 if generate:
-                    pevent = SpiderFootEvent("IP_ADDRESS", target, self.__name__, event)
+                    pevent = AirSpiderEvent("IP_ADDRESS", target, self.__name__, event)
                     self.notifyListeners(pevent)
 
             cves = list()
@@ -240,13 +240,13 @@ class sfp_tool_testsslsh(SpiderFootPlugin):
                             continue
                         cves.append(cve)
                         etype, cvetext = self.sf.cveInfo(cve)
-                        evt = SpiderFootEvent(etype, cvetext, self.__name__, pevent)
+                        evt = AirSpiderEvent(etype, cvetext, self.__name__, pevent)
                         self.notifyListeners(evt)
                 else:
                     if result['id'] in cves:
                         continue
                     cves.append(result['id'])
-                    evt = SpiderFootEvent("VULNERABILITY_GENERAL", f"{result['id']} ({result['finding']})", self.__name__, pevent)
+                    evt = AirSpiderEvent("VULNERABILITY_GENERAL", f"{result['id']} ({result['finding']})", self.__name__, pevent)
                     self.notifyListeners(evt)
 
 # End of sfp_tool_testsslsh class

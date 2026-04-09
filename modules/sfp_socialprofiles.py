@@ -3,10 +3,10 @@
 # Name:         sfp_socialprofiles
 # Purpose:      Tries to discover social media profiles of any identified human names.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     12/04/2014
-# Copyright:   (c) Steve Micallef 2014
+# Copyright:   (c) Prateek Bheevgade 2014
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 sites = {
     # Search string to use, domain name the profile will sit on within
@@ -44,7 +44,7 @@ sites = {
 }
 
 
-class sfp_socialprofiles(SpiderFootPlugin):
+class sfp_socialprofiles(AirSpiderPlugin):
 
     meta = {
         'name': "Social Media Profile Finder",
@@ -198,7 +198,7 @@ class sfp_socialprofiles(SpiderFootPlugin):
                 return
 
             # Submit the results for analysis
-            evt = SpiderFootEvent(
+            evt = AirSpiderEvent(
                 "RAW_RIR_DATA", str(res), self.__name__, event
             )
             self.notifyListeners(evt)
@@ -257,7 +257,7 @@ class sfp_socialprofiles(SpiderFootPlugin):
 
                     self.info("Social Media Profile found at " + site + ": " + match)
                     match = urllib.parse.unquote(match)
-                    evt = SpiderFootEvent(
+                    evt = AirSpiderEvent(
                         "SOCIAL_MEDIA", site + ": <SFURL>" + match + "</SFURL>", self.__name__, event
                     )
                     self.notifyListeners(evt)

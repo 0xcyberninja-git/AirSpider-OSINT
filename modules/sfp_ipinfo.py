@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:        sfp_ipinfo
-# Purpose:     SpiderFoot plug-in to identify the Geo-location of IP addresses
+# Purpose:     AirSpider plug-in to identify the Geo-location of IP addresses
 #              identified by other modules using ipinfo.io.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     17/06/2017
-# Copyright:   (c) Steve Micallef 2017
+# Copyright:   (c) Prateek Bheevgade 2017
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_ipinfo(SpiderFootPlugin):
+class sfp_ipinfo(AirSpiderPlugin):
 
     meta = {
         'name': "IPInfo.io",
@@ -132,7 +132,7 @@ class sfp_ipinfo(SpiderFootPlugin):
         location = ', '.join([_f for _f in [data.get('city'), data.get('region'), data.get('country')] if _f])
         self.info("Found GeoIP for " + eventData + ": " + location)
 
-        evt = SpiderFootEvent("GEOINFO", location, self.__name__, event)
+        evt = AirSpiderEvent("GEOINFO", location, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_ipinfo class

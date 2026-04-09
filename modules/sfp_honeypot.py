@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:        sfp_honeypot
-# Purpose:     SpiderFoot plug-in for looking up whether IPs appear in the
+# Purpose:     AirSpider plug-in for looking up whether IPs appear in the
 #              ProjectHoneyPot.org database.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     16/04/2014
-# Copyright:   (c) Steve Micallef 2014
+# Copyright:   (c) Prateek Bheevgade 2014
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_honeypot(SpiderFootPlugin):
+class sfp_honeypot(AirSpiderPlugin):
 
     meta = {
         'name': "Project Honey Pot",
@@ -178,10 +178,10 @@ class sfp_honeypot(SpiderFootPlugin):
 
         url = f"https://www.projecthoneypot.org/ip_{qaddr}"
 
-        evt = SpiderFootEvent(malicious_type, f"ProjectHoneyPot ({qaddr}): {text}\n<SFURL>{url}</SFURL>", self.__name__, parentEvent)
+        evt = AirSpiderEvent(malicious_type, f"ProjectHoneyPot ({qaddr}): {text}\n<SFURL>{url}</SFURL>", self.__name__, parentEvent)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, f"ProjectHoneyPot ({qaddr}): {text}\n<SFURL>{url}</SFURL>", self.__name__, parentEvent)
+        evt = AirSpiderEvent(blacklist_type, f"ProjectHoneyPot ({qaddr}): {text}\n<SFURL>{url}</SFURL>", self.__name__, parentEvent)
         self.notifyListeners(evt)
 
     def handleEvent(self, event):

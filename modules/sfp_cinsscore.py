@@ -3,19 +3,19 @@
 # Name:        sfp_cinsscore
 # Purpose:     Checks if an IP address is malicious according to the CINS Army list.
 #
-# Author:      steve@binarypool.com
+# Author:      prateek@airspider.io
 #
 # Created:     13/05/2018
-# Copyright:   (c) Steve Micallef, 2018
+# Copyright:   (c) Prateek Bheevgade, 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPAddress, IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_cinsscore(SpiderFootPlugin):
+class sfp_cinsscore(AirSpiderPlugin):
 
     meta = {
         'name': "CINS Army List",
@@ -172,10 +172,10 @@ class sfp_cinsscore(SpiderFootPlugin):
 
         text = f"cinsscore.com [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_cinsscore class

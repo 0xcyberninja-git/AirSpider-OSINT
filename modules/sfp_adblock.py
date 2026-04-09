@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_adblock
-# Purpose:      SpiderFoot plug-in to test if external/internally linked pages
+# Purpose:      AirSpider plug-in to test if external/internally linked pages
 #               would be blocked by AdBlock Plus.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     22/09/2014
-# Copyright:   (c) Steve Micallef 2014
+# Copyright:   (c) Prateek Bheevgade 2014
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import adblockparser
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_adblock(SpiderFootPlugin):
+class sfp_adblock(AirSpiderPlugin):
 
     meta = {
         'name': "AdBlock Check",
@@ -155,17 +155,17 @@ class sfp_adblock(SpiderFootPlugin):
         try:
             if eventName == 'PROVIDER_JAVASCRIPT':
                 if self.rules and self.rules.should_block(eventData, {'third-party': True, 'script': True}):
-                    evt = SpiderFootEvent("URL_ADBLOCKED_EXTERNAL", eventData, self.__name__, event)
+                    evt = AirSpiderEvent("URL_ADBLOCKED_EXTERNAL", eventData, self.__name__, event)
                     self.notifyListeners(evt)
 
             if eventName == 'LINKED_URL_EXTERNAL':
                 if self.rules and self.rules.should_block(eventData, {'third-party': True}):
-                    evt = SpiderFootEvent("URL_ADBLOCKED_EXTERNAL", eventData, self.__name__, event)
+                    evt = AirSpiderEvent("URL_ADBLOCKED_EXTERNAL", eventData, self.__name__, event)
                     self.notifyListeners(evt)
 
             if eventName == 'LINKED_URL_INTERNAL':
                 if self.rules and self.rules.should_block(eventData):
-                    evt = SpiderFootEvent("URL_ADBLOCKED_INTERNAL", eventData, self.__name__, event)
+                    evt = AirSpiderEvent("URL_ADBLOCKED_INTERNAL", eventData, self.__name__, event)
                     self.notifyListeners(evt)
 
         except ValueError as e:

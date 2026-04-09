@@ -1,0 +1,138 @@
+<%include file="HEADER.tmpl" args="pageid='LANDING'"/>
+
+<div class="landing-hero" style="padding: 120px 0 80px; position: relative; overflow: hidden; background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff;">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid rgba(139, 92, 246, 0.3); padding: 8px 16px; margin-bottom: 24px;">Advanced Intelligence Platform v4.0</span>
+                <h1 style="font-size: 72px; font-weight: 800; line-height: 1; margin-bottom: 24px; letter-spacing: -2px;">Master the Art of<br><span style="background: linear-gradient(90deg, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Autonomous Intelligence.</span></h1>
+                <p style="font-size: 22px; color: #94a3b8; max-width: 800px; margin: 0 auto 48px; line-height: 1.6;">
+                    AirSpider is the industry-leading OSINT framework designed to automate the collection and analysis of digital footprints across the surface, deep, and dark web.
+                </p>
+                <div style="display: flex; gap: 20px; justify-content: center;">
+                    <a href="${docroot}/scans" class="btn btn-primary" style="padding: 16px 48px; border-radius: 12px; font-size: 18px; font-weight: 700; background: #6366f1; border: none; box-shadow: 0 10px 20px rgba(99,102,241,0.3);">Launch AirSpider</a>
+                    <a href="${docroot}/about" class="btn btn-default" style="padding: 16px 48px; border-radius: 12px; font-size: 18px; font-weight: 700; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1);">Meet the Founder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section style="padding: 100px 0; background: #fff;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 style="font-weight: 800; font-size: 40px; margin-bottom: 24px; color: #0f172a;">What is AirSpider?</h2>
+                <p style="font-size: 18px; line-height: 1.8; color: #64748b; margin-bottom: 30px;">
+                    AirSpider is an Open Source Intelligence (OSINT) automation tool. It integrates with over 200 data sources to perform reconnaissance on domain names, IP addresses, e-mail addresses, and people. 
+                </p>
+                <p style="font-size: 18px; line-height: 1.8; color: #64748b;">
+                    Whether you are performing threat intelligence, red teaming, or corporate asset discovery, AirSpider provides the forensic-grade accuracy required for modern security operations.
+                </p>
+                <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div style="padding: 20px; background: #f8fafc; border-radius: 16px;">
+                        <strong style="color: #0f172a; font-size: 24px;">200+</strong>
+                        <div style="color: #64748b;">Data Modules</div>
+                    </div>
+                    <div style="padding: 20px; background: #f8fafc; border-radius: 16px;">
+                        <strong style="color: #0f172a; font-size: 24px;">100%</strong>
+                        <div style="color: #64748b;">Self-Hosted</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-md-offset-1">
+                <div class="card" style="padding: 40px; border-radius: 30px; border: 1px solid #e2e8f0; background: #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.03);">
+                    <i class="glyphicon glyphicon-quote-left" style="font-size: 40px; color: #e2e8f0; margin-bottom: 20px;"></i>
+                    <p style="font-style: italic; font-size: 20px; color: #0f172a; line-height: 1.6; margin-bottom: 30px;">
+                        "My vision for AirSpider was to create a tool that isn't just a scanner, but a comprehensive intelligence ecosystem. It reflects my journey in cybersecurity and my mission to simplify complex forensic analysis for researchers worldwide."
+                    </p>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="width: 50px; height: 50px; background: #6366f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800;">PB</div>
+                        <div>
+                            <strong style="display: block; color: #0f172a;">Prateek Bheevgade</strong>
+                            <span style="color: #64748b; font-size: 14px;">Founder, AirSpider</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="capabilities" style="padding: 100px 0; background: #f1f5f9;">
+    <div class="container text-center">
+        <h2 style="font-weight: 800; font-size: 40px; margin-bottom: 60px;">Forensic Capabilities</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card" style="padding: 40px; border-radius: 24px; background: #fff; height: 100%;">
+                    <div style="font-size: 32px; color: #6366f1; margin-bottom: 20px;"><i class="glyphicon glyphicon-globe"></i></div>
+                    <h3 style="font-weight: 700;">Infrastructure Mapping</h3>
+                    <p style="color: #64748b;">Discover hidden subdomains, IP blocks, and DNS relationships with surgical precision.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="padding: 40px; border-radius: 24px; background: #fff; height: 100%;">
+                    <div style="font-size: 32px; color: #6366f1; margin-bottom: 20px;"><i class="glyphicon glyphicon-warning-sign"></i></div>
+                    <h3 style="font-weight: 700;">Leak Detection</h3>
+                    <p style="color: #64748b;">Monitor for password leaks, sensitive document exposures, and dark web mentions.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="padding: 40px; border-radius: 24px; background: #fff; height: 100%;">
+                    <div style="font-size: 32px; color: #6366f1; margin-bottom: 20px;"><i class="glyphicon glyphicon-user"></i></div>
+                    <h3 style="font-weight: 700;">Identity Intelligence</h3>
+                    <p style="color: #64748b;">Track digital aliases, associated accounts, and social media footprints globally.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer style="padding: 80px 0; background: #0f172a; color: #fff;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 style="font-weight: 800; margin-bottom: 24px;">AirSpider</h3>
+                <p style="color: #94a3b8; line-height: 1.6;">The most unique and powerful OSINT dashboard ever built. Designed for security professionals, by a security professional.</p>
+            </div>
+            <div class="col-md-2 col-md-offset-2">
+                <h4 style="font-weight: 700; margin-bottom: 20px;">Platform</h4>
+                <ul style="list-style: none; padding: 0; color: #94a3b8;">
+                    <li style="margin-bottom: 10px;"><a href="${docroot}/scans" style="color: inherit;">Dashboard</a></li>
+                    <li style="margin-bottom: 10px;"><a href="${docroot}/newscan" style="color: inherit;">New Scan</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <h4 style="font-weight: 700; margin-bottom: 20px;">Information</h4>
+                <ul style="list-style: none; padding: 0; color: #94a3b8;">
+                    <li style="margin-bottom: 10px;"><a href="${docroot}/about" style="color: inherit;">About Us</a></li>
+                    <li style="margin-bottom: 10px;"><a href="${docroot}/vision" style="color: inherit;">Vision</a></li>
+                    <li style="margin-bottom: 10px;"><a href="${docroot}/contact" style="color: inherit;">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <h4 style="font-weight: 700; margin-bottom: 20px;">Connect</h4>
+                <ul style="list-style: none; padding: 0; color: #94a3b8;">
+                    <li style="margin-bottom: 10px;"><a href="https://github.com/0xcyberninja-git" style="color: inherit;">GitHub</a></li>
+                    <li style="margin-bottom: 10px;"><a href="https://www.linkedin.com/in/pratiekbhivgade/" style="color: inherit;">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div style="margin-top: 60px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #64748b;">
+            &copy; 2026 AirSpider. Designed and Developed by <strong>Prateek Bheevgade</strong>.
+        </div>
+    </div>
+</footer>
+
+<style>
+    .landing-hero::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+        opacity: 0.1;
+        pointer-events: none;
+    }
+</style>
+</body>
+</html>

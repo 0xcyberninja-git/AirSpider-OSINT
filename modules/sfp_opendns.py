@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_opendns
-# Purpose:      SpiderFoot plug-in for looking up whether hosts are blocked by
+# Purpose:      AirSpider plug-in for looking up whether hosts are blocked by
 #               OpenDNS.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     30/05/2018
-# Copyright:   (c) Steve Micallef 2018
+# Copyright:   (c) Prateek Bheevgade 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import dns.resolver
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_opendns(SpiderFootPlugin):
+class sfp_opendns(AirSpiderPlugin):
 
     meta = {
         'name': "OpenDNS",
@@ -133,11 +133,11 @@ class sfp_opendns(SpiderFootPlugin):
             if k not in self.checks:
                 continue
 
-            evt = SpiderFootEvent(blacklist_type, f"{self.checks[k]} [{eventData}]", self.__name__, event)
+            evt = AirSpiderEvent(blacklist_type, f"{self.checks[k]} [{eventData}]", self.__name__, event)
             self.notifyListeners(evt)
 
             if k in ['146.112.61.105', '146.112.61.107', '146.112.61.108', '146.112.61.110']:
-                evt = SpiderFootEvent(malicious_type, f"{self.checks[k]} [{eventData}]", self.__name__, event)
+                evt = AirSpiderEvent(malicious_type, f"{self.checks[k]} [{eventData}]", self.__name__, event)
                 self.notifyListeners(evt)
 
 # End of sfp_opendns class

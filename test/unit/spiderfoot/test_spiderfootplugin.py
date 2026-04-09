@@ -1,29 +1,29 @@
-# test_spiderfootplugin.py
+# test_airspiderplugin.py
 import pytest
 import unittest
 
-from sflib import SpiderFoot
-from spiderfoot import SpiderFootDb, SpiderFootEvent, SpiderFootPlugin, SpiderFootTarget
+from sflib import AirSpider
+from airspider import AirSpiderDb, AirSpiderEvent, AirSpiderPlugin, AirSpiderTarget
 
 
 @pytest.mark.usefixtures
-class TestSpiderFootPlugin(unittest.TestCase):
+class TestAirSpiderPlugin(unittest.TestCase):
     """
-    Test SpiderFoot
+    Test AirSpider
     """
 
     def test_init(self):
         """
         Test __init__(self)
         """
-        sfp = SpiderFootPlugin()
-        self.assertIsInstance(sfp, SpiderFootPlugin)
+        sfp = AirSpiderPlugin()
+        self.assertIsInstance(sfp, AirSpiderPlugin)
 
     def test_updateSocket(self):
         """
         Test _updateSocket(self, sock)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         sfp._updateSocket(None)
         self.assertEqual('TBD', 'TBD')
@@ -32,7 +32,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test clearListeners(self)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         sfp.clearListeners()
         self.assertEqual('TBD', 'TBD')
@@ -41,7 +41,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test setup(self, sf, userOpts=dict())
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         sfp.setup(None)
         sfp.setup(None, None)
@@ -51,7 +51,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test enrichTarget(self, target)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         sfp.enrichTarget(None)
         self.assertEqual('TBD', 'TBD')
@@ -60,20 +60,20 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test setTarget(self, target)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
-        target = SpiderFootTarget("spiderfoot.net", "INTERNET_NAME")
+        target = AirSpiderTarget("airspider.net", "INTERNET_NAME")
         sfp.setTarget(target)
 
         get_target = sfp.getTarget().targetValue
         self.assertIsInstance(get_target, str)
-        self.assertEqual("spiderfoot.net", get_target)
+        self.assertEqual("airspider.net", get_target)
 
     def test_setTarget_argument_target_invalid_type_should_raise_TypeError(self):
         """
         Test setTarget(self, target)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         invalid_types = [None, "", list(), dict(), int()]
         for invalid_type in invalid_types:
@@ -85,17 +85,17 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test setDbh(self, dbh)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
-        sfp = SpiderFootPlugin()
+        sfdb = AirSpiderDb(self.default_options, False)
+        sfp = AirSpiderPlugin()
 
         sfp.setDbh(sfdb)
-        self.assertIsInstance(sfp.__sfdb__, SpiderFootDb)
+        self.assertIsInstance(sfp.__sfdb__, AirSpiderDb)
 
     def test_setScanId_argument_id_should_set_a_scan_id(self):
         """
         Test setScanId(self, id)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         scan_id = '1234'
         sfp.setScanId(scan_id)
@@ -108,7 +108,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test setScanId(self, id)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         invalid_types = [None, list(), dict(), int()]
         for invalid_type in invalid_types:
@@ -120,7 +120,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test getScanId(self)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         scan_id = 'example scan id'
         sfp.setScanId(scan_id)
@@ -133,7 +133,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test getScanId(self)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         with self.assertRaises(TypeError):
             sfp.getScanId()
@@ -142,20 +142,20 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test getTarget(self)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
-        target = SpiderFootTarget("spiderfoot.net", "INTERNET_NAME")
+        target = AirSpiderTarget("airspider.net", "INTERNET_NAME")
         sfp.setTarget(target)
 
         get_target = sfp.getTarget().targetValue
         self.assertIsInstance(get_target, str)
-        self.assertEqual("spiderfoot.net", get_target)
+        self.assertEqual("airspider.net", get_target)
 
     def test_getTarget_unitialised_target_should_raise(self):
         """
         Test getTarget(self)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         with self.assertRaises(TypeError):
             sfp.getTarget()
@@ -164,7 +164,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test registerListener(self, listener)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
         sfp.registerListener(None)
 
         self.assertEqual('TBD', 'TBD')
@@ -173,7 +173,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test setOutputFilter(self, types)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         output_filter = "test filter"
         sfp.setOutputFilter("test filter")
@@ -183,7 +183,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test tempStorage(self)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         temp_storage = sfp.tempStorage()
         self.assertIsInstance(temp_storage, dict)
@@ -192,15 +192,15 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test notifyListeners(self, sfEvent)
         """
-        sfp = SpiderFootPlugin()
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfp = AirSpiderPlugin()
+        sfdb = AirSpiderDb(self.default_options, False)
         sfp.setDbh(sfdb)
 
         event_type = 'ROOT'
         event_data = 'test data'
         module = 'test module'
         source_event = None
-        evt = SpiderFootEvent(event_type, event_data, module, source_event)
+        evt = AirSpiderEvent(event_type, event_data, module, source_event)
         sfp.notifyListeners(evt)
 
         self.assertEqual('TBD', 'TBD')
@@ -209,24 +209,24 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test notifyListeners(self, sfEvent)
         """
-        sfp = SpiderFootPlugin()
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfp = AirSpiderPlugin()
+        sfdb = AirSpiderDb(self.default_options, False)
         sfp.setDbh(sfdb)
 
-        target = SpiderFootTarget("spiderfoot.net", "INTERNET_NAME")
+        target = AirSpiderTarget("airspider.net", "INTERNET_NAME")
         sfp.setTarget(target)
 
         event_type = 'ROOT'
         event_data = 'test data'
         module = 'test module'
         source_event = None
-        evt = SpiderFootEvent(event_type, event_data, module, source_event)
+        evt = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'test event type'
         event_data = 'test data'
         module = 'test module'
         source_event = evt
-        evt = SpiderFootEvent(event_type, event_data, module, source_event)
+        evt = AirSpiderEvent(event_type, event_data, module, source_event)
 
         sfp.__outputFilter__ = event_type
 
@@ -238,24 +238,24 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test notifyListeners(self, sfEvent)
         """
-        sfp = SpiderFootPlugin()
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfp = AirSpiderPlugin()
+        sfdb = AirSpiderDb(self.default_options, False)
         sfp.setDbh(sfdb)
 
-        target = SpiderFootTarget("spiderfoot.net", "INTERNET_NAME")
+        target = AirSpiderTarget("airspider.net", "INTERNET_NAME")
         sfp.setTarget(target)
 
         event_type = 'ROOT'
         event_data = 'test data'
         module = 'test module'
         source_event = None
-        evt = SpiderFootEvent(event_type, event_data, module, source_event)
+        evt = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'test event type'
         event_data = 'test data'
         module = 'test module'
         source_event = evt
-        evt = SpiderFootEvent(event_type, event_data, module, source_event)
+        evt = AirSpiderEvent(event_type, event_data, module, source_event)
 
         sfp.__outputFilter__ = "example unmatched event type"
 
@@ -267,27 +267,27 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test notifyListeners(self, sfEvent)
         """
-        sfp = SpiderFootPlugin()
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfp = AirSpiderPlugin()
+        sfdb = AirSpiderDb(self.default_options, False)
         sfp.setDbh(sfdb)
 
         event_type = 'ROOT'
         event_data = 'test data'
         module = 'test module'
         source_event = None
-        evt = SpiderFootEvent(event_type, event_data, module, source_event)
+        evt = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'test event type'
         event_data = 'test data'
         module = 'test module'
         source_event = evt
-        evt = SpiderFootEvent(event_type, event_data, module, source_event)
+        evt = AirSpiderEvent(event_type, event_data, module, source_event)
 
         source_event = evt
-        evt = SpiderFootEvent(event_type, event_data, module, source_event)
+        evt = AirSpiderEvent(event_type, event_data, module, source_event)
 
         source_event = evt
-        evt = SpiderFootEvent(event_type, event_data, module, source_event)
+        evt = AirSpiderEvent(event_type, event_data, module, source_event)
 
         sfp.notifyListeners(evt)
 
@@ -297,7 +297,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test notifyListeners(self, sfEvent)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         invalid_types = [None, "", list(), dict(), int()]
         for invalid_type in invalid_types:
@@ -309,7 +309,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test checkForStop(self)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         class DatabaseStub:
             def scanInstanceGet(self, scanId):
@@ -333,7 +333,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test watchedEvents(self)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         watched_events = sfp.watchedEvents()
         self.assertIsInstance(watched_events, list)
@@ -342,7 +342,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
         """
         Test producedEvents(self)
         """
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
 
         produced_events = sfp.producedEvents()
         self.assertIsInstance(produced_events, list)
@@ -355,17 +355,17 @@ class TestSpiderFootPlugin(unittest.TestCase):
         event_data = 'example event data'
         module = ''
         source_event = ''
-        evt = SpiderFootEvent(event_type, event_data, module, source_event)
+        evt = AirSpiderEvent(event_type, event_data, module, source_event)
 
-        sfp = SpiderFootPlugin()
+        sfp = AirSpiderPlugin()
         sfp.handleEvent(evt)
 
     def test_start(self):
         """
         Test start(self)
         """
-        sf = SpiderFoot(self.default_options)
-        sfp = SpiderFootPlugin()
+        sf = AirSpider(self.default_options)
+        sfp = AirSpiderPlugin()
         sfp.sf = sf
 
         sfp.start()

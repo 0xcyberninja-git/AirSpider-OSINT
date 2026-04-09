@@ -1,0 +1,97 @@
+<%include file="HEADER.tmpl" args="pageid='NEWSCAN'"/>
+
+<div class="operation-setup">
+    <div class="setup-header" style="margin-bottom: 40px; text-align: center;">
+        <h2 style="font-size: 32px; font-weight: 800; letter-spacing: -1px;">Launch Intelligence Node</h2>
+        <p style="color: var(--text-muted);">Define target parameters and select reconnaissance protocols.</p>
+    </div>
+
+    <form class="form" action='${docroot}/startscan' method='POST' id="newscan-form">
+        <!-- Step 1: Identity -->
+        <div class="setup-section card">
+            <div class="section-title">
+                <span class="step-num">01</span>
+                <h3>Node Identity</h3>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="custom-label">Operation Label</label>
+                    <input class='form-control custom-input' type="text" id="scanname" name="scanname" value="${scanname}" placeholder="e.g. Project Chimera">
+                </div>
+                <div class="col-md-6">
+                    <label class="custom-label">Primary Target</label>
+                    <input class='form-control custom-input' type="text" value="${scantarget}" id="scantarget" name="scantarget" placeholder="Domain, IP, E-mail or ASN">
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Protocol Selection -->
+        <div class="setup-section card">
+            <div class="section-title">
+                <span class="step-num">02</span>
+                <h3>Intelligence Protocol</h3>
+            </div>
+            
+            <div class="protocol-grid">
+                <label class="protocol-option">
+                    <input type="radio" name="usecase" value="all" id="usecase_all" checked>
+                    <div class="option-content">
+                        <div class="option-icon everything"><i class="glyphicon glyphicon-globe"></i></div>
+                        <div class="option-text">
+                            <h4>Everything</h4>
+                            <p>Full-spectrum intelligence gathering. Deep crawl with 100% module coverage.</p>
+                        </div>
+                        <div class="selection-indicator"><i class="glyphicon glyphicon-ok"></i></div>
+                    </div>
+                </label>
+                
+                <label class="protocol-option">
+                    <input type="radio" name="usecase" value="Footprint" id="usecase_footprint">
+                    <div class="option-content">
+                        <div class="option-icon footprint"><i class="glyphicon glyphicon-screenshot"></i></div>
+                        <div class="option-text">
+                            <h4>Footprint</h4>
+                            <p>Surface mapping and perimeter discovery. Ideal for network discovery.</p>
+                        </div>
+                        <div class="selection-indicator"><i class="glyphicon glyphicon-ok"></i></div>
+                    </div>
+                </label>
+                
+                <label class="protocol-option">
+                    <input type="radio" name="usecase" value="Investigate" id="usecase_investigate">
+                    <div class="option-content">
+                        <div class="option-icon investigate"><i class="glyphicon glyphicon-search"></i></div>
+                        <div class="option-text">
+                            <h4>Investigate</h4>
+                            <p>Threat oriented research. Cross-referencing blacklists and threat nodes.</p>
+                        </div>
+                        <div class="selection-indicator"><i class="glyphicon glyphicon-ok"></i></div>
+                    </div>
+                </label>
+                
+                <label class="protocol-option">
+                    <input type="radio" name="usecase" value="Passive" id="usecase_passive">
+                    <div class="option-content">
+                        <div class="option-icon passive"><i class="glyphicon glyphicon-eye-open"></i></div>
+                        <div class="option-text">
+                            <h4>Passive</h4>
+                            <p>Stealth-mode acquisition. No direct interaction with the target nodes.</p>
+                        </div>
+                        <div class="selection-indicator"><i class="glyphicon glyphicon-ok"></i></div>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Launch Button -->
+        <div class="launch-container text-right">
+            <input type=hidden id='modulelist' name='modulelist' value=''>
+            <input type=hidden id='typelist' name='typelist' value=''>
+            <button id="btn-run-scan" class="btn btn-primary launch-btn">Initiate Neural Core Scan</button>
+        </div>
+    </form>
+</div>
+
+<script src="${docroot}/static/js/airspider.newscan.js"></script>
+
+<%include file="FOOTER.tmpl"/>

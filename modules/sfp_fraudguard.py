@@ -3,10 +3,10 @@
 # Name:         sfp_fraudguard
 # Purpose:      Query fraudguard.io using their API
 #
-# Author:      Steve Micallef
+# Author:      Prateek Bheevgade
 #
 # Created:     18/06/2017
-# Copyright:   (c) Steve Micallef 2017
+# Copyright:   (c) Prateek Bheevgade 2017
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -17,10 +17,10 @@ from datetime import datetime
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_fraudguard(SpiderFootPlugin):
+class sfp_fraudguard(AirSpiderPlugin):
 
     meta = {
         'name': "Fraudguard",
@@ -136,7 +136,7 @@ class sfp_fraudguard(SpiderFootPlugin):
         res = self.sf.fetchUrl(
             fraudguard_url,
             timeout=self.opts['_fetchtimeout'],
-            useragent="SpiderFoot",
+            useragent="AirSpider",
             headers=headers
         )
 
@@ -243,16 +243,16 @@ class sfp_fraudguard(SpiderFootPlugin):
             # For netblocks, we need to create the IP address event so that
             # the threat intel event is more meaningful.
             if eventName == 'NETBLOCK_OWNER':
-                pevent = SpiderFootEvent("IP_ADDRESS", addr, self.__name__, event)
+                pevent = AirSpiderEvent("IP_ADDRESS", addr, self.__name__, event)
                 self.notifyListeners(pevent)
             elif eventName == 'NETBLOCKV6_OWNER':
-                pevent = SpiderFootEvent("IPV6_ADDRESS", addr, self.__name__, event)
+                pevent = AirSpiderEvent("IPV6_ADDRESS", addr, self.__name__, event)
                 self.notifyListeners(pevent)
             elif eventName == 'NETBLOCK_MEMBER':
-                pevent = SpiderFootEvent("AFFILIATE_IPADDR", addr, self.__name__, event)
+                pevent = AirSpiderEvent("AFFILIATE_IPADDR", addr, self.__name__, event)
                 self.notifyListeners(pevent)
             elif eventName == 'NETBLOCKV6_MEMBER':
-                pevent = SpiderFootEvent("AFFILIATE_IPV6_ADDRESS", addr, self.__name__, event)
+                pevent = AirSpiderEvent("AFFILIATE_IPV6_ADDRESS", addr, self.__name__, event)
                 self.notifyListeners(pevent)
             else:
                 pevent = event
@@ -267,13 +267,13 @@ class sfp_fraudguard(SpiderFootPlugin):
             ]
             if geoinfo:
                 location = ', '.join(filter(None, geoinfo))
-                e = SpiderFootEvent("GEOINFO", location, self.__name__, pevent)
+                e = AirSpiderEvent("GEOINFO", location, self.__name__, pevent)
                 self.notifyListeners(e)
 
             threat = data.get('threat')
             if threat and threat != "unknown":
                 risk_level = data.get('risk_level')
-                e = SpiderFootEvent(evtType, f"{threat} (risk level: {risk_level}) [{addr}]", self.__name__, pevent)
+                e = AirSpiderEvent(evtType, f"{threat} (risk level: {risk_level}) [{addr}]", self.__name__, pevent)
                 self.notifyListeners(e)
 
 # End of sfp_fraudguard class

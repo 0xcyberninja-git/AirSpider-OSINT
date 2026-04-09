@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_tool_cmseek
-# Purpose:      SpiderFoot plug-in for using the 'CMSeeK' tool.
+# Purpose:      AirSpider plug-in for using the 'CMSeeK' tool.
 #               Tool: https://github.com/Tuhinshubhra/CMSeeK
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     16/12/2018
-# Copyright:   (c) Steve Micallef 2018
+# Copyright:   (c) Prateek Bheevgade 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -16,10 +16,10 @@ import json
 import os.path
 from subprocess import PIPE, Popen
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin, SpiderFootHelpers
+from airspider import AirSpiderEvent, AirSpiderPlugin, AirSpiderHelpers
 
 
-class sfp_tool_cmseek(SpiderFootPlugin):
+class sfp_tool_cmseek(AirSpiderPlugin):
 
     meta = {
         'name': "Tool - CMSeeK",
@@ -109,7 +109,7 @@ class sfp_tool_cmseek(SpiderFootPlugin):
             return
 
         # Sanitize domain name.
-        if not SpiderFootHelpers.sanitiseInput(eventData):
+        if not AirSpiderHelpers.sanitiseInput(eventData):
             self.error("Invalid input, refusing to run.")
             return
 
@@ -160,7 +160,7 @@ class sfp_tool_cmseek(SpiderFootPlugin):
         if not software:
             return
 
-        evt = SpiderFootEvent("WEBSERVER_TECHNOLOGY", software, self.__name__, event)
+        evt = AirSpiderEvent("WEBSERVER_TECHNOLOGY", software, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_tool_cmseek class

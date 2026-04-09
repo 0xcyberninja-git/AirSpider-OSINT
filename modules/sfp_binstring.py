@@ -3,19 +3,19 @@
 # Name:         sfp_binstring
 # Purpose:      Identify strings in binary content.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     03/12/2016
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import string
 
-from spiderfoot import SpiderFootEvent, SpiderFootHelpers, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderHelpers, AirSpiderPlugin
 
 
-class sfp_binstring(SpiderFootPlugin):
+class sfp_binstring(AirSpiderPlugin):
 
     meta = {
         'name': "Binary String Extractor",
@@ -57,7 +57,7 @@ class sfp_binstring(SpiderFootPlugin):
         self.results = list()
         self.__dataSource__ = "Target Website"
 
-        self.d = SpiderFootHelpers.dictionaryWordsFromWordlists()
+        self.d = AirSpiderHelpers.dictionaryWordsFromWordlists()
 
         for opt in list(userOpts.keys()):
             self.opts[opt] = userOpts[opt]
@@ -143,7 +143,7 @@ class sfp_binstring(SpiderFootPlugin):
 
                 if words:
                     wordstr = '\n'.join(words[0:self.opts['maxwords']])
-                    evt = SpiderFootEvent("RAW_FILE_META_DATA", wordstr, self.__name__, event)
+                    evt = AirSpiderEvent("RAW_FILE_META_DATA", wordstr, self.__name__, event)
                     self.notifyListeners(evt)
 
 # End of sfp_binstring class

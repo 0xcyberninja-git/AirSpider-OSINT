@@ -3,19 +3,19 @@
 # Name:        sfp_cleantalk
 # Purpose:     Checks if a netblock or IP address is on CleanTalk.org's spam IP list.
 #
-# Author:      steve@binarypool.com
+# Author:      prateek@airspider.io
 #
 # Created:     05/08/2018
-# Copyright:   (c) Steve Micallef, 2018
+# Copyright:   (c) Prateek Bheevgade, 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPAddress, IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_cleantalk(SpiderFootPlugin):
+class sfp_cleantalk(AirSpiderPlugin):
 
     meta = {
         'name': "CleanTalk Spam List",
@@ -188,10 +188,10 @@ class sfp_cleantalk(SpiderFootPlugin):
 
         text = f"CleanTalk Spam List [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_cleantalk class

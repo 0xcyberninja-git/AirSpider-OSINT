@@ -3,19 +3,19 @@
 # Name:         sfp_names
 # Purpose:      Identify human names in content fetched.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     24/03/2014
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import re
 
-from spiderfoot import SpiderFootEvent, SpiderFootHelpers, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderHelpers, AirSpiderPlugin
 
 
-class sfp_names(SpiderFootPlugin):
+class sfp_names(AirSpiderPlugin):
 
     meta = {
         'name': "Human Name Extractor",
@@ -46,8 +46,8 @@ class sfp_names(SpiderFootPlugin):
     def setup(self, sfc, userOpts=dict()):
         self.sf = sfc
         self.results = self.tempStorage()
-        self.d = SpiderFootHelpers.dictionaryWordsFromWordlists()
-        self.n = SpiderFootHelpers.humanNamesFromWordlists()
+        self.d = AirSpiderHelpers.dictionaryWordsFromWordlists()
+        self.n = AirSpiderHelpers.humanNamesFromWordlists()
 
         for opt in list(userOpts.keys()):
             self.opts[opt] = userOpts[opt]
@@ -92,7 +92,7 @@ class sfp_names(SpiderFootPlugin):
             if re.search("[0-9]", name):
                 return
 
-            evt = SpiderFootEvent("HUMAN_NAME", name, self.__name__, event)
+            evt = AirSpiderEvent("HUMAN_NAME", name, self.__name__, event)
             if event.moduleDataSource:
                 evt.moduleDataSource = event.moduleDataSource
             else:
@@ -161,7 +161,7 @@ class sfp_names(SpiderFootPlugin):
             self.debug("Name of " + name + " has score: " + str(p))
             if p >= self.opts['algolimit']:
                 # Notify other modules of what you've found
-                evt = SpiderFootEvent("HUMAN_NAME", name, self.__name__, event)
+                evt = AirSpiderEvent("HUMAN_NAME", name, self.__name__, event)
                 if event.moduleDataSource:
                     evt.moduleDataSource = event.moduleDataSource
                 else:

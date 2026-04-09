@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>AirSpider | OSINT Intelligence</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="${docroot}/static/img/airspider-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <script>var docroot = '${docroot}';</script>
+    <script src="${docroot}/static/node_modules/jquery/dist/jquery.min.js"></script>
+    <script type='text/javascript' src='${docroot}/static/js/airspider.js'></script>
+    
+    <link href="${docroot}/static/css/airspider.css" rel="stylesheet">
+    <link href="${docroot}/static/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${docroot}/static/node_modules/alertifyjs/build/css/alertify.min.css" rel="stylesheet">
+    
+    <script>
+        var head = document.getElementsByTagName('HEAD')[0];
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        if (localStorage.getItem("theme") === "dark-theme") {
+            link.href = docroot + "/static/css/dark.css";
+        }
+        head.appendChild(link);
+    </script>
+  </head>
+
+  <body class="${'dark-theme' if False else ''}">
+    <script>
+        if (localStorage.getItem("theme") === "dark-theme") {
+            document.body.classList.add("dark-theme");
+        }
+    </script>
+
+    % if pageid != "LANDING":
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-container">
+                    <span class="brand-text">Air Spider</span>
+                    <span class="brand-subtitle">Everything Edition</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="${'active' if pageid == 'LANDING' else ''}">
+                        <a href="${docroot}/"><i class="glyphicon glyphicon-home"></i> <span>Home</span></a>
+                    </li>
+                    <li class="${'active' if pageid == 'SCANLIST' else ''}">
+                        <a href="${docroot}/scans"><i class="glyphicon glyphicon-grid"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li class="${'active' if pageid == 'NEWSCAN' else ''}">
+                        <a href="${docroot}/newscan"><i class="glyphicon glyphicon-plus"></i> <span>New Scan</span></a>
+                    </li>
+                    <li class="nav-divider" style="height: 1px; background: rgba(255,255,255,0.05); margin: 15px 20px;"></li>
+                    <li class="${'active' if pageid == 'VISION' else ''}">
+                        <a href="${docroot}/vision"><i class="glyphicon glyphicon-eye-open"></i> <span>Vision & Mission</span></a>
+                    </li>
+                    <li class="${'active' if pageid == 'ABOUT' else ''}">
+                        <a href="${docroot}/about"><i class="glyphicon glyphicon-user"></i> <span>About Us</span></a>
+                    </li>
+                    <li class="${'active' if pageid == 'CONTACT' else ''}">
+                        <a href="${docroot}/contact"><i class="glyphicon glyphicon-envelope"></i> <span>Contact</span></a>
+                    </li>
+                    <li class="${'active' if pageid == 'SETTINGS' else ''}">
+                        <a href="${docroot}/opts"><i class="glyphicon glyphicon-cog"></i> <span>Settings</span></a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="theme-switch-container">
+                    <span id="toggler-text">Dark Mode</span>
+                    <label class="switch">
+                        <input id="theme-toggler" type="checkbox" ${'checked' if False else ''}>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="author-credit">
+                    <span>Designed by</span>
+                    <strong>Prateek Bheevgade</strong>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h1 class="page-title">
+                        % if pageid == "SCANLIST":
+                            Intelligence Dashboard
+                        % elif pageid == "NEWSCAN":
+                            Initiate Core Intelligence Protocol
+                        % elif pageid == "SETTINGS":
+                            System Configuration
+                        % else:
+                            ${pageid}
+                        % endif
+                    </h1>
+                </div>
+                <div class="top-bar-right">
+                    <button class="btn-icon" data-toggle="modal" data-target="#aboutmodal"><i class="glyphicon glyphicon-info-sign"></i></button>
+                </div>
+            </header>
+            
+            <div class="content-wrapper">
+    % endif

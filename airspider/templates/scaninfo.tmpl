@@ -1,0 +1,67 @@
+<%include file="HEADER.tmpl" args="pageid='SCANLIST'"/>
+
+
+<div class="scan-info-header card" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; position: relative; overflow: visible;">
+    <div>
+        <h2 style="margin: 0; font-weight: 800; display: flex; align-items: center; gap: 15px;">
+            ${name}
+            <div id="scan-status-badge" class="status-badge" style="font-size: 10px; padding: 4px 12px; border-radius: 20px;">...</div>
+        </h2>
+        <span style="color: var(--text-muted); font-family: 'JetBrains Mono'; font-size: 13px;">NODE_ID: ${id}</span>
+    </div>
+    
+    <div class="header-actions" style="display: flex; gap: 10px;">
+        <div class="dropdown" style="display: inline-block;">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="padding: 10px 24px; border-radius: 12px; font-weight: 700;">
+                <i class="glyphicon glyphicon-download-alt"></i> Export Data <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" style="border-radius: 12px; padding: 8px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <li><a href="${docroot}/scaneventresultexportmulti?ids=${id}&filetype=csv" style="padding: 10px 20px; font-weight: 600;">Export as CSV</a></li>
+                <li><a href="${docroot}/scanexportjsonmulti?ids=${id}" style="padding: 10px 20px; font-weight: 600;">Export as JSON</a></li>
+                <li><a href="${docroot}/scaneventresultexportmulti?ids=${id}&filetype=excel" style="padding: 10px 20px; font-weight: 600;">Export as Excel</a></li>
+            </ul>
+        </div>
+        <button onclick="purgeOperation()" class="btn btn-outline-danger" style="padding: 10px 20px; border-radius: 12px; font-weight: 700; border: 2px solid #fee2e2; color: #ef4444; background: transparent;">
+            <i class="glyphicon glyphicon-trash"></i> Purge
+        </button>
+    </div>
+</div>
+
+<div class="scan-tabs-container">
+    <ul class="nav nav-pills custom-tabs" id="scan-tabs">
+        <li class="active"><a href="#tab-summary" data-toggle="tab"><i class="glyphicon glyphicon-info-sign"></i> Summary</a></li>
+        <li><a href="#tab-browse" data-toggle="tab"><i class="glyphicon glyphicon-list"></i> Browse</a></li>
+        <li><a href="#tab-graph" data-toggle="tab"><i class="glyphicon glyphicon-share"></i> Graph</a></li>
+        <li><a href="#tab-log" data-toggle="tab"><i class="glyphicon glyphicon-tasks"></i> Event Log</a></li>
+    </ul>
+
+    <div class="tab-content" style="padding-top: 30px;">
+        <div class="tab-pane active" id="tab-summary">
+             <div class="summary-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+                <div class="card" id="summary-data">Loading summary nodes...</div>
+                <div class="card" id="summary-viz">
+                    <h4>Correlation Matrix</h4>
+                    <div id="summary-chart"></div>
+                </div>
+             </div>
+        </div>
+        <div class="tab-pane" id="tab-browse">
+            <div id="browse-data"></div>
+        </div>
+        <div class="tab-pane" id="tab-graph">
+             <div class="card graph-container" style="height: 600px; padding: 0;">
+                <div id="graph-canvas" style="width: 100%; height: 100%;"></div>
+             </div>
+        </div>
+        <div class="tab-pane" id="tab-log">
+             <div class="card" id="log-data"></div>
+        </div>
+    </div>
+</div>
+
+
+<script>var scanId = "${id}";</script>
+<script type='text/javascript' src="${docroot}/static/js/viz.js"></script>
+<script type='text/javascript' src="${docroot}/static/js/airspider.scaninfo.js"></script>
+
+<%include file="FOOTER.tmpl"/>

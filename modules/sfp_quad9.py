@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_quad9
-# Purpose:      SpiderFoot plug-in for looking up whether hosts are blocked by
+# Purpose:      AirSpider plug-in for looking up whether hosts are blocked by
 #               Quad 9 (9.9.9.9)
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     04/02/2018
-# Copyright:   (c) Steve Micallef 2018
+# Copyright:   (c) Prateek Bheevgade 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import dns.resolver
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_quad9(SpiderFootPlugin):
+class sfp_quad9(AirSpiderPlugin):
 
     meta = {
         'name': "Quad9",
@@ -125,7 +125,7 @@ class sfp_quad9(SpiderFootPlugin):
         if found:
             return
 
-        evt = SpiderFootEvent(
+        evt = AirSpiderEvent(
             blacklist_type,
             f"Quad9 [{eventData}]\n<SFURL>https://quad9.net/result/?url={eventData}</SFURL>",
             self.__name__,
@@ -133,7 +133,7 @@ class sfp_quad9(SpiderFootPlugin):
         )
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(
+        evt = AirSpiderEvent(
             malicious_type,
             f"Quad9 [{eventData}]\n<SFURL>https://quad9.net/result/?url={eventData}</SFURL>",
             self.__name__,

@@ -4,19 +4,19 @@
 # Purpose:      Identifies public code repositories in Github associated with
 #               your target.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     21/07/2015
-# Copyright:   (c) Steve Micallef 2015
+# Copyright:   (c) Prateek Bheevgade 2015
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_github(SpiderFootPlugin):
+class sfp_github(AirSpiderPlugin):
 
     meta = {
         'name': "Github",
@@ -142,7 +142,7 @@ class sfp_github(SpiderFootPlugin):
                 self.debug(f"{username} is not a valid GitHub profile")
                 return
 
-            e = SpiderFootEvent("RAW_RIR_DATA", f"Possible full name: {full_name}", self.__name__, event)
+            e = AirSpiderEvent("RAW_RIR_DATA", f"Possible full name: {full_name}", self.__name__, event)
             self.notifyListeners(e)
 
             location = json_data.get('location')
@@ -154,7 +154,7 @@ class sfp_github(SpiderFootPlugin):
                 self.debug(f"Skipping likely invalid location: {location}")
                 return
 
-            e = SpiderFootEvent("GEOINFO", location, self.__name__, event)
+            e = AirSpiderEvent("GEOINFO", location, self.__name__, event)
             self.notifyListeners(e)
 
             return
@@ -206,7 +206,7 @@ class sfp_github(SpiderFootPlugin):
                     if self.opts['namesonly'] and username != item['name']:
                         continue
 
-                    evt = SpiderFootEvent("PUBLIC_CODE_REPO", repo_info, self.__name__, event)
+                    evt = AirSpiderEvent("PUBLIC_CODE_REPO", repo_info, self.__name__, event)
                     self.notifyListeners(evt)
 
         # Now look for users matching the name found
@@ -274,7 +274,7 @@ class sfp_github(SpiderFootPlugin):
                         if eventName == "USERNAME" and "/" + username + "/" not in item.get('html_url', ''):
                             continue
 
-                        evt = SpiderFootEvent("PUBLIC_CODE_REPO", repo_info,
+                        evt = AirSpiderEvent("PUBLIC_CODE_REPO", repo_info,
                                               self.__name__, event)
                         self.notifyListeners(evt)
 

@@ -4,19 +4,19 @@
 # Purpose:      Checks if a domain or IP appears on the zone-h.org defacement
 #               archive.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     09/01/2014
-# Copyright:   (c) Steve Micallef, 2014
+# Copyright:   (c) Prateek Bheevgade, 2014
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import re
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_zoneh(SpiderFootPlugin):
+class sfp_zoneh(AirSpiderPlugin):
 
     meta = {
         'name': "Zone-H Defacement Check",
@@ -149,7 +149,7 @@ class sfp_zoneh(SpiderFootPlugin):
 
         ret = self.lookupItem(eventData, content)
         if ret:
-            evt = SpiderFootEvent(evtType, ret, self.__name__, event)
+            evt = AirSpiderEvent(evtType, ret, self.__name__, event)
             self.notifyListeners(evt)
 
 # End of sfp_zoneh class

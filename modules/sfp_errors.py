@@ -3,16 +3,16 @@
 # Name:         sfp_errors
 # Purpose:      Identify common error messages in content like SQL errors, etc.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     18/01/2015
-# Copyright:   (c) Steve Micallef 2015
+# Copyright:   (c) Prateek Bheevgade 2015
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import re
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 # Taken from Google Dorks on exploit-db.com
 regexps = dict({
@@ -27,7 +27,7 @@ regexps = dict({
 })
 
 
-class sfp_errors(SpiderFootPlugin):
+class sfp_errors(AirSpiderPlugin):
 
     meta = {
         'name': "Error String Extractor",
@@ -101,7 +101,7 @@ class sfp_errors(SpiderFootPlugin):
                 if len(matches) > 0 and regexpGrp not in self.results[eventSource]:
                     self.info("Matched " + regexpGrp + " in content from " + eventSource)
                     self.results[eventSource] = self.results[eventSource] + [regexpGrp]
-                    evt = SpiderFootEvent("ERROR_MESSAGE", regexpGrp,
+                    evt = AirSpiderEvent("ERROR_MESSAGE", regexpGrp,
                                           self.__name__, event)
                     self.notifyListeners(evt)
 

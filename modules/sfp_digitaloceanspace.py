@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_digitaloceanspace
-# Purpose:      SpiderFoot plug-in for identifying potential Digital Ocean spaces
+# Purpose:      AirSpider plug-in for identifying potential Digital Ocean spaces
 #               related to the target.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     16/06/2018
-# Copyright:   (c) Steve Micallef 2018
+# Copyright:   (c) Prateek Bheevgade 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,10 +15,10 @@ import random
 import threading
 import time
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_digitaloceanspace(SpiderFootPlugin):
+class sfp_digitaloceanspace(AirSpiderPlugin):
 
     meta = {
         'name': "Digital Ocean Space Finder",
@@ -74,7 +74,7 @@ class sfp_digitaloceanspace(SpiderFootPlugin):
         return ["CLOUD_STORAGE_BUCKET", "CLOUD_STORAGE_BUCKET_OPEN"]
 
     def checkSite(self, url):
-        res = self.sf.fetchUrl(url, timeout=10, useragent="SpiderFoot", noLog=True)
+        res = self.sf.fetchUrl(url, timeout=10, useragent="AirSpider", noLog=True)
 
         if not res['content']:
             return
@@ -165,7 +165,7 @@ class sfp_digitaloceanspace(SpiderFootPlugin):
         if eventName == "LINKED_URL_EXTERNAL":
             if ".digitaloceanspaces.com" in eventData:
                 b = self.sf.urlFQDN(eventData)
-                evt = SpiderFootEvent("CLOUD_STORAGE_BUCKET", b, self.__name__, event)
+                evt = AirSpiderEvent("CLOUD_STORAGE_BUCKET", b, self.__name__, event)
                 self.notifyListeners(evt)
             return
 
@@ -190,10 +190,10 @@ class sfp_digitaloceanspace(SpiderFootPlugin):
         ret = self.batchSites(urls)
         for b in ret:
             bucket = b.split(":")
-            evt = SpiderFootEvent("CLOUD_STORAGE_BUCKET", bucket[0] + ":" + bucket[1], self.__name__, event)
+            evt = AirSpiderEvent("CLOUD_STORAGE_BUCKET", bucket[0] + ":" + bucket[1], self.__name__, event)
             self.notifyListeners(evt)
             if bucket[2] != "0":
-                evt = SpiderFootEvent("CLOUD_STORAGE_BUCKET_OPEN", bucket[0] + ":" + bucket[1] + ": " + bucket[2] + " files found.",
+                evt = AirSpiderEvent("CLOUD_STORAGE_BUCKET_OPEN", bucket[0] + ":" + bucket[1] + ": " + bucket[2] + " files found.",
                                       self.__name__, evt)
                 self.notifyListeners(evt)
 

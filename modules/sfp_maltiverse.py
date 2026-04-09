@@ -7,7 +7,7 @@
 # Author:      Krishnasis Mandal <krishnasis@hotmail.com>
 #
 # Created:     20/05/2020
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -16,10 +16,10 @@ from datetime import datetime
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_maltiverse(SpiderFootPlugin):
+class sfp_maltiverse(AirSpiderPlugin):
 
     meta = {
         'name': "Maltiverse",
@@ -193,14 +193,14 @@ class sfp_maltiverse(SpiderFootPlugin):
 
             # Data is reported about the IP Address
             if eventName.startswith("NETBLOCK_"):
-                ipEvt = SpiderFootEvent("IP_ADDRESS", addr, self.__name__, event)
+                ipEvt = AirSpiderEvent("IP_ADDRESS", addr, self.__name__, event)
                 self.notifyListeners(ipEvt)
 
             if eventName.startswith("NETBLOCK_"):
-                evt = SpiderFootEvent("RAW_RIR_DATA", str(data), self.__name__, ipEvt)
+                evt = AirSpiderEvent("RAW_RIR_DATA", str(data), self.__name__, ipEvt)
                 self.notifyListeners(evt)
             else:
-                evt = SpiderFootEvent("RAW_RIR_DATA", str(data), self.__name__, event)
+                evt = AirSpiderEvent("RAW_RIR_DATA", str(data), self.__name__, event)
                 self.notifyListeners(evt)
 
             maliciousIPDesc = f"Maltiverse [{maliciousIP}]\n"
@@ -234,11 +234,11 @@ class sfp_maltiverse(SpiderFootPlugin):
             self.results[maliciousIPDescHash] = True
 
             if eventName.startswith("NETBLOCK_"):
-                evt = SpiderFootEvent("MALICIOUS_IPADDR", maliciousIPDesc, self.__name__, ipEvt)
+                evt = AirSpiderEvent("MALICIOUS_IPADDR", maliciousIPDesc, self.__name__, ipEvt)
             elif eventName.startswith("AFFILIATE_"):
-                evt = SpiderFootEvent("MALICIOUS_AFFILIATE_IPADDR", maliciousIPDesc, self.__name__, event)
+                evt = AirSpiderEvent("MALICIOUS_AFFILIATE_IPADDR", maliciousIPDesc, self.__name__, event)
             else:
-                evt = SpiderFootEvent("MALICIOUS_IPADDR", maliciousIPDesc, self.__name__, event)
+                evt = AirSpiderEvent("MALICIOUS_IPADDR", maliciousIPDesc, self.__name__, event)
 
             self.notifyListeners(evt)
 

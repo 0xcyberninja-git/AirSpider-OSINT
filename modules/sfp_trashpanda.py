@@ -7,7 +7,7 @@
 # Author:      Krishnasis Mandal <krishnasis@hotmail.com>
 #
 # Created:     17/04/2021
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,10 +15,10 @@ import base64
 import json
 import re
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_trashpanda(SpiderFootPlugin):
+class sfp_trashpanda(AirSpiderPlugin):
 
     meta = {
         'name': "Trashpanda",
@@ -138,7 +138,7 @@ class sfp_trashpanda(SpiderFootPlugin):
 
         leaksiteUrls = set()
         for row in data:
-            evt = SpiderFootEvent("PASSWORD_COMPROMISED", f"{row.get('email')}:{row.get('password')} [{row.get('paste')}]", self.__name__, event)
+            evt = AirSpiderEvent("PASSWORD_COMPROMISED", f"{row.get('email')}:{row.get('password')} [{row.get('paste')}]", self.__name__, event)
             self.notifyListeners(evt)
 
             leaksiteUrls.add(row.get("paste"))
@@ -164,10 +164,10 @@ class sfp_trashpanda(SpiderFootPlugin):
                 ) is None:
                     continue
 
-                evt = SpiderFootEvent("LEAKSITE_URL", leaksiteUrl, self.__name__, event)
+                evt = AirSpiderEvent("LEAKSITE_URL", leaksiteUrl, self.__name__, event)
                 self.notifyListeners(evt)
 
-                evt = SpiderFootEvent("LEAKSITE_CONTENT", res['content'], self.__name__, evt)
+                evt = AirSpiderEvent("LEAKSITE_CONTENT", res['content'], self.__name__, evt)
                 self.notifyListeners(evt)
             except Exception as e:
                 self.debug(f"Error while fetching leaksite content : {str(e)}")

@@ -4,20 +4,20 @@
 # Purpose:      Queries archive.org (Wayback machine) for historic versions of
 #               certain pages.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     20/07/2015
-# Copyright:   (c) Steve Micallef 2015
+# Copyright:   (c) Prateek Bheevgade 2015
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import datetime
 import json
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_archiveorg(SpiderFootPlugin):
+class sfp_archiveorg(AirSpiderPlugin):
 
     meta = {
         'name': "Archive.org",
@@ -181,7 +181,7 @@ class sfp_archiveorg(SpiderFootPlugin):
             name = eventName + "_HISTORIC"
 
             self.info("Found a historic file: " + wbmlink)
-            evt = SpiderFootEvent(name, wbmlink, self.__name__, event)
+            evt = AirSpiderEvent(name, wbmlink, self.__name__, event)
             self.notifyListeners(evt)
 
 # End of sfp_archiveorg class

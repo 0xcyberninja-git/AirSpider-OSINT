@@ -3,19 +3,19 @@
 # Name:         sfp_bingsharedip
 # Purpose:      Searches Bing for hosts sharing the same IP.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     12/04/2014
-# Copyright:   (c) Steve Micallef 2014
+# Copyright:   (c) Prateek Bheevgade 2014
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_bingsharedip(SpiderFootPlugin):
+class sfp_bingsharedip(AirSpiderPlugin):
 
     meta = {
         'name': "Bing (Shared IPs)",
@@ -161,14 +161,14 @@ class sfp_bingsharedip(SpiderFootPlugin):
                     # Create an IP Address event stemming from the netblock as the
                     # link to the co-host.
                     if eventName == "NETBLOCK_OWNER":
-                        ipe = SpiderFootEvent("IP_ADDRESS", ip, self.__name__, event)
+                        ipe = AirSpiderEvent("IP_ADDRESS", ip, self.__name__, event)
                         self.notifyListeners(ipe)
-                        evt = SpiderFootEvent(
+                        evt = AirSpiderEvent(
                             "CO_HOSTED_SITE", site, self.__name__, ipe
                         )
                         self.notifyListeners(evt)
                     else:
-                        evt = SpiderFootEvent(
+                        evt = AirSpiderEvent(
                             "CO_HOSTED_SITE", site, self.__name__, event
                         )
                         self.notifyListeners(evt)
@@ -176,7 +176,7 @@ class sfp_bingsharedip(SpiderFootPlugin):
                     myres.append(site)
 
             if urls:
-                evt = SpiderFootEvent(
+                evt = AirSpiderEvent(
                     "RAW_RIR_DATA", str(res), self.__name__, event
                 )
                 self.notifyListeners(evt)

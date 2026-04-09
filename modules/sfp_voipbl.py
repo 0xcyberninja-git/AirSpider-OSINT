@@ -4,19 +4,19 @@
 # Purpose:     Check if an IP address or netblock is malicious according to VoIPBL
 #              VoIP Blacklist.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     14/12/2013
-# Copyright:   (c) Steve Micallef, 2013
+# Copyright:   (c) Prateek Bheevgade, 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPAddress, IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_voipbl(SpiderFootPlugin):
+class sfp_voipbl(AirSpiderPlugin):
 
     meta = {
         'name': "VoIP Blacklist (VoIPBL)",
@@ -206,10 +206,10 @@ class sfp_voipbl(SpiderFootPlugin):
         url = f"https://voipbl.org/check/?ip={eventData}"
         text = f"VoIP Blacklist (VoIPBL) [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_voipbl class

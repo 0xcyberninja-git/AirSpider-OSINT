@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:        sfp_ipapico
-# Purpose:     SpiderFoot plug-in to identify the Geo-location of IP addresses
+# Purpose:     AirSpider plug-in to identify the Geo-location of IP addresses
 #              identified by other modules using ipapi.co
 #
 # Author:      Krishnasis Mandal <krishnasis@hotmail.com>
 #
 # Created:     02/02/2021
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 import time
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_ipapico(SpiderFootPlugin):
+class sfp_ipapico(AirSpiderPlugin):
 
     meta = {
         'name': "ipapi.co",
@@ -113,10 +113,10 @@ class sfp_ipapico(SpiderFootPlugin):
 
         if data.get('country'):
             location = ', '.join(filter(None, [data.get('city'), data.get('region'), data.get('region_code'), data.get('country_name'), data.get('country')]))
-            evt = SpiderFootEvent('GEOINFO', location, self.__name__, event)
+            evt = AirSpiderEvent('GEOINFO', location, self.__name__, event)
             self.notifyListeners(evt)
 
-            evt = SpiderFootEvent('RAW_RIR_DATA', str(data), self.__name__, event)
+            evt = AirSpiderEvent('RAW_RIR_DATA', str(data), self.__name__, event)
             self.notifyListeners(evt)
 
 

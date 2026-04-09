@@ -2,20 +2,20 @@
 # Name:         sfp_punkspider
 # Purpose:      Query the QOMPLX PunkSpider API to see if our target appears.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     07/08/2021
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import hashlib
 import json
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_punkspider(SpiderFootPlugin):
+class sfp_punkspider(AirSpiderPlugin):
 
     meta = {
         'name': "PunkSpider",
@@ -124,7 +124,7 @@ class sfp_punkspider(SpiderFootPlugin):
             for vuln in res[rec]['vulns']:
                 if res[rec]['vulns'][vuln] == 0:
                     continue
-                e = SpiderFootEvent("VULNERABILITY_GENERAL", f"{vuln}: {res[rec]['vulns'][vuln]}", self.__name__, event)
+                e = AirSpiderEvent("VULNERABILITY_GENERAL", f"{vuln}: {res[rec]['vulns'][vuln]}", self.__name__, event)
                 self.notifyListeners(e)
 
 # End of sfp_punkspider class

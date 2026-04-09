@@ -1,0 +1,264 @@
+
+:root {
+    --primary: #6366f1;
+    --primary-glow: rgba(99, 102, 241, 0.4);
+    --bg-main: #f3f4f6;
+    --bg-card: #ffffff;
+    --sidebar-bg: #0f172a;
+    --sidebar-hover: #1e293b;
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --radius: 16px;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0 !important;
+    font-family: var(--font-sans);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+/* App Layout */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    background-color: var(--sidebar-bg);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    z-index: 1000;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+}
+
+.sidebar-header {
+    padding: 40px 32px;
+}
+
+.brand-text {
+    font-size: 26px;
+    font-weight: 850;
+    letter-spacing: -1.5px;
+    background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 20px 16px;
+}
+
+.sidebar-nav ul { list-style: none; padding: 0; }
+.sidebar-nav li { margin-bottom: 8px; }
+
+.sidebar-nav a {
+    color: #94a3b8;
+    text-decoration: none;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s;
+}
+
+.sidebar-nav li.active a, .sidebar-nav a:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.05);
+}
+
+.sidebar-nav li.active i { color: var(--primary); }
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 280px;
+    background: var(--bg-main);
+}
+
+.top-bar {
+    height: 80px;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 500;
+}
+
+.page-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin: 0; }
+
+.content-wrapper { padding: 40px; max-width: 1400px; margin: 0 auto; width: 100%; }
+
+/* Bento Cards */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Dashboard Stats */
+.dashboard-stats {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 200px;
+    background: #fff;
+    padding: 24px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+}
+
+.stat-card.primary {
+    background: #6366f1;
+    color: #fff;
+    border: none;
+    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+}
+
+.stat-value { font-size: 32px; font-weight: 800; display: block; margin-top: 5px; }
+.stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
+
+/* Repo Cards */
+.repo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.repo-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 30px;
+    width: calc(33.333% - 16px);
+    min-width: 320px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.repo-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -12px rgba(0,0,0,0.1); border-color: var(--primary); }
+
+.repo-header { margin-bottom: 24px; }
+.repo-title { font-size: 20px; font-weight: 800; color: #111827; text-decoration: none; display: block; margin-bottom: 5px; }
+.repo-target { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-muted); }
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.status-active { background: #e0e7ff; color: #4338ca; }
+.status-finished { background: #dcfce7; color: #15803d; }
+
+/* Visualization Graph Styles */
+.dend-node circle {
+    fill: #fff;
+    stroke: var(--primary);
+    stroke-width: 2px;
+}
+
+.dend-node text {
+    font-size: 11px;
+    font-weight: 600;
+    fill: var(--text-main);
+}
+
+.dend-link {
+    fill: none;
+    stroke: #e2e8f0;
+    stroke-width: 1.5px;
+}
+
+body.dark-theme .dend-node circle { fill: #0f172a; stroke: #818cf8; }
+body.dark-theme .dend-node text { fill: #cbd5e1; }
+body.dark-theme .dend-link { stroke: #1e293b; }
+
+.graph-container {
+    background: var(--bg-card);
+    border-radius: 20px;
+    overflow: auto;
+    position: relative;
+}
+.status-error { background: #fee2e2; color: #b91c1c; }
+
+
+/* Protocol Selection Grid */
+.protocol-grid {
+    display: flex !important;
+    gap: 20px !important;
+    flex-wrap: wrap !important;
+}
+
+.protocol-option {
+    flex: 1 !important;
+    min-width: 250px !important;
+    margin: 0 !important;
+}
+
+.option-content {
+    display: block !important;
+    border: 2px solid var(--border) !important;
+    border-radius: 20px !important;
+    padding: 24px !important;
+    cursor: pointer !important;
+}
+
+.protocol-option input:checked + .option-content {
+    border-color: var(--primary);
+    background: #f5f3ff;
+}
+
+/* Custom Inputs */
+.custom-input {
+    background: #f9fafb !important;
+    border: 1px solid var(--border) !important;
+    padding: 16px 20px !important;
+    border-radius: 12px !important;
+    height: auto !important;
+    font-weight: 500;
+}
+
+/* Landing */
+.landing-hero {
+    height: 100vh;
+    background: radial-gradient(circle at top right, #1e1b4b, #020617);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-title { font-size: 84px; font-weight: 900; letter-spacing: -4px; color: #fff; }
+
+/* Sidebar Footer */
+.sidebar-footer { padding: 32px; border-top: 1px solid rgba(255,255,255,0.05); }

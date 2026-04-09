@@ -1,45 +1,45 @@
-spiderfoot package
+airspider package
 ==================
 
 Submodules
 ----------
 
-spiderfoot.db module
+airspider.db module
 --------------------
 
-.. automodule:: spiderfoot.db
+.. automodule:: airspider.db
    :members:
    :undoc-members:
    :show-inheritance:
 
-spiderfoot.event module
+airspider.event module
 -----------------------
 
-.. automodule:: spiderfoot.event
+.. automodule:: airspider.event
    :members:
    :undoc-members:
    :show-inheritance:
 
-spiderfoot.helpers module
+airspider.helpers module
 -------------------------
 
-.. automodule:: spiderfoot.helpers
+.. automodule:: airspider.helpers
    :members:
    :undoc-members:
    :show-inheritance:
 
-spiderfoot.plugin module
+airspider.plugin module
 ------------------------
 
-.. automodule:: spiderfoot.plugin
+.. automodule:: airspider.plugin
    :members:
    :undoc-members:
    :show-inheritance:
 
-spiderfoot.target module
+airspider.target module
 ------------------------
 
-.. automodule:: spiderfoot.target
+.. automodule:: airspider.target
    :members:
    :undoc-members:
    :show-inheritance:
@@ -47,7 +47,7 @@ spiderfoot.target module
 Module contents
 ---------------
 
-.. automodule:: spiderfoot
+.. automodule:: airspider
    :members:
    :undoc-members:
    :show-inheritance:

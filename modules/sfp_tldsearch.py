@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_tldsearch
-# Purpose:      SpiderFoot plug-in for identifying the existence of this target
+# Purpose:      AirSpider plug-in for identifying the existence of this target
 #               on other TLDs.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     31/08/2013
-# Copyright:   (c) Steve Micallef 2013
+# Copyright:   (c) Prateek Bheevgade 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -17,10 +17,10 @@ import time
 
 import dns.resolver
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_tldsearch(SpiderFootPlugin):
+class sfp_tldsearch(AirSpiderPlugin):
 
     meta = {
         'name': "TLD Searcher",
@@ -139,10 +139,10 @@ class sfp_tldsearch(SpiderFootPlugin):
                                            noLog=True,
                                            verify=False)
             if pageContent['content'] is not None:
-                evt = SpiderFootEvent("SIMILARDOMAIN", result, self.__name__, source)
+                evt = AirSpiderEvent("SIMILARDOMAIN", result, self.__name__, source)
                 self.notifyListeners(evt)
         else:
-            evt = SpiderFootEvent("SIMILARDOMAIN", result, self.__name__, source)
+            evt = AirSpiderEvent("SIMILARDOMAIN", result, self.__name__, source)
             self.notifyListeners(evt)
 
     # Search for similar sounding domains

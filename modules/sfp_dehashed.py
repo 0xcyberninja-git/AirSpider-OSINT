@@ -5,7 +5,7 @@
 # Author:      <krishnasis@hotmail.com>
 #
 # Created:     16-01-2021
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -13,10 +13,10 @@ import base64
 import json
 import time
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_dehashed(SpiderFootPlugin):
+class sfp_dehashed(AirSpiderPlugin):
 
     meta = {
         'name': "Dehashed",
@@ -197,38 +197,38 @@ class sfp_dehashed(SpiderFootPlugin):
 
                 if eventName == "EMAILADDR":
                     if email == eventData:
-                        evt = SpiderFootEvent('EMAILADDR_COMPROMISED', f"{email} [{leakSource}]", self.__name__, event)
+                        evt = AirSpiderEvent('EMAILADDR_COMPROMISED', f"{email} [{leakSource}]", self.__name__, event)
                         self.notifyListeners(evt)
 
                         if password:
-                            evt = SpiderFootEvent('PASSWORD_COMPROMISED', f"{email}:{password} [{leakSource}]", self.__name__, event)
+                            evt = AirSpiderEvent('PASSWORD_COMPROMISED', f"{email}:{password} [{leakSource}]", self.__name__, event)
                             self.notifyListeners(evt)
 
                         if passwordHash:
-                            evt = SpiderFootEvent('HASH_COMPROMISED', f"{email}:{passwordHash} [{leakSource}]", self.__name__, event)
+                            evt = AirSpiderEvent('HASH_COMPROMISED', f"{email}:{passwordHash} [{leakSource}]", self.__name__, event)
                             self.notifyListeners(evt)
 
-                        evt = SpiderFootEvent('RAW_RIR_DATA', str(row), self.__name__, event)
+                        evt = AirSpiderEvent('RAW_RIR_DATA', str(row), self.__name__, event)
                         self.notifyListeners(evt)
 
                 if eventName == "DOMAIN_NAME":
-                    pevent = SpiderFootEvent("EMAILADDR", email, self.__name__, event)
+                    pevent = AirSpiderEvent("EMAILADDR", email, self.__name__, event)
                     if email not in emailResults:
                         self.notifyListeners(pevent)
                         emailResults.add(email)
 
-                    evt = SpiderFootEvent('EMAILADDR_COMPROMISED', f"{email} [{leakSource}]", self.__name__, pevent)
+                    evt = AirSpiderEvent('EMAILADDR_COMPROMISED', f"{email} [{leakSource}]", self.__name__, pevent)
                     self.notifyListeners(evt)
 
                     if password:
-                        evt = SpiderFootEvent('PASSWORD_COMPROMISED', f"{email}:{password} [{leakSource}]", self.__name__, pevent)
+                        evt = AirSpiderEvent('PASSWORD_COMPROMISED', f"{email}:{password} [{leakSource}]", self.__name__, pevent)
                         self.notifyListeners(evt)
 
                     if passwordHash:
-                        evt = SpiderFootEvent('HASH_COMPROMISED', f"{email}:{passwordHash} [{leakSource}]", self.__name__, pevent)
+                        evt = AirSpiderEvent('HASH_COMPROMISED', f"{email}:{passwordHash} [{leakSource}]", self.__name__, pevent)
                         self.notifyListeners(evt)
 
-                    evt = SpiderFootEvent('RAW_RIR_DATA', str(row), self.__name__, pevent)
+                    evt = AirSpiderEvent('RAW_RIR_DATA', str(row), self.__name__, pevent)
                     self.notifyListeners(evt)
 
             currentPage += 1

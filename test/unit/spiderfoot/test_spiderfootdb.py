@@ -1,14 +1,14 @@
-# test_spiderfootdb.py
+# test_airspiderdb.py
 import pytest
 import unittest
 
-from spiderfoot import SpiderFootDb, SpiderFootEvent
+from airspider import AirSpiderDb, AirSpiderEvent
 
 
 @pytest.mark.usefixtures
-class TestSpiderFootDb(unittest.TestCase):
+class TestAirSpiderDb(unittest.TestCase):
     """
-    Test SpiderFootDb
+    Test AirSpiderDb
     """
 
     def test_init_argument_opts_of_invalid_type_should_raise_TypeError(self):
@@ -19,14 +19,14 @@ class TestSpiderFootDb(unittest.TestCase):
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    SpiderFootDb(invalid_type)
+                    AirSpiderDb(invalid_type)
 
     def test_init_argument_opts_with_empty_value_should_raise_ValueError(self):
         """
         Test __init__(self, opts, init=False)
         """
         with self.assertRaises(ValueError):
-            SpiderFootDb(dict())
+            AirSpiderDb(dict())
 
     def test_init_argument_opts_with_empty_key___database_value_should_raise_ValueError(self):
         """
@@ -35,21 +35,21 @@ class TestSpiderFootDb(unittest.TestCase):
         with self.assertRaises(ValueError):
             opts = dict()
             opts['__database'] = None
-            SpiderFootDb(opts)
+            AirSpiderDb(opts)
 
-    def test_init_should_create_SpiderFootDb_object(self):
+    def test_init_should_create_AirSpiderDb_object(self):
         """
         Test __init__(self, opts, init=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
-        self.assertIsInstance(sfdb, SpiderFootDb)
+        sfdb = AirSpiderDb(self.default_options, False)
+        self.assertIsInstance(sfdb, AirSpiderDb)
 
     @unittest.skip("todo")
     def test_create_should_create_database_schema(self):
         """
         Test create(self)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
         sfdb.create()
         self.assertEqual('TBD', 'TBD')
 
@@ -57,14 +57,14 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test close(self)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
         sfdb.close()
 
     def test_search_should_return_a_list(self):
         """
         Test search(self, criteria, filterFp=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         criteria = {
             'scan_id': "example scan id",
@@ -81,7 +81,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test search(self, criteria, filterFp=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         invalid_types = [None, "", list(), int()]
         for invalid_type in invalid_types:
@@ -93,7 +93,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test search(self, criteria, filterFp=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         criteria = {
             'type': "example type",
@@ -108,7 +108,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test search(self, criteria, filterFp=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         criteria = {
             'invalid_criteria': "example invalid criteria"
@@ -121,7 +121,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test search(self, criteria, filterFp=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         criteria = {
             'type': "example type"
@@ -134,7 +134,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test eventTypes(self)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
         event_types = sfdb.eventTypes()
         self.assertIsInstance(event_types, list)
 
@@ -142,7 +142,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanLogEvent(self, instanceId, classification, message, component=None)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
         sfdb.scanLogEvent("", "", "", None)
 
         self.assertEqual('TBD', 'TBD')
@@ -151,7 +151,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanLogEvent(self, instanceId, classification, message, component=None)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         invalid_types = [None, list(), dict(), int()]
         for invalid_type in invalid_types:
@@ -163,7 +163,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanLogEvent(self, instanceId, classification, message, component=None)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         invalid_types = [None, list(), dict(), int()]
@@ -176,7 +176,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanLogEvent(self, instanceId, classification, message, component=None)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         invalid_types = [None, list(), dict()]
@@ -190,7 +190,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanInstanceCreate(self, instanceId, scanName, scanTarget)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_name = "example scan name"
@@ -205,7 +205,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanInstanceCreate(self, instanceId, scanName, scanTarget)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_name = "example scan name"
@@ -226,10 +226,10 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanInstanceCreate(self, instanceId, scanName, scanTarget)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         scan_name = ""
-        scan_target = "spiderfoot.net"
+        scan_target = "airspider.net"
         invalid_types = [None, list(), dict()]
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
@@ -240,10 +240,10 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanInstanceCreate(self, instanceId, scanName, scanTarget)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
-        scan_target = "spiderfoot.net"
+        scan_target = "airspider.net"
         invalid_types = [None, list(), dict()]
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
@@ -254,7 +254,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanInstanceCreate(self, instanceId, scanName, scanTarget)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_name = ""
@@ -268,7 +268,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanInstanceSet(self, instanceId, started=None, ended=None, status=None)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         scan_instance = 'example scan instance'
         sfdb.scanInstanceSet(scan_instance, None, None, None)
@@ -278,7 +278,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanInstanceSet(self, instanceId, started=None, ended=None, status=None)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         started = None
         ended = None
@@ -294,7 +294,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanInstanceGet(self, instanceId)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_name = "example scan name"
@@ -325,7 +325,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanInstanceGet(self, instanceId)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         invalid_types = [None, list(), dict(), int()]
         for invalid_type in invalid_types:
@@ -337,7 +337,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultSummary(self, instanceId, by="type")
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_results_summary = sfdb.scanResultSummary(instance_id, "type")
@@ -347,7 +347,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultSummary(self, instanceId, by="type")
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         invalid_types = [None, list(), dict(), int()]
         for invalid_type in invalid_types:
@@ -359,7 +359,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultSummary(self, instanceId, by="type")
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         invalid_types = [None, list(), dict(), int()]
@@ -375,7 +375,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultSummary(self, instanceId, by="type")
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         with self.assertRaises(ValueError):
@@ -385,7 +385,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultEvent(self, instanceId, eventType='ALL', filterFp=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_result_event = sfdb.scanResultEvent(instance_id, "", False)
@@ -395,7 +395,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultEvent(self, instanceId, eventType='ALL', filterFp=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ALL'
         filter_fp = None
@@ -410,7 +410,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultEvent(self, instanceId, eventType='ALL', filterFp=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         invalid_types = [None, dict()]
@@ -423,7 +423,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultEventUnique(self, instanceId, eventType='ALL', filterFp=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_result_event = sfdb.scanResultEventUnique(instance_id, "", False)
@@ -433,7 +433,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultEventUnique(self, instanceId, eventType='ALL', filterFp=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ALL'
         filter_fp = None
@@ -448,7 +448,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultEventUnique(self, instanceId, eventType='ALL', filterFp=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         invalid_types = [None, list(), dict()]
@@ -461,7 +461,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanLogs(self, instanceId, limit=None, fromRowId=None, reverse=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_logs = sfdb.scanLogs(instance_id, None, None, None)
@@ -473,7 +473,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanLogs(self, instanceId, limit=None, fromRowId=None, reverse=False)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         limit = None
         from_row_id = None
@@ -489,7 +489,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanErrors(self, instanceId, limit=None)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
         instance_id = "example instance id"
         scan_instance = sfdb.scanErrors(instance_id)
         self.assertIsInstance(scan_instance, list)
@@ -498,7 +498,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanErrors(self, instanceId, limit=None)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         invalid_types = [None, list(), dict(), int()]
         for invalid_type in invalid_types:
@@ -510,7 +510,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanInstanceDelete(self, instanceId)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
         instance_id = "example instance id"
         sfdb.scanInstanceDelete(instance_id)
 
@@ -520,7 +520,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanInstanceDelete(self, instanceId)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         invalid_types = [None, list(), dict(), int()]
         for invalid_type in invalid_types:
@@ -533,7 +533,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultsUpdateFP(self, instanceId, resultHashes, fpFlag)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_name = "example scan name"
@@ -551,7 +551,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultsUpdateFP(self, instanceId, resultHashes, fpFlag)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         result_hashes = []
         fp_flag = None
@@ -565,7 +565,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultsUpdateFP(self, instanceId, resultHashes, fpFlag)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         fp_flag = None
@@ -579,7 +579,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test configSet(self, optMap=dict())
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
         opts = dict()
         opts['example'] = 'example non-default config opt'
         sfdb.configSet(opts)
@@ -594,7 +594,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test configSet(self, optMap=dict())
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         invalid_types = [None, "", list()]
         for invalid_type in invalid_types:
@@ -606,7 +606,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test configGet(self)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
         config = sfdb.configGet()
         self.assertIsInstance(config, dict)
 
@@ -614,7 +614,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test configClear(self)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         opts = dict()
         opts['example'] = 'example non-default config opt'
@@ -634,7 +634,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanConfigSet(self, id, optMap=dict())
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         invalid_types = [None, ""]
@@ -647,7 +647,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanConfigSet(self, id, optMap=dict())
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         with self.assertRaises(ValueError):
             sfdb.scanConfigSet("", dict())
@@ -656,7 +656,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanConfigGet(self, instanceId)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_config = sfdb.scanConfigGet(instance_id)
@@ -666,7 +666,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanConfigGet(self, instanceId)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         invalid_types = [None, list(), dict(), int()]
         for invalid_type in invalid_types:
@@ -678,13 +678,13 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
         instance_id = "example instance id"
         sfdb.scanEventStore(instance_id, event)
 
@@ -692,7 +692,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event = ""
         invalid_types = [None, list(), dict(), int()]
@@ -705,7 +705,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event = ""
         with self.assertRaises(ValueError):
@@ -715,7 +715,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         invalid_types = [None, "", list(), dict(), int()]
@@ -728,25 +728,25 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
         invalid_types = [None, list(), dict()]
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    event = SpiderFootEvent(event_type, event_data, module, source_event)
+                    event = AirSpiderEvent(event_type, event_data, module, source_event)
                     event.eventType = invalid_type
                     sfdb.scanEventStore(instance_id, event)
 
@@ -754,18 +754,18 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
 
@@ -777,25 +777,25 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
         invalid_types = [None, list(), dict()]
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    event = SpiderFootEvent(event_type, event_data, module, source_event)
+                    event = AirSpiderEvent(event_type, event_data, module, source_event)
                     event.data = invalid_type
                     sfdb.scanEventStore(instance_id, event)
 
@@ -803,18 +803,18 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
 
@@ -826,25 +826,25 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
         invalid_types = [None, list(), dict()]
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    event = SpiderFootEvent(event_type, event_data, module, source_event)
+                    event = AirSpiderEvent(event_type, event_data, module, source_event)
                     event.module = invalid_type
                     sfdb.scanEventStore(instance_id, event)
 
@@ -852,18 +852,18 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
         with self.assertRaises(ValueError):
@@ -874,25 +874,25 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
         invalid_types = [None, list(), dict()]
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    event = SpiderFootEvent(event_type, event_data, module, source_event)
+                    event = AirSpiderEvent(event_type, event_data, module, source_event)
                     event.confidence = invalid_type
                     sfdb.scanEventStore(instance_id, event)
 
@@ -900,25 +900,25 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
         invalid_values = [-1, 101]
         for invalid_value in invalid_values:
             with self.subTest(invalid_value=invalid_value):
                 with self.assertRaises(ValueError):
-                    event = SpiderFootEvent(event_type, event_data, module, source_event)
+                    event = AirSpiderEvent(event_type, event_data, module, source_event)
                     event.confidence = invalid_value
                     sfdb.scanEventStore(instance_id, event)
 
@@ -926,25 +926,25 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
         invalid_types = [None, list(), dict()]
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    event = SpiderFootEvent(event_type, event_data, module, source_event)
+                    event = AirSpiderEvent(event_type, event_data, module, source_event)
                     event.visibility = invalid_type
                     sfdb.scanEventStore(instance_id, event)
 
@@ -952,25 +952,25 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
         invalid_values = [-1, 101]
         for invalid_value in invalid_values:
             with self.subTest(invalid_value=invalid_value):
                 with self.assertRaises(ValueError):
-                    event = SpiderFootEvent(event_type, event_data, module, source_event)
+                    event = AirSpiderEvent(event_type, event_data, module, source_event)
                     event.visibility = invalid_value
                     sfdb.scanEventStore(instance_id, event)
 
@@ -978,25 +978,25 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
         invalid_types = [None, list(), dict()]
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    event = SpiderFootEvent(event_type, event_data, module, source_event)
+                    event = AirSpiderEvent(event_type, event_data, module, source_event)
                     event.risk = invalid_type
                     sfdb.scanEventStore(instance_id, event)
 
@@ -1004,25 +1004,25 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
         invalid_values = [-1, 101]
         for invalid_value in invalid_values:
             with self.subTest(invalid_value=invalid_value):
                 with self.assertRaises(ValueError):
-                    event = SpiderFootEvent(event_type, event_data, module, source_event)
+                    event = AirSpiderEvent(event_type, event_data, module, source_event)
                     event.risk = invalid_value
                     sfdb.scanEventStore(instance_id, event)
 
@@ -1030,25 +1030,25 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanEventStore(self, instanceId, sfEvent, truncateSize=0)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         event_type = 'ROOT'
         event_data = 'example data'
         module = ''
         source_event = ''
-        source_event = SpiderFootEvent(event_type, event_data, module, source_event)
+        source_event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         event_type = 'example event type'
         event_data = 'example event data'
         module = 'example module'
-        event = SpiderFootEvent(event_type, event_data, module, source_event)
+        event = AirSpiderEvent(event_type, event_data, module, source_event)
 
         instance_id = "example instance id"
         invalid_types = [None, "", list(), dict(), int()]
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    event = SpiderFootEvent(event_type, event_data, module, source_event)
+                    event = AirSpiderEvent(event_type, event_data, module, source_event)
                     event.sourceEvent = invalid_type
                     sfdb.scanEventStore(instance_id, event)
 
@@ -1056,7 +1056,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanInstanceList(self)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         scan_instances = sfdb.scanInstanceList()
         self.assertIsInstance(scan_instances, list)
@@ -1065,7 +1065,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultHistory(self, instanceId)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_result_history = sfdb.scanResultHistory(instance_id)
@@ -1075,7 +1075,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanResultHistory(self, instanceId)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         invalid_types = [None, list(), dict()]
         for invalid_type in invalid_types:
@@ -1087,7 +1087,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementSourcesDirect(self, instanceId, elementIdList)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         element_id_list = []
@@ -1100,7 +1100,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementSourcesDirect(self, instanceId, elementIdList)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         element_id_list = []
         invalid_types = [None, list(), dict(), int()]
@@ -1113,7 +1113,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementSourcesDirect(self, instanceId, elementIdList)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         invalid_types = [None, "", dict(), int()]
@@ -1126,7 +1126,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementChildrenDirect(self, instanceId, elementIdList)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_element_children_direct = sfdb.scanElementChildrenDirect(instance_id, list())
@@ -1138,7 +1138,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementChildrenDirect(self, instanceId, elementIdList)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         element_id_list = []
         invalid_types = [None, list(), dict(), int()]
@@ -1151,7 +1151,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementChildrenDirect(self, instanceId, elementIdList)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         invalid_types = [None, "", dict()]
@@ -1164,7 +1164,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementSourcesAll(self, instanceId, childData)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         child_data = ["example child", "example child"]
@@ -1177,7 +1177,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementSourcesAll(self, instanceId, childData)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         invalid_types = [None, list(), dict(), int()]
         child_data = []
@@ -1190,7 +1190,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementSourcesAll(self, instanceId, childData)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         invalid_types = [None, "", dict(), int()]
@@ -1203,7 +1203,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementSourcesAll(self, instanceId, childData)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         child_data = []
@@ -1215,7 +1215,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementChildrenAll(self, instanceId, parentIds)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         scan_element_children_all = sfdb.scanElementChildrenAll(instance_id, list())
@@ -1227,7 +1227,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementChildrenAll(self, instanceId, parentIds)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         invalid_types = [None, list(), dict(), int()]
         parent_ids = []
@@ -1240,7 +1240,7 @@ class TestSpiderFootDb(unittest.TestCase):
         """
         Test scanElementChildrenAll(self, instanceId, parentIds)
         """
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         instance_id = "example instance id"
         invalid_types = [None, "", dict(), int()]
@@ -1250,7 +1250,7 @@ class TestSpiderFootDb(unittest.TestCase):
                     sfdb.scanElementChildrenAll(instance_id, invalid_type)
 
     def test_correlationResultCreate_arguments_of_invalid_type_should_raise_TypeError(self):
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         invalid_types = [None, list(), dict(), int()]
         for invalid_type in invalid_types:

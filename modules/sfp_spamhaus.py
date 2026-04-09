@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_spamhaus
-# Purpose:      SpiderFoot plug-in for looking up whether IPs/Netblocks/Domains
+# Purpose:      AirSpider plug-in for looking up whether IPs/Netblocks/Domains
 #               appear in the Spamhaus block lists, indicating potential open-relays,
 #               open proxies, malicious servers, vulnerable servers, etc.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     07/01/2014
-# Copyright:   (c) Steve Micallef 2014
+# Copyright:   (c) Prateek Bheevgade 2014
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_spamhaus(SpiderFootPlugin):
+class sfp_spamhaus(AirSpiderPlugin):
 
     meta = {
         'name': "Spamhaus Zen",
@@ -218,10 +218,10 @@ class sfp_spamhaus(SpiderFootPlugin):
                         self.error(f"Spamhaus Zen resolved address {addr} to unknown IP address {result} not found in Spamhaus Zen list.")
                     continue
 
-                evt = SpiderFootEvent(blacklist_type, f"{self.checks[k]} [{addr}]", self.__name__, event)
+                evt = AirSpiderEvent(blacklist_type, f"{self.checks[k]} [{addr}]", self.__name__, event)
                 self.notifyListeners(evt)
 
-                evt = SpiderFootEvent(malicious_type, f"{self.checks[k]} [{addr}]", self.__name__, event)
+                evt = AirSpiderEvent(malicious_type, f"{self.checks[k]} [{addr}]", self.__name__, event)
                 self.notifyListeners(evt)
 
 # End of sfp_spamhaus class

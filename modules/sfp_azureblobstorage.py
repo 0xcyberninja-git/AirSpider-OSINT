@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_azureblobstorage
-# Purpose:      SpiderFoot plug-in for identifying potential Azure blobs related
+# Purpose:      AirSpider plug-in for identifying potential Azure blobs related
 #               to the target.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     14/07/2019
-# Copyright:   (c) Steve Micallef 2019
+# Copyright:   (c) Prateek Bheevgade 2019
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,10 +15,10 @@ import random
 import threading
 import time
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_azureblobstorage(SpiderFootPlugin):
+class sfp_azureblobstorage(AirSpiderPlugin):
 
     meta = {
         'name': "Azure Blob Finder",
@@ -71,7 +71,7 @@ class sfp_azureblobstorage(SpiderFootPlugin):
         return ["CLOUD_STORAGE_BUCKET"]
 
     def checkSite(self, url):
-        res = self.sf.fetchUrl(url, timeout=10, useragent="SpiderFoot", noLog=True)
+        res = self.sf.fetchUrl(url, timeout=10, useragent="AirSpider", noLog=True)
 
         if res['code']:
             with self.lock:
@@ -147,7 +147,7 @@ class sfp_azureblobstorage(SpiderFootPlugin):
         if eventName == "LINKED_URL_EXTERNAL":
             if ".blob.core.windows.net" in eventData:
                 b = self.sf.urlFQDN(eventData)
-                evt = SpiderFootEvent("CLOUD_STORAGE_BUCKET", b, self.__name__, event)
+                evt = AirSpiderEvent("CLOUD_STORAGE_BUCKET", b, self.__name__, event)
                 self.notifyListeners(evt)
             return
 
@@ -170,7 +170,7 @@ class sfp_azureblobstorage(SpiderFootPlugin):
         # Batch the scans
         ret = self.batchSites(urls)
         for b in ret:
-            evt = SpiderFootEvent("CLOUD_STORAGE_BUCKET", b, self.__name__, event)
+            evt = AirSpiderEvent("CLOUD_STORAGE_BUCKET", b, self.__name__, event)
             self.notifyListeners(evt)
 
 # End of sfp_azureblobstorage class

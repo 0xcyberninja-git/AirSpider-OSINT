@@ -1,24 +1,24 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_stor_db
-# Purpose:      SpiderFoot plug-in for storing events to the local SpiderFoot
+# Purpose:      AirSpider plug-in for storing events to the local AirSpider
 #               SQLite database.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     14/05/2012
-# Copyright:   (c) Steve Micallef 2012
+# Copyright:   (c) Prateek Bheevgade 2012
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
-from spiderfoot import SpiderFootPlugin
+from airspider import AirSpiderPlugin
 
 
-class sfp__stor_db(SpiderFootPlugin):
+class sfp__stor_db(AirSpiderPlugin):
 
     meta = {
         'name': "Storage",
-        'summary': "Stores scan results into the back-end SpiderFoot database. You will need this."
+        'summary': "Stores scan results into the back-end AirSpider database. You will need this."
     }
 
     _priority = 0

@@ -6,17 +6,17 @@
 # Author:      Krishnasis Mandal <krishnasis@hotmail.com>
 #
 # Created:     14/06/2020
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import base64
 import json
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_twilio(SpiderFootPlugin):
+class sfp_twilio(AirSpiderPlugin):
 
     meta = {
         'name': "Twilio",
@@ -142,7 +142,7 @@ class sfp_twilio(SpiderFootPlugin):
 
         data = json.loads(content)
 
-        evt = SpiderFootEvent("RAW_RIR_DATA", str(data), self.__name__, event)
+        evt = AirSpiderEvent("RAW_RIR_DATA", str(data), self.__name__, event)
         self.notifyListeners(evt)
 
         callerName = data.get('caller_name')
@@ -150,7 +150,7 @@ class sfp_twilio(SpiderFootPlugin):
             callerName = callerName.get('caller_name')
 
         if callerName:
-            evt = SpiderFootEvent("COMPANY_NAME", callerName, self.__name__, event)
+            evt = AirSpiderEvent("COMPANY_NAME", callerName, self.__name__, event)
             self.notifyListeners(evt)
 
 # End of sfp_twilio class

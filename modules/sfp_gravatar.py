@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------------------
 # Name:        sfp_gravatar
-# Purpose:     SpiderFoot plug-in to search Gravatar API for an email address
+# Purpose:     AirSpider plug-in to search Gravatar API for an email address
 #              and retrieve user information, including username, name, phone
 #              numbers, additional email addresses, and social media usernames.
 #
@@ -15,10 +15,10 @@ import hashlib
 import json
 import time
 
-from spiderfoot import SpiderFootEvent, SpiderFootHelpers, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderHelpers, AirSpiderPlugin
 
 
-class sfp_gravatar(SpiderFootPlugin):
+class sfp_gravatar(AirSpiderPlugin):
 
     meta = {
         'name': "Gravatar",
@@ -120,12 +120,12 @@ class sfp_gravatar(SpiderFootPlugin):
             self.debug("No user information found for " + eventData)
             return
 
-        evt = SpiderFootEvent("RAW_RIR_DATA", str(data), self.__name__, event)
+        evt = AirSpiderEvent("RAW_RIR_DATA", str(data), self.__name__, event)
         self.notifyListeners(evt)
 
         if data.get('preferredUsername') is not None:
             un = data.get('preferredUsername')
-            evt = SpiderFootEvent("USERNAME", un, self.__name__, event)
+            evt = AirSpiderEvent("USERNAME", un, self.__name__, event)
             self.notifyListeners(evt)
             self.reportedUsers[un] = True
 
@@ -139,7 +139,7 @@ class sfp_gravatar(SpiderFootPlugin):
             for name in names:
                 full_name = name.get('formatted')
                 if full_name:
-                    evt = SpiderFootEvent("RAW_RIR_DATA", f"Possible full name: {full_name}", self.__name__, event)
+                    evt = AirSpiderEvent("RAW_RIR_DATA", f"Possible full name: {full_name}", self.__name__, event)
                     self.notifyListeners(evt)
 
         # TODO: re-enable once location validation is implemented
@@ -149,13 +149,13 @@ class sfp_gravatar(SpiderFootPlugin):
         #     if len(location) < 3 or len(location) > 100:
         #         self.debug("Skipping likely invalid location.")
         #     else:
-        #         evt = SpiderFootEvent("GEOINFO", location, self.__name__, event)
+        #         evt = AirSpiderEvent("GEOINFO", location, self.__name__, event)
         #         self.notifyListeners(evt)
 
         if data.get('phoneNumbers') is not None:
             for number in data.get('phoneNumbers'):
                 if number.get('value') is not None:
-                    evt = SpiderFootEvent("PHONE_NUMBER", number.get('value'), self.__name__, event)
+                    evt = AirSpiderEvent("PHONE_NUMBER", number.get('value'), self.__name__, event)
                     self.notifyListeners(evt)
 
         if data.get('emails') is not None:
@@ -163,13 +163,13 @@ class sfp_gravatar(SpiderFootPlugin):
                 em = email.get('value')
                 if not em:
                     continue
-                if SpiderFootHelpers.validEmail(em) and em != eventData:
+                if AirSpiderHelpers.validEmail(em) and em != eventData:
                     if em.split("@")[0] in self.opts['_genericusers'].split(","):
                         evttype = "EMAILADDR_GENERIC"
                     else:
                         evttype = "EMAILADDR"
 
-                    evt = SpiderFootEvent(evttype, em, self.__name__, event)
+                    evt = AirSpiderEvent(evttype, em, self.__name__, event)
                     self.notifyListeners(evt)
 
         if data.get('ims') is not None:
@@ -178,10 +178,10 @@ class sfp_gravatar(SpiderFootPlugin):
                 if v is None:
                     continue
                 t = im.get('type').capitalize() + " (Instant Messenger)\n" + v
-                evt = SpiderFootEvent("ACCOUNT_EXTERNAL_OWNED", t, self.__name__, event)
+                evt = AirSpiderEvent("ACCOUNT_EXTERNAL_OWNED", t, self.__name__, event)
                 self.notifyListeners(evt)
                 if v not in self.reportedUsers:
-                    evt = SpiderFootEvent("USERNAME", v, self.__name__, event)
+                    evt = AirSpiderEvent("USERNAME", v, self.__name__, event)
                     self.notifyListeners(evt)
                     self.reportedUsers[v] = True
 
@@ -191,7 +191,7 @@ class sfp_gravatar(SpiderFootPlugin):
                 platform = account.get('shortname')
                 if platform is not None and url is not None:
                     t = platform.capitalize() + ": <SFURL>" + url + "</SFURL>"
-                    evt = SpiderFootEvent("SOCIAL_MEDIA", t, self.__name__, event)
+                    evt = AirSpiderEvent("SOCIAL_MEDIA", t, self.__name__, event)
                     self.notifyListeners(evt)
 
 # End of sfp_gravatar class

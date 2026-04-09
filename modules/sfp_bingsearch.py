@@ -3,16 +3,16 @@
 # Name:         sfp_bingsearch
 # Purpose:      Searches Bing for content related to the domain in question.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     06/10/2013
-# Copyright:   (c) Steve Micallef 2013
+# Copyright:   (c) Prateek Bheevgade 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_bingsearch(SpiderFootPlugin):
+class sfp_bingsearch(AirSpiderPlugin):
 
     meta = {
         'name': "Bing",
@@ -121,11 +121,11 @@ class sfp_bingsearch(SpiderFootPlugin):
         for link in internal_links:
             self.debug("Found a link: " + link)
 
-            evt = SpiderFootEvent("LINKED_URL_INTERNAL", link, self.__name__, event)
+            evt = AirSpiderEvent("LINKED_URL_INTERNAL", link, self.__name__, event)
             self.notifyListeners(evt)
 
         if internal_links:
-            evt = SpiderFootEvent(
+            evt = AirSpiderEvent(
                 "RAW_RIR_DATA", str(res), self.__name__, event
             )
             self.notifyListeners(evt)

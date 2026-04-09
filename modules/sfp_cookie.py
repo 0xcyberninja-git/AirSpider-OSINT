@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_cookie
-# Purpose:      SpiderFoot plug-in for extracting cookies from HTTP headers.
+# Purpose:      AirSpider plug-in for extracting cookies from HTTP headers.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     06/04/2014
-# Copyright:   (c) Steve Micallef 2014
+# Copyright:   (c) Prateek Bheevgade 2014
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_cookie(SpiderFootPlugin):
+class sfp_cookie(AirSpiderPlugin):
 
     meta = {
         'name': "Cookie Extractor",
@@ -73,7 +73,7 @@ class sfp_cookie(SpiderFootPlugin):
 
         cookie = data.get('cookie')
         if cookie:
-            evt = SpiderFootEvent("TARGET_WEB_COOKIE", cookie, self.__name__, event)
+            evt = AirSpiderEvent("TARGET_WEB_COOKIE", cookie, self.__name__, event)
             self.notifyListeners(evt)
 
 # End of sfp_cookie class

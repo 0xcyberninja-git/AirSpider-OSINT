@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_dnsneighbor
-# Purpose:      SpiderFoot plug-in for gathering IP addresses from sub-domains
+# Purpose:      AirSpider plug-in for gathering IP addresses from sub-domains
 #               and hostnames identified, and optionally affiliates.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     07/07/2017
-# Copyright:   (c) Steve Micallef 2017
+# Copyright:   (c) Prateek Bheevgade 2017
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import ipaddress
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_dnsneighbor(SpiderFootPlugin):
+class sfp_dnsneighbor(AirSpiderPlugin):
 
     meta = {
         'name': "DNS Look-aside",
@@ -190,7 +190,7 @@ class sfp_dnsneighbor(SpiderFootPlugin):
             return None
 
         # Report the host
-        evt = SpiderFootEvent(htype, host, self.__name__, parentEvent)
+        evt = AirSpiderEvent(htype, host, self.__name__, parentEvent)
         self.notifyListeners(evt)
 
         return evt

@@ -3,10 +3,10 @@
 # Name:        sfp_abuseipdb
 # Purpose:     Check if an IP address is malicious according to AbuseIPDB.com.
 #
-# Author:      steve@binarypool.com
+# Author:      prateek@airspider.io
 #
 # Created:     06/09/2018
-# Copyright:   (c) Steve Micallef, 2018
+# Copyright:   (c) Prateek Bheevgade, 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -16,10 +16,10 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_abuseipdb(SpiderFootPlugin):
+class sfp_abuseipdb(AirSpiderPlugin):
 
     meta = {
         'name': "AbuseIPDB",
@@ -322,7 +322,7 @@ class sfp_abuseipdb(SpiderFootPlugin):
 
         url = f"https://www.abuseipdb.com/check/{eventData}"
 
-        evt = SpiderFootEvent(
+        evt = AirSpiderEvent(
             malicious_type,
             f"AbuseIPDB [{eventData}]\n<SFURL>{url}</SFURL>",
             self.__name__,
@@ -330,7 +330,7 @@ class sfp_abuseipdb(SpiderFootPlugin):
         )
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(
+        evt = AirSpiderEvent(
             blacklist_type,
             f"AbuseIPDB [{eventData}]\n<SFURL>{url}</SFURL>",
             self.__name__,

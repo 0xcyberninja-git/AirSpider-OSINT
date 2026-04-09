@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:        sfp_tool_onesixtyone
-# Purpose:     SpiderFoot plug-in for using the onesixtyone tool.
+# Purpose:     AirSpider plug-in for using the onesixtyone tool.
 #              Tool: https://github.com/trailofbits/onesixtyone
 #
-# Author:      <steve@binarypool.com>
+# Author:      <prateek@airspider.io>
 #
 # Created:     2022-04-02
-# Copyright:   (c) Steve Micallef 2022
+# Copyright:   (c) Prateek Bheevgade 2022
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -17,10 +17,10 @@ import tempfile
 from netaddr import IPNetwork
 from subprocess import PIPE, Popen, TimeoutExpired
 
-from spiderfoot import SpiderFootPlugin, SpiderFootEvent, SpiderFootHelpers
+from airspider import AirSpiderPlugin, AirSpiderEvent, AirSpiderHelpers
 
 
-class sfp_tool_onesixtyone(SpiderFootPlugin):
+class sfp_tool_onesixtyone(AirSpiderPlugin):
 
     meta = {
         "name": "Tool - onesixtyone",
@@ -111,7 +111,7 @@ class sfp_tool_onesixtyone(SpiderFootPlugin):
             self.errorState = True
             return
 
-        if not SpiderFootHelpers.sanitiseInput(eventData, extra=['/']):
+        if not AirSpiderHelpers.sanitiseInput(eventData, extra=['/']):
             self.debug("Invalid input, skipping.")
             return
 
@@ -180,13 +180,13 @@ class sfp_tool_onesixtyone(SpiderFootPlugin):
                     continue
 
                 if target != eventData:
-                    srcevent = SpiderFootEvent("IP_ADDRESS", target, self.__name__, event)
+                    srcevent = AirSpiderEvent("IP_ADDRESS", target, self.__name__, event)
                     self.notifyListeners(srcevent)
 
-                e = SpiderFootEvent('UDP_PORT_OPEN', f"{target}:161", self.__name__, srcevent)
+                e = AirSpiderEvent('UDP_PORT_OPEN', f"{target}:161", self.__name__, srcevent)
                 self.notifyListeners(e)
 
-                e = SpiderFootEvent("UDP_PORT_OPEN_INFO", result, self.__name__, e)
+                e = AirSpiderEvent("UDP_PORT_OPEN_INFO", result, self.__name__, e)
                 self.notifyListeners(e)
 
 # End of sfp_tool_onesixtyone class

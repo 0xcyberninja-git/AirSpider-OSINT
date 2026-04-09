@@ -1,10 +1,10 @@
-# test_spiderfoottarget.py
+# test_airspidertarget.py
 import unittest
 
-from spiderfoot import SpiderFootTarget
+from airspider import AirSpiderTarget
 
 
-class TestSpiderFootTarget(unittest.TestCase):
+class TestAirSpiderTarget(unittest.TestCase):
 
     valid_target_types = [
         'IP_ADDRESS', 'IPV6_ADDRESS', 'NETBLOCK_OWNER', 'INTERNET_NAME',
@@ -19,7 +19,7 @@ class TestSpiderFootTarget(unittest.TestCase):
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    SpiderFootTarget(invalid_type, target_type)
+                    AirSpiderTarget(invalid_type, target_type)
 
     def test_init_argument_targetType_invalid_type_should_raise_TypeError(self):
         target_value = 'example target value'
@@ -28,27 +28,27 @@ class TestSpiderFootTarget(unittest.TestCase):
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    SpiderFootTarget(target_value, invalid_type)
+                    AirSpiderTarget(target_value, invalid_type)
 
     def test_init_argument_targetType_invalid_should_raise_ValueError(self):
         target_value = 'example target value'
         with self.assertRaises(ValueError):
-            SpiderFootTarget(target_value, 'invalid target type')
+            AirSpiderTarget(target_value, 'invalid target type')
 
     def test_init_supported_target_types(self):
         target_value = 'example target value'
 
         for target_type in self.valid_target_types:
             with self.subTest(target_type=target_type):
-                target = SpiderFootTarget(target_value, target_type)
-                self.assertIsInstance(target, SpiderFootTarget)
+                target = AirSpiderTarget(target_value, target_type)
+                self.assertIsInstance(target, AirSpiderTarget)
                 self.assertEqual(target.targetType, target_type)
                 self.assertEqual(target.targetValue, target_value)
 
     def test_setAlias_invalid_alias_should_not_set_alias(self):
         target_value = 'example target value'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         target.setAlias(None, None)
         target.setAlias("", None)
@@ -64,7 +64,7 @@ class TestSpiderFootTarget(unittest.TestCase):
     def test_setAlias_should_set_alias(self):
         target_value = 'example target value'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         target.setAlias("example value", "example type")
 
@@ -82,7 +82,7 @@ class TestSpiderFootTarget(unittest.TestCase):
     def test_targetType_attribute_should_return_a_string(self):
         target_value = 'example target value'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         self.assertIsInstance(target.targetType, str)
         self.assertEqual(target_type, target.targetType)
@@ -95,13 +95,13 @@ class TestSpiderFootTarget(unittest.TestCase):
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    target = SpiderFootTarget(target_value, target_type)
+                    target = AirSpiderTarget(target_value, target_type)
                     target.targetType = invalid_type
 
     def test_targetValue_attribute_should_return_a_string(self):
         target_value = 'example target value'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         self.assertIsInstance(target.targetValue, str)
         self.assertEqual(target_value, target.targetValue)
@@ -114,7 +114,7 @@ class TestSpiderFootTarget(unittest.TestCase):
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    target = SpiderFootTarget(target_value, target_type)
+                    target = AirSpiderTarget(target_value, target_type)
                     target.targetValue = invalid_type
 
     def test_targetValue_attribute_setter_empty_value_should_raise_ValueError(self):
@@ -122,13 +122,13 @@ class TestSpiderFootTarget(unittest.TestCase):
         target_type = 'IP_ADDRESS'
 
         with self.assertRaises(ValueError):
-            target = SpiderFootTarget(target_value, target_type)
+            target = AirSpiderTarget(target_value, target_type)
             target.targetValue = ""
 
     def test_targetAliases_attribute_should_return_a_list(self):
         target_value = 'example target value'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         self.assertIsInstance(target.targetAliases, list)
 
@@ -138,7 +138,7 @@ class TestSpiderFootTarget(unittest.TestCase):
         """
         target_value = 'example target value'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         equivalents = target._getEquivalents(target_type)
         self.assertEqual(list, type(equivalents))
@@ -149,7 +149,7 @@ class TestSpiderFootTarget(unittest.TestCase):
         """
         target_value = 'example target value'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         alias_type = "example type"
         alias_value = "example value"
@@ -165,7 +165,7 @@ class TestSpiderFootTarget(unittest.TestCase):
         """
         target_value = 'example target value'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         names = target.getNames()
         self.assertEqual(list, type(names))
@@ -176,14 +176,14 @@ class TestSpiderFootTarget(unittest.TestCase):
         """
         target_value = 'example target value'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         addresses = target.getAddresses()
         self.assertEqual(list, type(addresses))
 
         target_value = 'example target value'
         target_type = 'IPV6_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         addresses = target.getAddresses()
         self.assertEqual(list, type(addresses))
@@ -191,7 +191,7 @@ class TestSpiderFootTarget(unittest.TestCase):
     def test_matches_argument_value_invalid_type_should_return_False(self):
         target_value = 'example target value'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         invalid_types = [None, list(), bytes(), dict(), int()]
         for invalid_type in invalid_types:
@@ -202,7 +202,7 @@ class TestSpiderFootTarget(unittest.TestCase):
     def test_matches_argument_value_matching_ipv4_address_should_return_True(self):
         target_value = '1.1.1.1'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches(target_value)
         self.assertTrue(matches)
@@ -210,7 +210,7 @@ class TestSpiderFootTarget(unittest.TestCase):
     def test_matches_argument_value_unmatching_ipv4_address_should_return_False(self):
         target_value = '1.1.1.1'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches('1.1.1.2')
         self.assertFalse(matches)
@@ -218,7 +218,7 @@ class TestSpiderFootTarget(unittest.TestCase):
     def test_matches_argument_value_unmatching_ipv4_address_in_same_subnet_when_targetType_is_netblock_should_return_True(self):
         target_value = '127.0.0.0/24'
         target_type = 'NETBLOCK_OWNER'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches('127.0.0.2')
         self.assertTrue(matches)
@@ -226,7 +226,7 @@ class TestSpiderFootTarget(unittest.TestCase):
     def test_matches_argument_value_matching_ipv6_address_should_return_True(self):
         target_value = '::1'
         target_type = 'IPV6_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches(target_value)
         self.assertTrue(matches)
@@ -234,72 +234,72 @@ class TestSpiderFootTarget(unittest.TestCase):
     def test_matches_argument_value_unmatching_ipv6_address_should_return_False(self):
         target_value = '::1'
         target_type = 'IPV6_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches('::2')
         self.assertFalse(matches)
 
     def test_matches_argument_value_matching_internet_name_should_return_True(self):
-        target_value = 'spiderfoot.net'
+        target_value = 'airspider.net'
         target_type = 'INTERNET_NAME'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches(target_value)
         self.assertTrue(matches)
 
     def test_matches_argument_value_unmatching_internet_name_should_return_False(self):
-        target_value = 'spiderfoot.net'
+        target_value = 'airspider.net'
         target_type = 'INTERNET_NAME'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches(f"{target_value}.test")
         self.assertFalse(matches)
 
     def test_matches_argument_includeChildren_true_with_matching_target_subdomain_should_return_True(self):
-        target_value = 'spiderfoot.net'
+        target_value = 'airspider.net'
         target_type = 'INTERNET_NAME'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches(f"test.{target_value}", includeChildren=True)
         self.assertTrue(matches)
 
     def test_matches_argument_includeParents_true_with_matching_target_parent_domain_should_return_True(self):
-        parent_domain = 'spiderfoot.net'
+        parent_domain = 'airspider.net'
         target_value = f"test.{parent_domain}"
         target_type = 'INTERNET_NAME'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches(parent_domain, includeParents=True)
         self.assertTrue(matches)
 
     def test_matches_argument_value_any_human_name_should_return_True(self):
-        target_value = 'SpiderFoot'
+        target_value = 'AirSpider'
         target_type = 'HUMAN_NAME'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches('something else entirely')
         self.assertTrue(matches)
 
     def test_matches_argument_value_any_phone_number_should_return_True(self):
-        target_value = 'SpiderFoot'
+        target_value = 'AirSpider'
         target_type = 'PHONE_NUMBER'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches('something else entirely')
         self.assertTrue(matches)
 
     def test_matches_argument_value_any_bitcoin_address_should_return_True(self):
-        target_value = 'SpiderFoot'
+        target_value = 'AirSpider'
         target_type = 'BITCOIN_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches('something else entirely')
         self.assertTrue(matches)
 
     def test_matches_argument_value_any_username_should_return_True(self):
-        target_value = 'SpiderFoot'
+        target_value = 'AirSpider'
         target_type = 'USERNAME'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches('something else entirely')
         self.assertTrue(matches)
@@ -307,7 +307,7 @@ class TestSpiderFootTarget(unittest.TestCase):
     def test_matches_argument_value_with_empty_value_should_return_False(self):
         target_value = 'example target value'
         target_type = 'IP_ADDRESS'
-        target = SpiderFootTarget(target_value, target_type)
+        target = AirSpiderTarget(target_value, target_type)
 
         matches = target.matches("")
         self.assertFalse(matches)

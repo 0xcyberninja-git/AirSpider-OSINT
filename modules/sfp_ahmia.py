@@ -4,10 +4,10 @@
 # Purpose:     Searches the Tor search engine 'Ahmia' for content related to the
 #              target.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     20/06/2017
-# Copyright:   (c) Steve Micallef 2017
+# Copyright:   (c) Prateek Bheevgade 2017
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -16,10 +16,10 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_ahmia(SpiderFootPlugin):
+class sfp_ahmia(AirSpiderPlugin):
 
     meta = {
         'name': "Ahmia",
@@ -138,7 +138,7 @@ class sfp_ahmia(SpiderFootPlugin):
                 continue
 
             if not self.opts['fetchlinks']:
-                evt = SpiderFootEvent("DARKNET_MENTION_URL", link, self.__name__, event)
+                evt = AirSpiderEvent("DARKNET_MENTION_URL", link, self.__name__, event)
                 self.notifyListeners(evt)
                 continue
 
@@ -157,7 +157,7 @@ class sfp_ahmia(SpiderFootPlugin):
                 self.debug(f"Ignoring {link} as no mention of {eventData}")
                 continue
 
-            evt = SpiderFootEvent("DARKNET_MENTION_URL", link, self.__name__, event)
+            evt = AirSpiderEvent("DARKNET_MENTION_URL", link, self.__name__, event)
             self.notifyListeners(evt)
 
             try:
@@ -168,7 +168,7 @@ class sfp_ahmia(SpiderFootPlugin):
                 continue
 
             wdata = res['content'][startIndex:endIndex]
-            evt = SpiderFootEvent("DARKNET_MENTION_CONTENT", f"...{wdata}...", self.__name__, evt)
+            evt = AirSpiderEvent("DARKNET_MENTION_CONTENT", f"...{wdata}...", self.__name__, evt)
             self.notifyListeners(evt)
 
 # End of sfp_ahmia class

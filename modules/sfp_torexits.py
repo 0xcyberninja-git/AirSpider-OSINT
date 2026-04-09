@@ -4,10 +4,10 @@
 # Purpose:     Checks if an IP address or netblock appears on the TOR Metrics
 #              exit node list.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     14/12/2013
-# Copyright:   (c) Steve Micallef, 2013
+# Copyright:   (c) Prateek Bheevgade, 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,10 +15,10 @@ import json
 
 from netaddr import IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_torexits(SpiderFootPlugin):
+class sfp_torexits(AirSpiderPlugin):
 
     meta = {
         'name': "TOR Exit Nodes",
@@ -213,16 +213,16 @@ class sfp_torexits(SpiderFootPlugin):
 
             # For netblocks, we need to create the associated IP address event first.
             if eventName == 'NETBLOCK_OWNER':
-                pevent = SpiderFootEvent("IP_ADDRESS", addr, self.__name__, event)
+                pevent = AirSpiderEvent("IP_ADDRESS", addr, self.__name__, event)
                 self.notifyListeners(pevent)
             if eventName == 'NETBLOCKV6_OWNER':
-                pevent = SpiderFootEvent("IPV6_ADDRESS", addr, self.__name__, event)
+                pevent = AirSpiderEvent("IPV6_ADDRESS", addr, self.__name__, event)
                 self.notifyListeners(pevent)
             else:
                 pevent = event
 
             self.debug(f"IP address {addr} found in TOR exit node list.")
-            evt = SpiderFootEvent("TOR_EXIT_NODE", addr, self.__name__, pevent)
+            evt = AirSpiderEvent("TOR_EXIT_NODE", addr, self.__name__, pevent)
             self.notifyListeners(evt)
 
 # End of sfp_torexits class

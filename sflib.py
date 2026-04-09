@@ -1,12 +1,12 @@
 #  -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sflib
-# Purpose:      Common functions used by SpiderFoot modules.
+# Purpose:      Common functions used by AirSpider modules.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     26/03/2012
-# Copyright:   (c) Steve Micallef 2012
+# Copyright:   (c) Prateek Bheevgade 2012
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -35,18 +35,18 @@ import OpenSSL
 import requests
 import urllib3
 from publicsuffixlist import PublicSuffixList
-from spiderfoot import SpiderFootHelpers
+from airspider import AirSpiderHelpers
 
 # For hiding the SSL warnings coming from the requests lib
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  # noqa: DUO131
 
 
-class SpiderFoot:
-    """SpiderFoot
+class AirSpider:
+    """AirSpider
 
     Attributes:
-        dbh (SpiderFootDb): database handle
-        scanId (str): scan ID this instance of SpiderFoot is being used in
+        dbh (AirSpiderDb): database handle
+        scanId (str): scan ID this instance of AirSpider is being used in
         socksProxy (str): SOCKS proxy
         opts (dict): configuration options
     """
@@ -56,7 +56,7 @@ class SpiderFoot:
     opts = dict()
 
     def __init__(self, options: dict) -> None:
-        """Initialize SpiderFoot object.
+        """Initialize AirSpider object.
 
         Args:
             options (dict): dictionary of configuration options.
@@ -68,7 +68,7 @@ class SpiderFoot:
             raise TypeError(f"options is {type(options)}; expected dict()")
 
         self.opts = deepcopy(options)
-        self.log = logging.getLogger(f"spiderfoot.{__name__}")
+        self.log = logging.getLogger(f"airspider.{__name__}")
 
         # This is ugly but we don't want any fetches to fail - we expect
         # to encounter unverified SSL certs!
@@ -84,7 +84,7 @@ class SpiderFoot:
         """Database handle
 
         Returns:
-            SpiderFootDb: database handle
+            AirSpiderDb: database handle
         """
         return self._dbh
 
@@ -113,13 +113,13 @@ class SpiderFoot:
         for logging events to the database about a scan.
 
         Args:
-            dbh (SpiderFootDb): database handle
+            dbh (AirSpiderDb): database handle
         """
         self._dbh = dbh
 
     @scanId.setter
     def scanId(self, scanId: str) -> str:
-        """Set the scan ID this instance of SpiderFoot is being used in.
+        """Set the scan ID this instance of AirSpider is being used in.
 
         Args:
             scanId (str): scan instance ID
@@ -179,7 +179,7 @@ class SpiderFoot:
 
         return val
 
-    def error(self, message: str) -> None:
+    def error(self, message: str, **kwargs) -> None:
         """Print and log an error message
 
         Args:
@@ -188,7 +188,7 @@ class SpiderFoot:
         if not self.opts['__logging']:
             return
 
-        self.log.error(message, extra={'scanId': self._scanId})
+        self.log.error(message, extra={'scanId': self._scanId}, **kwargs)
 
     def fatal(self, error: str) -> None:
         """Print an error message and stacktrace then exit.
@@ -202,7 +202,7 @@ class SpiderFoot:
 
         sys.exit(-1)
 
-    def status(self, message: str) -> None:
+    def status(self, message: str, **kwargs) -> None:
         """Log and print a status message.
 
         Args:
@@ -211,9 +211,9 @@ class SpiderFoot:
         if not self.opts['__logging']:
             return
 
-        self.log.info(message, extra={'scanId': self._scanId})
+        self.log.info(message, extra={'scanId': self._scanId}, **kwargs)
 
-    def info(self, message: str) -> None:
+    def info(self, message: str, **kwargs) -> None:
         """Log and print an info message.
 
         Args:
@@ -222,9 +222,9 @@ class SpiderFoot:
         if not self.opts['__logging']:
             return
 
-        self.log.info(f"{message}", extra={'scanId': self._scanId})
+        self.log.info(f"{message}", extra={'scanId': self._scanId}, **kwargs)
 
-    def debug(self, message: str) -> None:
+    def debug(self, message: str, **kwargs) -> None:
         """Log and print a debug message.
 
         Args:
@@ -259,7 +259,7 @@ class SpiderFoot:
             data (str): Data to cache
         """
         pathLabel = hashlib.sha224(label.encode('utf-8')).hexdigest()
-        cacheFile = SpiderFootHelpers.cachePath() + "/" + pathLabel
+        cacheFile = AirSpiderHelpers.cachePath() + "/" + pathLabel
         with io.open(cacheFile, "w", encoding="utf-8", errors="ignore") as fp:
             if isinstance(data, list):
                 for line in data:
@@ -288,7 +288,7 @@ class SpiderFoot:
             return None
 
         pathLabel = hashlib.sha224(label.encode('utf-8')).hexdigest()
-        cacheFile = SpiderFootHelpers.cachePath() + "/" + pathLabel
+        cacheFile = AirSpiderHelpers.cachePath() + "/" + pathLabel
         try:
             cache_stat = os.stat(cacheFile)
         except OSError:
@@ -307,7 +307,7 @@ class SpiderFoot:
         """Convert a Python dictionary to something storable in the database.
 
         Args:
-            opts (dict): Dictionary of SpiderFoot configuration options
+            opts (dict): Dictionary of AirSpider configuration options
             filterSystem (bool): TBD
 
         Returns:
@@ -372,7 +372,7 @@ class SpiderFoot:
         to a dictionary for Python to process.
 
         Args:
-            opts (dict): SpiderFoot configuration options
+            opts (dict): AirSpider configuration options
             referencePoint (dict): needed to know the actual types the options are supposed to be.
             filterSystem (bool): Ignore global "system" configuration options
 
@@ -600,7 +600,7 @@ class SpiderFoot:
             self.error(f"Invalid URL: {url}")
             return None
 
-        baseurl = SpiderFootHelpers.urlBaseUrl(url)
+        baseurl = AirSpiderHelpers.urlBaseUrl(url)
         if '://' in baseurl:
             count = 2
         else:
@@ -794,7 +794,10 @@ class SpiderFoot:
             return False
         if netaddr.IPAddress(ip).is_multicast():
             return False
-        if netaddr.IPAddress(ip).is_private():
+        ip_addr = netaddr.IPAddress(ip)
+        if ip_addr.version == 4 and ip_addr.is_ipv4_private_use:
+            return False
+        if ip_addr.version == 6 and ip_addr.is_ipv6_unique_local:
             return False
         return True
 
@@ -1130,7 +1133,10 @@ class SpiderFoot:
         if not self.validIP(ip) and not self.validIP6(ip):
             return False
 
-        if netaddr.IPAddress(ip).is_private():
+        ip_addr = netaddr.IPAddress(ip)
+        if ip_addr.version == 4 and ip_addr.is_ipv4_private_use:
+            return True
+        if ip_addr.version == 6 and ip_addr.is_ipv6_unique_local:
             return True
 
         if netaddr.IPAddress(ip).is_loopback():
@@ -1171,7 +1177,9 @@ class SpiderFoot:
 
         # Never proxy RFC1918 addresses on the LAN or the local network interface
         if self.validIP(host):
-            if netaddr.IPAddress(host).is_private():
+            ip_addr = netaddr.IPAddress(host)
+            if (ip_addr.version == 4 and ip_addr.is_ipv4_private_use) or \
+               (ip_addr.version == 6 and ip_addr.is_ipv6_unique_local):
                 return False
             if netaddr.IPAddress(host).is_loopback():
                 return False
@@ -1193,7 +1201,7 @@ class SpiderFoot:
         url: str,
         cookies: str = None,
         timeout: int = 30,
-        useragent: str = "SpiderFoot",
+        useragent: str = "AirSpider",
         headers: dict = None,
         noLog: bool = False,
         postData: str = None,
@@ -1297,7 +1305,7 @@ class SpiderFoot:
 
             # Relative re-direct
             if newloc.startswith("/") or newloc.startswith("../"):
-                newloc = SpiderFootHelpers.urlBaseUrl(url) + newloc
+                newloc = AirSpiderHelpers.urlBaseUrl(url) + newloc
             result['realurl'] = newloc
             result['code'] = str(hdr.status_code)
 
@@ -1456,7 +1464,7 @@ class SpiderFoot:
 
         return True
 
-    def cveInfo(self, cveId: str, sources: str = "circl,nist") -> (str, str):
+    def cveInfo(self, cveId: str, sources: str = "circl,nist") -> tuple:
         """Look up a CVE ID for more information in the first available source.
 
         Args:
@@ -1661,4 +1669,4 @@ class SpiderFoot:
 
         return None
 
-# end of SpiderFoot class
+# end of AirSpider class

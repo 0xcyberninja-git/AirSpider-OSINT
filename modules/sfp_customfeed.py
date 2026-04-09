@@ -4,10 +4,10 @@
 # Purpose:      Checks if an ASN, IP, hostname or domain is listed as malicious
 #               in a user-supplied data feed.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     11/11/2018
-# Copyright:   (c) Steve Micallef, 2018
+# Copyright:   (c) Prateek Bheevgade, 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ import re
 
 from netaddr import IPAddress, IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 malchecks = {
     'Custom Threat Data': {
@@ -26,7 +26,7 @@ malchecks = {
 }
 
 
-class sfp_customfeed(SpiderFootPlugin):
+class sfp_customfeed(AirSpiderPlugin):
 
     meta = {
         'name': "Custom Threat Feed",
@@ -241,7 +241,7 @@ class sfp_customfeed(SpiderFootPlugin):
             # Notify other modules of what you've found
             if url is not None:
                 text = f"{check} [{eventData}]\n<SFURL>{url}</SFURL>"
-                evt = SpiderFootEvent(evtType, text, self.__name__, event)
+                evt = AirSpiderEvent(evtType, text, self.__name__, event)
                 self.notifyListeners(evt)
 
 # End of sfp_customfeed class

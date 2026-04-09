@@ -1,38 +1,38 @@
 #
 # Spiderfoot Dockerfile
 #
-# http://www.spiderfoot.net
+# http://www.airspider.net
 #
 # Written by: Michael Pellon <m@pellon.io>
 # Updated by: Chandrapal <bnchandrapal@protonmail.com>
-# Updated by: Steve Micallef <steve@binarypool.com>
-# Updated by: Steve Bate <svc-spiderfoot@stevebate.net>
-#    -> Inspired by https://github.com/combro2k/dockerfiles/tree/master/alpine-spiderfoot
+# Updated by: Prateek Bheevgade <prateek@airspider.io>
+# Updated by: Steve Bate <svc-airspider@stevebate.net>
+#    -> Inspired by https://github.com/combro2k/dockerfiles/tree/master/alpine-airspider
 #
 # Usage:
 #
-#   sudo docker build -t spiderfoot .
-#   sudo docker run -p 5001:5001 --security-opt no-new-privileges spiderfoot
+#   sudo docker build -t airspider .
+#   sudo docker run -p 5001:5001 --security-opt no-new-privileges airspider
 #
-# Using Docker volume for spiderfoot data
+# Using Docker volume for airspider data
 #
-#   sudo docker run -p 5001:5001 -v /mydir/spiderfoot:/var/lib/spiderfoot spiderfoot
+#   sudo docker run -p 5001:5001 -v /mydir/airspider:/var/lib/airspider airspider
 #
-# Using SpiderFoot remote command line with web server
+# Using AirSpider remote command line with web server
 #
-#   docker run --rm -it spiderfoot sfcli.py -s http://my.spiderfoot.host:5001/
+#   docker run --rm -it airspider sfcli.py -s http://my.airspider.host:5001/
 #
-# Running spiderfoot commands without web server (can optionally specify volume)
+# Running airspider commands without web server (can optionally specify volume)
 #
-#   sudo docker run --rm spiderfoot sf.py -h
+#   sudo docker run --rm airspider sf.py -h
 #
 # Running a shell in the container for maintenance
-#   sudo docker run -it --entrypoint /bin/sh spiderfoot
+#   sudo docker run -it --entrypoint /bin/sh airspider
 #
-# Running spiderfoot unit tests in container
+# Running airspider unit tests in container
 #
-#   sudo docker build -t spiderfoot-test --build-arg REQUIREMENTS=test/requirements.txt .
-#   sudo docker run --rm spiderfoot-test -m pytest --flake8 .
+#   sudo docker build -t airspider-test --build-arg REQUIREMENTS=test/requirements.txt .
+#   sudo docker run --rm airspider-test -m pytest --flake8 .
 
 FROM alpine:3.12.4 AS build
 ARG REQUIREMENTS=requirements.txt
@@ -50,33 +50,33 @@ RUN pip3 install -r "$REQUIREMENTS"
 
 
 FROM alpine:3.13.0
-WORKDIR /home/spiderfoot
+WORKDIR /home/airspider
 
 # Place database and logs outside installation directory
-ENV SPIDERFOOT_DATA /var/lib/spiderfoot
-ENV SPIDERFOOT_LOGS /var/lib/spiderfoot/log
-ENV SPIDERFOOT_CACHE /var/lib/spiderfoot/cache
+ENV SPIDERFOOT_DATA /var/lib/airspider
+ENV SPIDERFOOT_LOGS /var/lib/airspider/log
+ENV SPIDERFOOT_CACHE /var/lib/airspider/cache
 
 # Run everything as one command so that only one layer is created
 RUN apk --update --no-cache add python3 musl openssl libxslt tinyxml libxml2 jpeg zlib openjpeg \
-    && addgroup spiderfoot \
-    && adduser -G spiderfoot -h /home/spiderfoot -s /sbin/nologin \
-               -g "SpiderFoot User" -D spiderfoot \
+    && addgroup airspider \
+    && adduser -G airspider -h /home/airspider -s /sbin/nologin \
+               -g "AirSpider User" -D airspider \
     && rm -rf /var/cache/apk/* \
     && rm -rf /lib/apk/db \
     && rm -rf /root/.cache \
     && mkdir -p $SPIDERFOOT_DATA || true \
     && mkdir -p $SPIDERFOOT_LOGS || true \
     && mkdir -p $SPIDERFOOT_CACHE || true \
-    && chown spiderfoot:spiderfoot $SPIDERFOOT_DATA \
-    && chown spiderfoot:spiderfoot $SPIDERFOOT_LOGS \
-    && chown spiderfoot:spiderfoot $SPIDERFOOT_CACHE
+    && chown airspider:airspider $SPIDERFOOT_DATA \
+    && chown airspider:airspider $SPIDERFOOT_LOGS \
+    && chown airspider:airspider $SPIDERFOOT_CACHE
 
 COPY . .
 COPY --from=build /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-USER spiderfoot
+USER airspider
 
 EXPOSE 5001
 

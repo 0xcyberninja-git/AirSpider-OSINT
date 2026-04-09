@@ -3,17 +3,17 @@
 # Name:         sfp_phishtank
 # Purpose:      Check if a host/domain is malicious according to PhishTank.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     14/12/2013
-# Copyright:   (c) Steve Micallef, 2013
+# Copyright:   (c) Prateek Bheevgade, 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_phishtank(SpiderFootPlugin):
+class sfp_phishtank(AirSpiderPlugin):
 
     meta = {
         'name': "PhishTank",
@@ -97,7 +97,7 @@ class sfp_phishtank(SpiderFootPlugin):
         res = self.sf.fetchUrl(
             "https://data.phishtank.com/data/online-valid.csv",
             timeout=self.opts['_fetchtimeout'],
-            useragent="SpiderFoot",
+            useragent="AirSpider",
         )
 
         if res['code'] != "200":
@@ -189,10 +189,10 @@ class sfp_phishtank(SpiderFootPlugin):
         url = f"https://www.phishtank.com/phish_detail.php?phish_id={phish_id}"
         text = f"PhishTank [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_phishtank class

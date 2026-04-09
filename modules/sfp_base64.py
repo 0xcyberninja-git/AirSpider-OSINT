@@ -3,20 +3,20 @@
 # Name:         sfp_base64
 # Purpose:      Identifies (best-effort) Base64-encoded strings in URLs.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     31/01/2017
-# Copyright:   (c) Steve Micallef 2017
+# Copyright:   (c) Prateek Bheevgade 2017
 # -------------------------------------------------------------------------------
 
 import base64
 import re
 import urllib.parse
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_base64(SpiderFootPlugin):
+class sfp_base64(AirSpiderPlugin):
 
     meta = {
         'name': "Base64 Decoder",
@@ -91,7 +91,7 @@ class sfp_base64(SpiderFootPlugin):
                 self.debug(f"Unable to base64-decode string: {e}")
                 continue
 
-            evt = SpiderFootEvent("BASE64_DATA", string, self.__name__, event)
+            evt = AirSpiderEvent("BASE64_DATA", string, self.__name__, event)
             self.notifyListeners(evt)
 
 # End of sfp_base64 class

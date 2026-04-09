@@ -1,12 +1,12 @@
-# test_spiderfootcorrelator.py
+# test_airspidercorrelator.py
 import unittest
 
-from spiderfoot import SpiderFootCorrelator, SpiderFootDb
+from airspider import AirSpiderCorrelator, AirSpiderDb
 
 
-class TestSpiderFootCorrelator(unittest.TestCase):
+class TestAirSpiderCorrelator(unittest.TestCase):
     """
-    Test SpiderFootCorrelator
+    Test AirSpiderCorrelator
     """
 
     def test_init_argument_dbh_invalid_type_should_raise_TypeError(self):
@@ -14,32 +14,32 @@ class TestSpiderFootCorrelator(unittest.TestCase):
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    SpiderFootCorrelator(invalid_type, {})
+                    AirSpiderCorrelator(invalid_type, {})
 
     def test_init_argument_ruleset_invalid_type_should_raise_TypeError(self):
         invalid_types = [None, str(), list(), int()]
         for invalid_type in invalid_types:
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
-                    SpiderFootCorrelator(None, invalid_type)
+                    AirSpiderCorrelator(None, invalid_type)
 
     def test_init_argument_ruleset_invalid_rule_should_raise_SyntaxError(self):
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
         ruleset = {"sample rule": "invalid yaml"}
         with self.assertRaises(SyntaxError):
-            SpiderFootCorrelator(sfdb, ruleset)
+            AirSpiderCorrelator(sfdb, ruleset)
 
     def test_run_correlations_invalid_scan_instance_should_raise_ValueError(self):
-        sfdb = SpiderFootDb(self.default_options, False)
+        sfdb = AirSpiderDb(self.default_options, False)
 
-        correlator = SpiderFootCorrelator(sfdb, {}, 'example scan id')
+        correlator = AirSpiderCorrelator(sfdb, {}, 'example scan id')
         with self.assertRaises(ValueError):
             correlator.run_correlations()
 
     def test_build_db_criteria_argument_matchrule_invalid_type_should_raise_TypeError(self):
-        sfdb = SpiderFootDb(self.default_options, False)
-        correlator = SpiderFootCorrelator(sfdb, {})
+        sfdb = AirSpiderDb(self.default_options, False)
+        correlator = AirSpiderCorrelator(sfdb, {})
 
         invalid_types = [None, str(), list(), int()]
         for invalid_type in invalid_types:
@@ -48,8 +48,8 @@ class TestSpiderFootCorrelator(unittest.TestCase):
                     correlator.build_db_criteria(invalid_type)
 
     def test_enrich_event_sources_argument_rule_invalid_type_should_raise_TypeError(self):
-        sfdb = SpiderFootDb(self.default_options, False)
-        correlator = SpiderFootCorrelator(sfdb, {})
+        sfdb = AirSpiderDb(self.default_options, False)
+        correlator = AirSpiderCorrelator(sfdb, {})
 
         invalid_types = [None, str(), list(), int()]
         for invalid_type in invalid_types:
@@ -58,8 +58,8 @@ class TestSpiderFootCorrelator(unittest.TestCase):
                     correlator.enrich_event_sources(invalid_type)
 
     def test_enrich_event_children_argument_rule_invalid_type_should_raise_TypeError(self):
-        sfdb = SpiderFootDb(self.default_options, False)
-        correlator = SpiderFootCorrelator(sfdb, {})
+        sfdb = AirSpiderDb(self.default_options, False)
+        correlator = AirSpiderCorrelator(sfdb, {})
 
         invalid_types = [None, str(), list(), int()]
         for invalid_type in invalid_types:
@@ -68,8 +68,8 @@ class TestSpiderFootCorrelator(unittest.TestCase):
                     correlator.enrich_event_children(invalid_type)
 
     def test_enrich_event_entities_argument_rule_invalid_type_should_raise_TypeError(self):
-        sfdb = SpiderFootDb(self.default_options, False)
-        correlator = SpiderFootCorrelator(sfdb, {})
+        sfdb = AirSpiderDb(self.default_options, False)
+        correlator = AirSpiderCorrelator(sfdb, {})
 
         invalid_types = [None, str(), list(), int()]
         for invalid_type in invalid_types:
@@ -78,8 +78,8 @@ class TestSpiderFootCorrelator(unittest.TestCase):
                     correlator.enrich_event_entities(invalid_type)
 
     def test_process_rule_argument_rule_invalid_type_should_raise_TypeError(self):
-        sfdb = SpiderFootDb(self.default_options, False)
-        correlator = SpiderFootCorrelator(sfdb, {})
+        sfdb = AirSpiderDb(self.default_options, False)
+        correlator = AirSpiderCorrelator(sfdb, {})
 
         invalid_types = [None, str(), list(), int()]
         for invalid_type in invalid_types:
@@ -88,8 +88,8 @@ class TestSpiderFootCorrelator(unittest.TestCase):
                     correlator.process_rule(invalid_type)
 
     def test_build_correlation_title_argument_rule_invalid_type_should_raise_TypeError(self):
-        sfdb = SpiderFootDb(self.default_options, False)
-        correlator = SpiderFootCorrelator(sfdb, {})
+        sfdb = AirSpiderDb(self.default_options, False)
+        correlator = AirSpiderCorrelator(sfdb, {})
 
         invalid_types = [None, str(), list(), int()]
         for invalid_type in invalid_types:
@@ -98,8 +98,8 @@ class TestSpiderFootCorrelator(unittest.TestCase):
                     correlator.build_correlation_title(invalid_type, [])
 
     def test_build_correlation_title_argument_data_invalid_type_should_raise_TypeError(self):
-        sfdb = SpiderFootDb(self.default_options, False)
-        correlator = SpiderFootCorrelator(sfdb, {})
+        sfdb = AirSpiderDb(self.default_options, False)
+        correlator = AirSpiderCorrelator(sfdb, {})
 
         invalid_types = [None, str(), dict(), int()]
         for invalid_type in invalid_types:
@@ -108,8 +108,8 @@ class TestSpiderFootCorrelator(unittest.TestCase):
                     correlator.build_correlation_title({}, invalid_type)
 
     def test_create_correlation_argument_rule_invalid_type_should_raise_TypeError(self):
-        sfdb = SpiderFootDb(self.default_options, False)
-        correlator = SpiderFootCorrelator(sfdb, {})
+        sfdb = AirSpiderDb(self.default_options, False)
+        correlator = AirSpiderCorrelator(sfdb, {})
 
         invalid_types = [None, str(), list(), int()]
         for invalid_type in invalid_types:
@@ -118,8 +118,8 @@ class TestSpiderFootCorrelator(unittest.TestCase):
                     correlator.create_correlation(invalid_type, [], readonly=True)
 
     def test_create_correlation_argument_data_invalid_type_should_raise_TypeError(self):
-        sfdb = SpiderFootDb(self.default_options, False)
-        correlator = SpiderFootCorrelator(sfdb, {})
+        sfdb = AirSpiderDb(self.default_options, False)
+        correlator = AirSpiderCorrelator(sfdb, {})
 
         invalid_types = [None, str(), dict(), int()]
         for invalid_type in invalid_types:
@@ -128,8 +128,8 @@ class TestSpiderFootCorrelator(unittest.TestCase):
                     correlator.create_correlation({}, invalid_type, readonly=True)
 
     def test_check_ruleset_validity_should_return_bool(self):
-        sfdb = SpiderFootDb(self.default_options, False)
-        correlator = SpiderFootCorrelator(sfdb, {})
+        sfdb = AirSpiderDb(self.default_options, False)
+        correlator = AirSpiderCorrelator(sfdb, {})
 
         ruleset = [{"sample": "sample"}]
         self.assertIsInstance(correlator.check_ruleset_validity(ruleset), bool)
@@ -140,8 +140,8 @@ class TestSpiderFootCorrelator(unittest.TestCase):
                 self.assertIsInstance(correlator.check_ruleset_validity(invalid_type), bool)
 
     def test_check_rule_validity_invalid_rule_should_return_false(self):
-        sfdb = SpiderFootDb(self.default_options, False)
-        correlator = SpiderFootCorrelator(sfdb, {})
+        sfdb = AirSpiderDb(self.default_options, False)
+        correlator = AirSpiderCorrelator(sfdb, {})
 
         invalid_types = [None, str(), list(), dict(), int()]
         for invalid_type in invalid_types:
@@ -149,8 +149,8 @@ class TestSpiderFootCorrelator(unittest.TestCase):
                 self.assertFalse(correlator.check_rule_validity(invalid_type))
 
     def test_check_rule_validity_rule_missing_mandatory_field_should_return_false(self):
-        sfdb = SpiderFootDb(self.default_options, False)
-        correlator = SpiderFootCorrelator(sfdb, {})
+        sfdb = AirSpiderDb(self.default_options, False)
+        correlator = AirSpiderCorrelator(sfdb, {})
 
         rule = {
             "id": "sample",

@@ -3,17 +3,17 @@
 # Name:         sfp_botvrij
 # Purpose:      Check if a domain is malicious according to botvrij.eu.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     16/05/2020
-# Copyright:   (c) Steve Micallef, 2020
+# Copyright:   (c) Prateek Bheevgade, 2020
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_botvrij(SpiderFootPlugin):
+class sfp_botvrij(AirSpiderPlugin):
 
     meta = {
         'name': "botvrij.eu",
@@ -177,10 +177,10 @@ class sfp_botvrij(SpiderFootPlugin):
         url = "https://www.botvrij.eu/data/blocklist/blocklist_full.csv"
         text = f"botvrij.eu Domain Blocklist [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_botvrij class

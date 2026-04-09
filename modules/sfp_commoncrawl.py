@@ -4,20 +4,20 @@
 # Purpose:      Searches the commoncrawl.org project's indexes for URLs related
 #               to the target.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     05/09/2018
-# Copyright:   (c) Steve Micallef 2018
+# Copyright:   (c) Prateek Bheevgade 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 import re
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_commoncrawl(SpiderFootPlugin):
+class sfp_commoncrawl(AirSpiderPlugin):
 
     meta = {
         'name': "CommonCrawl",
@@ -70,7 +70,7 @@ class sfp_commoncrawl(SpiderFootPlugin):
         for index in self.indexBase:
             url = f"https://index.commoncrawl.org/{index}-index?url={target}/*&output=json"
             res = self.sf.fetchUrl(url, timeout=60,
-                                   useragent="SpiderFoot")
+                                   useragent="AirSpider")
 
             if res['code'] in ["400", "401", "402", "403", "404"]:
                 self.error("CommonCrawl search doesn't seem to be available.")
@@ -89,7 +89,7 @@ class sfp_commoncrawl(SpiderFootPlugin):
     def getLatestIndexes(self):
         url = "https://index.commoncrawl.org/"
         res = self.sf.fetchUrl(url, timeout=60,
-                               useragent="SpiderFoot")
+                               useragent="AirSpider")
 
         if res['code'] in ["400", "401", "402", "403", "404"]:
             self.error("CommonCrawl index collection doesn't seem to be available.")
@@ -182,7 +182,7 @@ class sfp_commoncrawl(SpiderFootPlugin):
                         continue
                     sent.append(link['url'])
 
-                    evt = SpiderFootEvent("LINKED_URL_INTERNAL", link['url'],
+                    evt = AirSpiderEvent("LINKED_URL_INTERNAL", link['url'],
                                           self.__name__, event)
                     self.notifyListeners(evt)
             except Exception as e:

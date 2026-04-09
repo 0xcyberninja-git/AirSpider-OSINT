@@ -3,10 +3,10 @@
 # Name:         sfscan
 # Purpose:      Scanning control functionality
 #
-# Author:       Steve Micallef <steve@binarypool.com>
+# Author:       Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:      11/03/2013
-# Copyright:    (c) Steve Micallef 2013
+# Copyright:    (c) Prateek Bheevgade 2013
 # License:      MIT
 # -----------------------------------------------------------------
 import socket
@@ -19,17 +19,17 @@ from collections import OrderedDict
 
 import dns.resolver
 
-from sflib import SpiderFoot
-from spiderfoot import SpiderFootDb, SpiderFootEvent, SpiderFootPlugin, SpiderFootTarget, SpiderFootHelpers, SpiderFootThreadPool, SpiderFootCorrelator, logger
+from sflib import AirSpider
+from airspider import AirSpiderDb, AirSpiderEvent, AirSpiderPlugin, AirSpiderTarget, AirSpiderHelpers, AirSpiderThreadPool, AirSpiderCorrelator, logger
 
 
-def startSpiderFootScanner(loggingQueue, *args, **kwargs):
+def startAirSpiderScanner(loggingQueue, *args, **kwargs):
     logger.logWorkerSetup(loggingQueue)
-    return SpiderFootScanner(*args, **kwargs)
+    return AirSpiderScanner(*args, **kwargs)
 
 
-class SpiderFootScanner():
-    """SpiderFootScanner object.
+class AirSpiderScanner():
+    """AirSpiderScanner object.
 
     Attributes:
         scanId (str): unique ID of the scan
@@ -50,7 +50,7 @@ class SpiderFootScanner():
     __scanName = None
 
     def __init__(self, scanName: str, scanId: str, targetValue: str, targetType: str, moduleList: list, globalOpts: dict, start: bool = True) -> None:
-        """Initialize SpiderFootScanner object.
+        """Initialize AirSpiderScanner object.
 
         Args:
             scanName (str): name of the scan
@@ -74,7 +74,7 @@ class SpiderFootScanner():
             raise ValueError("globalOpts is empty")
 
         self.__config = deepcopy(globalOpts)
-        self.__dbh = SpiderFootDb(self.__config)
+        self.__dbh = AirSpiderDb(self.__config)
 
         if not isinstance(scanName, str):
             raise TypeError(f"scanName is {type(scanName)}; expected str()")
@@ -108,21 +108,21 @@ class SpiderFootScanner():
             raise ValueError("moduleList is empty")
 
         self.__moduleList = moduleList
-        self.__sf = SpiderFoot(self.__config)
+        self.__sf = AirSpider(self.__config)
         self.__sf.dbh = self.__dbh
 
         # Create a unique ID for this scan in the back-end DB.
         if scanId:
             self.__scanId = scanId
         else:
-            self.__scanId = SpiderFootHelpers.genScanInstanceId()
+            self.__scanId = AirSpiderHelpers.genScanInstanceId()
 
         self.__sf.scanId = self.__scanId
         self.__dbh.scanInstanceCreate(self.__scanId, self.__scanName, self.__targetValue)
 
         # Create our target
         try:
-            self.__target = SpiderFootTarget(self.__targetValue, self.__targetType)
+            self.__target = AirSpiderTarget(self.__targetValue, self.__targetType)
         except (TypeError, ValueError) as e:
             self.__sf.status(f"Scan [{self.__scanId}] failed: {e}")
             self.__setStatus("ERROR-FAILED", None, time.time() * 1000)
@@ -210,7 +210,7 @@ class SpiderFootScanner():
 
         self.__setStatus("INITIALIZING", time.time() * 1000, None)
 
-        self.__sharedThreadPool = SpiderFootThreadPool(threads=self.__config.get("_maxthreads", 3), name='sharedThreadPool')
+        self.__sharedThreadPool = AirSpiderThreadPool(threads=self.__config.get("_maxthreads", 3), name='sharedThreadPool')
 
         # Used when module threading is enabled
         self.eventQueue = None
@@ -372,8 +372,8 @@ class SpiderFootScanner():
             self.__setStatus("RUNNING")
 
             # Create a pseudo module for the root event to originate from
-            psMod = SpiderFootPlugin()
-            psMod.__name__ = "SpiderFoot UI"
+            psMod = AirSpiderPlugin()
+            psMod.__name__ = "AirSpider UI"
             psMod.setTarget(self.__target)
             psMod.setDbh(self.__dbh)
             psMod.clearListeners()
@@ -381,15 +381,15 @@ class SpiderFootScanner():
             psMod.incomingEventQueue = queue.Queue()
 
             # Create the "ROOT" event which un-triggered modules will link events to
-            rootEvent = SpiderFootEvent("ROOT", self.__targetValue, "", None)
+            rootEvent = AirSpiderEvent("ROOT", self.__targetValue, "", None)
             psMod.notifyListeners(rootEvent)
-            firstEvent = SpiderFootEvent(self.__targetType, self.__targetValue,
-                                         "SpiderFoot UI", rootEvent)
+            firstEvent = AirSpiderEvent(self.__targetType, self.__targetValue,
+                                         "AirSpider UI", rootEvent)
             psMod.notifyListeners(firstEvent)
 
             # Special case.. check if an INTERNET_NAME is also a domain
             if self.__targetType == 'INTERNET_NAME' and self.__sf.isDomain(self.__targetValue, self.__config['_internettlds']):
-                firstEvent = SpiderFootEvent('DOMAIN_NAME', self.__targetValue, "SpiderFoot UI", rootEvent)
+                firstEvent = AirSpiderEvent('DOMAIN_NAME', self.__targetValue, "AirSpider UI", rootEvent)
                 psMod.notifyListeners(firstEvent)
 
             # If in interactive mode, loop through this shared global variable
@@ -432,7 +432,7 @@ class SpiderFootScanner():
         ruleset = dict()
         for rule in self.__config['__correlationrules__']:
             ruleset[rule['id']] = rule['rawYaml']
-        corr = SpiderFootCorrelator(self.__dbh, ruleset, self.__scanId)
+        corr = AirSpiderCorrelator(self.__dbh, ruleset, self.__scanId)
         corr.run_correlations()
 
     def waitForThreads(self) -> None:
@@ -492,8 +492,8 @@ class SpiderFootScanner():
                         sleep(.1)
                     continue
 
-                if not isinstance(sfEvent, SpiderFootEvent):
-                    raise TypeError(f"sfEvent is {type(sfEvent)}; expected SpiderFootEvent")
+                if not isinstance(sfEvent, AirSpiderEvent):
+                    raise TypeError(f"sfEvent is {type(sfEvent)}; expected AirSpiderEvent")
 
                 # for every module
                 for mod in self.__moduleInstances.values():

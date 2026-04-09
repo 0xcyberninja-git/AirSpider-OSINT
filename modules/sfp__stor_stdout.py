@@ -1,25 +1,25 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_stor_stdout
-# Purpose:      SpiderFoot plug-in for dumping events to standard output.
+# Purpose:      AirSpider plug-in for dumping events to standard output.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     22/10/2018
-# Copyright:   (c) Steve Micallef 2018
+# Copyright:   (c) Prateek Bheevgade 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 
-from spiderfoot import SpiderFootPlugin
+from airspider import AirSpiderPlugin
 
 
-class sfp__stor_stdout(SpiderFootPlugin):
+class sfp__stor_stdout(AirSpiderPlugin):
 
     meta = {
         'name': "Command-line output",
-        'summary': "Dumps output to standard out. Used for when a SpiderFoot scan is run via the command-line."
+        'summary': "Dumps output to standard out. Used for when a AirSpider scan is run via the command-line."
     }
 
     _priority = 0

@@ -2,20 +2,20 @@
 # Name:         sfp_psbdmp
 # Purpose:      Query psbdmp.cc for potentially hacked e-mail addresses.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     21/11/2016
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 import re
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_psbdmp(SpiderFootPlugin):
+class sfp_psbdmp(AirSpiderPlugin):
 
     meta = {
         'name': "Psbdmp",
@@ -64,7 +64,7 @@ class sfp_psbdmp(SpiderFootPlugin):
         else:
             url = "https://psbdmp.cc/api/search/domain/" + qry
 
-        res = self.sf.fetchUrl(url, timeout=15, useragent="SpiderFoot")
+        res = self.sf.fetchUrl(url, timeout=15, useragent="AirSpider")
 
         if res['code'] == "403" or res['content'] is None:
             self.info("Unable to fetch data from psbdmp.cc right now.")
@@ -106,7 +106,7 @@ class sfp_psbdmp(SpiderFootPlugin):
             return
 
         for n in data:
-            e = SpiderFootEvent("LEAKSITE_URL", n, self.__name__, event)
+            e = AirSpiderEvent("LEAKSITE_URL", n, self.__name__, event)
             self.notifyListeners(e)
 
             res = self.sf.fetchUrl(
@@ -126,7 +126,7 @@ class sfp_psbdmp(SpiderFootPlugin):
             ) is None:
                 continue
 
-            evt = SpiderFootEvent("LEAKSITE_CONTENT", res['content'], self.__name__, e)
+            evt = AirSpiderEvent("LEAKSITE_CONTENT", res['content'], self.__name__, e)
             self.notifyListeners(evt)
 
 # End of sfp_psbdmp class

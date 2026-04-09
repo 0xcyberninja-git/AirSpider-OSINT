@@ -3,17 +3,17 @@
 # Name:         sfp_vxvault
 # Purpose:      Check if a domain or IP address is malicious according to VXVault.net.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     14/12/2013
-# Copyright:   (c) Steve Micallef, 2013
+# Copyright:   (c) Prateek Bheevgade, 2013
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_vxvault(SpiderFootPlugin):
+class sfp_vxvault(AirSpiderPlugin):
 
     meta = {
         'name': "VXVault.net",
@@ -196,7 +196,7 @@ class sfp_vxvault(SpiderFootPlugin):
         if self.queryBlacklist(eventData):
             url = "http://vxvault.net/URL_List.php"
             text = f"VXVault Malicious URL List [{eventData}]\n<SFURL>{url}</SFURL>"
-            evt = SpiderFootEvent(evtType, text, self.__name__, event)
+            evt = AirSpiderEvent(evtType, text, self.__name__, event)
             self.notifyListeners(evt)
 
 # End of sfp_vxvault class

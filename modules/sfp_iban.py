@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_iban
-# Purpose:      SpiderFoot plug-in for scanning retrieved content by other
+# Purpose:      AirSpider plug-in for scanning retrieved content by other
 #               modules (such as sfp_spider) and identifying IBANs.
 #
 # Author:      Krishnasis Mandal <krishnasis@hotmail.com>
 #
 # Created:     26/04/2020
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
-from spiderfoot import SpiderFootEvent, SpiderFootHelpers, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderHelpers, AirSpiderPlugin
 
 
-class sfp_iban(SpiderFootPlugin):
+class sfp_iban(AirSpiderPlugin):
 
     meta = {
         'name': "IBAN Number Extractor",
@@ -59,10 +59,10 @@ class sfp_iban(SpiderFootPlugin):
 
         self.debug(f"Received event, {eventName}, from {srcModuleName}")
 
-        ibans = SpiderFootHelpers.extractIbansFromText(eventData)
+        ibans = AirSpiderHelpers.extractIbansFromText(eventData)
         for ibanNumber in set(ibans):
             self.info(f"Found IBAN number: {ibanNumber}")
-            evt = SpiderFootEvent("IBAN_NUMBER", ibanNumber, self.__name__, event)
+            evt = AirSpiderEvent("IBAN_NUMBER", ibanNumber, self.__name__, event)
             if event.moduleDataSource:
                 evt.moduleDataSource = event.moduleDataSource
             else:

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_s3bucket
-# Purpose:      SpiderFoot plug-in for identifying potential S3 buckets related to
+# Purpose:      AirSpider plug-in for identifying potential S3 buckets related to
 #               the target.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     24/07/2016
-# Copyright:   (c) Steve Micallef 2016
+# Copyright:   (c) Prateek Bheevgade 2016
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -15,10 +15,10 @@ import random
 import threading
 import time
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_s3bucket(SpiderFootPlugin):
+class sfp_s3bucket(AirSpiderPlugin):
 
     meta = {
         'name': "Amazon S3 Bucket Finder",
@@ -72,7 +72,7 @@ class sfp_s3bucket(SpiderFootPlugin):
         return ["CLOUD_STORAGE_BUCKET", "CLOUD_STORAGE_BUCKET_OPEN"]
 
     def checkSite(self, url):
-        res = self.sf.fetchUrl(url, timeout=10, useragent="SpiderFoot", noLog=True)
+        res = self.sf.fetchUrl(url, timeout=10, useragent="AirSpider", noLog=True)
 
         if not res['content']:
             return
@@ -130,8 +130,12 @@ class sfp_s3bucket(SpiderFootPlugin):
         for site in sites:
             if i >= self.opts['_maxthreads']:
                 data = self.threadSites(siteList)
-                if data is None:
-                    return res
+                if not data:
+                    if data is False:
+                        return res
+                    i = 0
+                    siteList = list()
+                    continue
 
                 for ret in list(data.keys()):
                     if data[ret]:
@@ -167,7 +171,7 @@ class sfp_s3bucket(SpiderFootPlugin):
                     except Exception:
                         # Not a proper bucket path
                         return
-                evt = SpiderFootEvent("CLOUD_STORAGE_BUCKET", b, self.__name__, event)
+                evt = AirSpiderEvent("CLOUD_STORAGE_BUCKET", b, self.__name__, event)
                 self.notifyListeners(evt)
             return
 
@@ -192,11 +196,11 @@ class sfp_s3bucket(SpiderFootPlugin):
         ret = self.batchSites(urls)
         for b in ret:
             bucket = b.split(":")
-            evt = SpiderFootEvent("CLOUD_STORAGE_BUCKET", bucket[0] + ":" + bucket[1], self.__name__, event)
+            evt = AirSpiderEvent("CLOUD_STORAGE_BUCKET", bucket[0] + ":" + bucket[1], self.__name__, event)
             self.notifyListeners(evt)
             if bucket[2] != "0":
                 bucketname = bucket[1].replace("//", "")
-                evt = SpiderFootEvent("CLOUD_STORAGE_BUCKET_OPEN", bucketname + ": " + bucket[2] + " files found.",
+                evt = AirSpiderEvent("CLOUD_STORAGE_BUCKET_OPEN", bucketname + ": " + bucket[2] + " files found.",
                                       self.__name__, evt)
                 self.notifyListeners(evt)
 

@@ -6,7 +6,7 @@
 # Author:      Jess Williams <jesscia_williams0@protonmail.com>
 #
 # Created:     2021-12-12
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -14,10 +14,10 @@ import json
 import re
 import time
 
-from spiderfoot import SpiderFootEvent, SpiderFootHelpers, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderHelpers, AirSpiderPlugin
 
 
-class sfp_stackoverflow(SpiderFootPlugin):
+class sfp_stackoverflow(AirSpiderPlugin):
 
     meta = {
         'name': "StackOverflow",
@@ -92,7 +92,7 @@ class sfp_stackoverflow(SpiderFootPlugin):
                 res = self.sf.fetchUrl(
                     f"https://api.stackexchange.com/2.3/search/excerpts?order=desc&q={qry}&site=stackoverflow",
                     timeout=self.opts['_fetchtimeout'],
-                    useragent="SpiderFoot"
+                    useragent="AirSpider"
                 )
                 time.sleep(1)
             except Exception as e:
@@ -106,7 +106,7 @@ class sfp_stackoverflow(SpiderFootPlugin):
                 res = self.sf.fetchUrl(
                     f"https://api.stackexchange.com/2.3/questions/{qry}?order=desc&sort=activity&site=stackoverflow",
                     timeout=self.opts['_fetchtimeout'],
-                    useragent="SpiderFoot"
+                    useragent="AirSpider"
                 )
                 time.sleep(1)
             except Exception as e:
@@ -149,32 +149,10 @@ class sfp_stackoverflow(SpiderFootPlugin):
         return str(username)
 
     def extractIP4s(self, text):
-        ips = list()
-
-        matches = re.findall(r'^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$', text)
-
-        if not matches:
-            return ips
-
-        for m in matches:
-            if self.sf.validIP(m) and not self.sf.isValidLocalOrLoopbackIP(m):
-                ips.add(m)
-
-        return list(set(ips))
+        return AirSpiderHelpers.extractIPsFromText(text)
 
     def extractIP6s(self, text):
-        ips = list()
-
-        matches = re.findall(r'(?:^|(?<=\s))(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))(?=\s|$)', text)
-
-        if not matches:
-            return ips
-
-        for m in matches:
-            if self.sf.validIP6(m) and not self.sf.isValidLocalOrLoopbackIP(m):
-                ips.add(m)
-
-        return list(set(ips))
+        return AirSpiderHelpers.extractIP6sFromText(text)
 
     def handleEvent(self, event):
         eventData = event.data
@@ -209,7 +187,7 @@ class sfp_stackoverflow(SpiderFootPlugin):
             text = body + excerpt
 
             # create raw_rir_data event
-            e = SpiderFootEvent(
+            e = AirSpiderEvent(
                 'RAW_RIR_DATA',
                 f"<SFURL>https://stackoverflow.com/questions/{question}</SFURL>\n{item}",
                 self.__name__,
@@ -217,7 +195,7 @@ class sfp_stackoverflow(SpiderFootPlugin):
             )
             self.notifyListeners(e)
 
-            emails = SpiderFootHelpers.extractEmailsFromText(text)
+            emails = AirSpiderHelpers.extractEmailsFromText(text)
             if emails:
                 for email in emails:
                     allEmails.append(str(email))
@@ -229,36 +207,40 @@ class sfp_stackoverflow(SpiderFootPlugin):
 
             ip4s = self.extractIP4s(text)
             if ip4s:
-                allIP4s.append(ip4s)
+                for ip in ip4s:
+                    if ip not in allIP4s:
+                        allIP4s.append(ip)
 
             ip6s = self.extractIP6s(text)
             if ip6s:
-                allIP6s.append(ip6s)
+                for ip in ip6s:
+                    if ip not in allIP6s:
+                        allIP6s.append(ip)
 
         # create events for emails, username and IPs
         for email in set(allEmails):
             email = str(email).lower()
             if self.getTarget().matches(email):
-                e = SpiderFootEvent('EMAILADDR', email, self.__name__, event)
+                e = AirSpiderEvent('EMAILADDR', email, self.__name__, event)
             else:
-                e = SpiderFootEvent('AFFILIATE_EMAILADDR', email, self.__name__, event)
+                e = AirSpiderEvent('AFFILIATE_EMAILADDR', email, self.__name__, event)
             self.notifyListeners(e)
 
         for username in set(allUsernames):
             if " " in username:
-                e = SpiderFootEvent('RAW_RIR_DATA', 'Possible full name: ' + username, self.__name__, event)
+                e = AirSpiderEvent('RAW_RIR_DATA', 'Possible full name: ' + username, self.__name__, event)
             else:
-                e = SpiderFootEvent('USERNAME', username, self.__name__, event)
+                e = AirSpiderEvent('USERNAME', username, self.__name__, event)
             self.notifyListeners(e)
 
         for ip in set(allIP4s):
             ip = str(ip)
-            e = SpiderFootEvent('AFFILIATE_IP_ADDRESS', ip, self.__name__, event)
+            e = AirSpiderEvent('AFFILIATE_IP_ADDRESS', ip, self.__name__, event)
             self.notifyListeners(e)
 
         for ip in set(allIP6s):
             ip = str(ip)
-            e = SpiderFootEvent('AFFILIATE_IPV6_ADDRESS', ip, self.__name__, event)
+            e = AirSpiderEvent('AFFILIATE_IPV6_ADDRESS', ip, self.__name__, event)
             self.notifyListeners(e)
 
 # End of sfp_stackoverflow class

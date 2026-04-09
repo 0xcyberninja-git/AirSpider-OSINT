@@ -3,17 +3,17 @@
 # Name:         sfp_openphish
 # Purpose:      Check if a host/domain is malicious according to OpenPhish.com.
 #
-# Author:       steve@binarypool.com
+# Author:       prateek@airspider.io
 #
 # Created:     28/06/2018
-# Copyright:   (c) Steve Micallef, 2018
+# Copyright:   (c) Prateek Bheevgade, 2018
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_openphish(SpiderFootPlugin):
+class sfp_openphish(AirSpiderPlugin):
 
     meta = {
         'name': "OpenPhish",
@@ -188,10 +188,10 @@ class sfp_openphish(SpiderFootPlugin):
         url = "https://www.openphish.com/feed.txt"
         text = f"OpenPhish [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_openphish class

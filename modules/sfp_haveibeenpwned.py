@@ -2,10 +2,10 @@
 # Name:         sfp_haveibeenpwned
 # Purpose:      Query haveibeenpwned.com to see if an e-mail account has been hacked.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     19/02/2015
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Prateek Bheevgade
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
@@ -13,10 +13,10 @@ import json
 import re
 import time
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_haveibeenpwned(SpiderFootPlugin):
+class sfp_haveibeenpwned(AirSpiderPlugin):
 
     meta = {
         'name': "HaveIBeenPwned",
@@ -94,7 +94,7 @@ class sfp_haveibeenpwned(SpiderFootPlugin):
             # https://haveibeenpwned.com/API/v2#RateLimiting
             time.sleep(1.5)
             res = self.sf.fetchUrl(url, timeout=self.opts['_fetchtimeout'],
-                                   useragent="SpiderFoot", headers=hdrs)
+                                   useragent="AirSpider", headers=hdrs)
 
             if res['code'] == "200":
                 break
@@ -132,7 +132,7 @@ class sfp_haveibeenpwned(SpiderFootPlugin):
             # https://haveibeenpwned.com/API/v2#RateLimiting
             time.sleep(1.5)
             res = self.sf.fetchUrl(url, timeout=self.opts['_fetchtimeout'],
-                                   useragent="SpiderFoot", headers=headers)
+                                   useragent="AirSpider", headers=headers)
 
             if res['code'] == "200":
                 break
@@ -190,10 +190,10 @@ class sfp_haveibeenpwned(SpiderFootPlugin):
 
                 # Notify other modules of what you've found
                 if eventName == 'EMAILADDR':
-                    e = SpiderFootEvent("EMAILADDR_COMPROMISED", eventData + " [" + site + "]",
+                    e = AirSpiderEvent("EMAILADDR_COMPROMISED", eventData + " [" + site + "]",
                                         self.__name__, event)
                 else:
-                    e = SpiderFootEvent("PHONE_NUMBER_COMPROMISED", eventData + " [" + site + "]",
+                    e = AirSpiderEvent("PHONE_NUMBER_COMPROMISED", eventData + " [" + site + "]",
                                         self.__name__, event)
                 self.notifyListeners(e)
 
@@ -240,10 +240,10 @@ class sfp_haveibeenpwned(SpiderFootPlugin):
                 if re.search(r"[^a-zA-Z\-\_0-9]" + re.escape(eventData) + r"[^a-zA-Z\-\_0-9]", res['content'], re.IGNORECASE) is None:
                     continue
 
-                evt1 = SpiderFootEvent("LEAKSITE_URL", link, self.__name__, event)
+                evt1 = AirSpiderEvent("LEAKSITE_URL", link, self.__name__, event)
                 self.notifyListeners(evt1)
 
-                evt2 = SpiderFootEvent("LEAKSITE_CONTENT", res['content'], self.__name__, evt1)
+                evt2 = AirSpiderEvent("LEAKSITE_CONTENT", res['content'], self.__name__, evt1)
                 self.notifyListeners(evt2)
 
             except Exception as e:

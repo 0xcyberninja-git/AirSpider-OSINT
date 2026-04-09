@@ -4,19 +4,19 @@
 # Purpose:     Checks if an IP address or netblock is malicious according to
 #              EmergingThreats.net.
 #
-# Author:      steve@binarypool.com
+# Author:      prateek@airspider.io
 #
 # Created:     16/05/2020
-# Copyright:   (c) Steve Micallef, 2020
+# Copyright:   (c) Prateek Bheevgade, 2020
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 from netaddr import IPAddress, IPNetwork
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_emergingthreats(SpiderFootPlugin):
+class sfp_emergingthreats(AirSpiderPlugin):
 
     meta = {
         'name': "Emerging Threats",
@@ -177,10 +177,10 @@ class sfp_emergingthreats(SpiderFootPlugin):
 
         text = f"EmergingThreats.net [{eventData}]\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, text, self.__name__, event)
+        evt = AirSpiderEvent(malicious_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
+        evt = AirSpiderEvent(blacklist_type, text, self.__name__, event)
         self.notifyListeners(evt)
 
 # End of sfp_emergingthreats class

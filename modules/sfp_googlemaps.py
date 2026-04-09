@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------------------------------
 # Name:         sfp_googlemaps
-# Purpose:      SpiderFoot plug-in to identify historical certificates for a domain
+# Purpose:      AirSpider plug-in to identify historical certificates for a domain
 #               from googlemaps.sh, and from this identify hostnames.
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Prateek Bheevgade <prateek@airspider.io>
 #
 # Created:     18/03/2017
-# Copyright:   (c) Steve Micallef 2017
+# Copyright:   (c) Prateek Bheevgade 2017
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
 import json
 import urllib
 
-from spiderfoot import SpiderFootEvent, SpiderFootPlugin
+from airspider import AirSpiderEvent, AirSpiderPlugin
 
 
-class sfp_googlemaps(SpiderFootPlugin):
+class sfp_googlemaps(AirSpiderPlugin):
 
     meta = {
         'name': "Google Maps",
@@ -120,7 +120,7 @@ class sfp_googlemaps(SpiderFootPlugin):
             self.debug(f"No information found for {eventData}")
             return
 
-        evt = SpiderFootEvent(
+        evt = AirSpiderEvent(
             "RAW_RIR_DATA",
             res['content'],
             self.__name__,
@@ -144,7 +144,7 @@ class sfp_googlemaps(SpiderFootPlugin):
                 lat = location.get('lat')
                 lng = location.get('lng')
                 if lat and lng:
-                    evt = SpiderFootEvent(
+                    evt = AirSpiderEvent(
                         "PHYSICAL_COORDINATES",
                         f"{lat},{lng}",
                         self.__name__,
@@ -154,7 +154,7 @@ class sfp_googlemaps(SpiderFootPlugin):
 
         formatted_address = data.get('formatted_address')
         if formatted_address:
-            evt = SpiderFootEvent(
+            evt = AirSpiderEvent(
                 "PHYSICAL_ADDRESS",
                 data['formatted_address'],
                 self.__name__,
