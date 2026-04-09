@@ -470,8 +470,8 @@ def start_web_server(sfWebUiConfig: dict, sfConfig: dict, loggingQueue=None) -> 
 
     opts = sfWebUiConfig
     # set web host and port
-    web_host = str(opts.get('listen', '127.0.0.1')).split(':')[0]
-    web_port = int(os.environ.get('PORT', str(opts.get('listen', '127.0.0.1')).split(':')[1] if ':' in str(opts.get('listen', '127.0.0.1')) else '5001'))
+    web_host = sfWebUiConfig.get('host', '127.0.0.1')
+    web_port = int(os.environ.get('PORT', sfWebUiConfig.get('port', 5001)))
     web_root = str(opts.get('webroot', ''))
     cors_origins = sfWebUiConfig.get('cors_origins', [])
 
