@@ -9,8 +9,6 @@ services:
     healthCheckPath: /
     # numInstances: 1 (Default is 1, so we'll omit to keep it clean)
     envVars:
-      - key: PORT
-        value: 5001
       - key: PYTHONUNBUFFERED
         value: 1
     # uncomment to enable persistent storage (requires paid plan)
