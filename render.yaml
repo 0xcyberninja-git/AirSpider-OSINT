@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: airspider-osint
+    env: docker
+    plan: free
+    region: ohio
+    # port to listen to
+    port: 5001
+    # health check
+    healthCheckPath: /
+    instanceCount: 1
+    envVars:
+      - key: PORT
+        value: 5001
+      - key: PYTHONUNBUFFERED
+        value: 1
+    # uncomment to enable persistent storage (requires paid plan)
+    # disk:
+    #   name: airspider-data
+    #   mountPath: /var/lib/airspider
+    #   sizeGB: 1

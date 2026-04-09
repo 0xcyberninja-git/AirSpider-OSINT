@@ -468,9 +468,11 @@ def start_web_server(sfWebUiConfig: dict, sfConfig: dict, loggingQueue=None) -> 
     """
     log = logging.getLogger(f"airspider.{__name__}")
 
-    web_host = sfWebUiConfig.get('host', '127.0.0.1')
-    web_port = sfWebUiConfig.get('port', 5001)
-    web_root = sfWebUiConfig.get('root', '/')
+    opts = sfWebUiConfig
+    # set web host and port
+    web_host = str(opts.get('listen', '127.0.0.1')).split(':')[0]
+    web_port = int(os.environ.get('PORT', str(opts.get('listen', '127.0.0.1')).split(':')[1] if ':' in str(opts.get('listen', '127.0.0.1')) else '5001'))
+    web_root = str(opts.get('webroot', ''))
     cors_origins = sfWebUiConfig.get('cors_origins', [])
 
     cherrypy.config.update({
